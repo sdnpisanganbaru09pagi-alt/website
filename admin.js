@@ -369,6 +369,7 @@ function initTables() {
   else if (name === 'berita') loadBerita();
   else if (name === 'pengumuman') loadPengumuman();
   else if (name === 'agenda') loadAgenda();
+  else if (name === 'ppdb') loadPPDB();
 }
 
 // ─── SEARCH HANDLERS (dipasang ke elemen di HTML) ─────────────
@@ -379,3 +380,29 @@ window.onBeritaSearch = debounce((val) => {
 
 window.onPengumumanSearch = debounce((val) => loadPengumuman(val), 400);
 window.onAgendaSearch = debounce((val) => loadAgenda(val), 400);
+
+async function loadPPDB() {
+  const body = document.getElementById('ppdbAdminBody');
+  if (!body) return;
+  const { data, error } = await _sb.from('ppdb_pendaftar').select('*').order('created_at', { ascending: false });
+  if (error) return setError('ppdbAdminBody', 6, 'Gagal memuat data PPDB: ' + error.message);
+  if (!data.length) return setEmpty('ppdbAdminBody', 6, 'Belum ada pendaftar PPDB.');
+  body.innerHTML = data.map(p => `<tr>
+    <td>${p.nama_lengkap}</td><td>${p.asal_sekolah}</td><td>${p.jurusan}</td><td>${fmtDate(p.created_at)}</td>
+    <td><span class="pill ${p.status === 'diterima' ? 'pill-green' : p.status === 'ditolak' ? 'pill-red' : 'pill-amber'}">${p.status}</span></td>
+    <td><div class="action-btns">
+      <button class="icon-btn" style="background:#d1fae5" onclick="updatePPDBStatus('${p.id}','diterima')"><i class="fa-solid fa-check" style="color:#059669"></i></button>
+      <button class="icon-btn del" onclick="updatePPDBStatus('${p.id}','ditolak')"><i class="fa-solid fa-x"></i></button>
+    </div></td></tr>`).join('');
+  document.getElementById('ppdbTotal').textContent = data.length;
+  document.getElementById('ppdbDiterima').textContent = data.filter(x => x.status === 'diterima').length;
+  document.getElementById('ppdbMenunggu').textContent = data.filter(x => x.status === 'menunggu').length;
+}
+
+async function updatePPDBStatus(id, status) {
+  const { error } = await _sb.from('ppdb_pendaftar').update({ status }).eq('id', id);
+  if (error) return showToast('Gagal memperbarui status PPDB', 'error');
+  showToast('Status PPDB diperbarui', '');
+  loadPPDB();
+}
+window.updatePPDBStatus = updatePPDBStatus;
