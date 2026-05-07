@@ -650,26 +650,26 @@ input:checked+.toggle-slider:before{transform:translateX(20px)}
         </div>
         <div id="profil-info" class="tab-content active">
           <div class="admin-card"><div class="admin-card-body">
-            <div class="form-row"><div class="form-group"><label class="form-label">Nama Sekolah</label><input class="form-input" value="SMA Nusantara Bangsa"></div><div class="form-group"><label class="form-label">NPSN</label><input class="form-input" value="20231456"></div></div>
-            <div class="form-row"><div class="form-group"><label class="form-label">Kepala Sekolah</label><input class="form-input" value="Dr. H. Ahmad Fauzi, M.Pd"></div><div class="form-group"><label class="form-label">Akreditasi</label><select class="form-input"><option>A (Unggul)</option><option>B</option><option>C</option></select></div></div>
-            <div class="form-group"><label class="form-label">Alamat Lengkap</label><textarea class="form-input" style="height:80px">Jl. Pendidikan No. 45, Kel. Merdeka, Kec. Sukamaju, Kota Bandung, Jawa Barat 40123</textarea></div>
-            <div class="form-row"><div class="form-group"><label class="form-label">Telepon</label><input class="form-input" value="(022) 1234567"></div><div class="form-group"><label class="form-label">Email</label><input class="form-input" value="info@smanusantara.sch.id"></div></div>
-            <button class="btn btn-primary" onclick="showToast('Profil sekolah berhasil disimpan','')"><i class="fa-solid fa-save"></i> Simpan Perubahan</button>
+            <div class="form-row"><div class="form-group"><label class="form-label">Nama Sekolah</label><input class="form-input" id="profilNamaSekolah" value="SMA Nusantara Bangsa"></div><div class="form-group"><label class="form-label">NPSN</label><input class="form-input" id="profilNpsn" value="20231456"></div></div>
+            <div class="form-row"><div class="form-group"><label class="form-label">Kepala Sekolah</label><input class="form-input" id="profilKepalaSekolah" value="Dr. H. Ahmad Fauzi, M.Pd"></div><div class="form-group"><label class="form-label">Akreditasi</label><select class="form-input" id="profilAkreditasi"><option>A (Unggul)</option><option>B</option><option>C</option></select></div></div>
+            <div class="form-group"><label class="form-label">Alamat Lengkap</label><textarea class="form-input" id="profilAlamat" style="height:80px">Jl. Pendidikan No. 45, Kel. Merdeka, Kec. Sukamaju, Kota Bandung, Jawa Barat 40123</textarea></div>
+            <div class="form-row"><div class="form-group"><label class="form-label">Telepon</label><input class="form-input" id="profilTelepon" value="(022) 1234567"></div><div class="form-group"><label class="form-label">Email</label><input class="form-input" id="profilEmail" value="info@smanusantara.sch.id"></div></div>
+            <button class="btn btn-primary" onclick="saveProfilSekolah()"><i class="fa-solid fa-save"></i> Simpan Perubahan</button>
           </div></div>
         </div>
         <div id="profil-visimisi" class="tab-content">
           <div class="admin-card"><div class="admin-card-body">
-            <div class="form-group"><label class="form-label">Visi Sekolah</label><textarea class="form-input" style="height:100px">Menjadi sekolah unggul, berkarakter, dan berdaya saing global berlandaskan iman dan taqwa.</textarea></div>
-            <div class="form-group"><label class="form-label">Misi Sekolah (pisahkan dengan baris baru)</label><textarea class="form-input" style="height:140px">Menyelenggarakan pendidikan berkualitas berbasis kurikulum nasional
+            <div class="form-group"><label class="form-label">Visi Sekolah</label><textarea class="form-input" id="profilVisi" style="height:100px">Menjadi sekolah unggul, berkarakter, dan berdaya saing global berlandaskan iman dan taqwa.</textarea></div>
+            <div class="form-group"><label class="form-label">Misi Sekolah (pisahkan dengan baris baru)</label><textarea class="form-input" id="profilMisi" style="height:140px">Menyelenggarakan pendidikan berkualitas berbasis kurikulum nasional
 Mengembangkan karakter dan akhlak mulia peserta didik
 Meningkatkan kompetensi guru dan tenaga kependidikan
 Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
-            <button class="btn btn-primary" onclick="showToast('Visi & Misi berhasil disimpan','')"><i class="fa-solid fa-save"></i> Simpan</button>
+            <button class="btn btn-primary" onclick="saveProfilSekolah()"><i class="fa-solid fa-save"></i> Simpan</button>
           </div></div>
         </div>
         <div id="profil-sambutan" class="tab-content">
           <div class="admin-card"><div class="admin-card-body">
-            <div class="form-row"><div class="form-group"><label class="form-label">Nama Kepala Sekolah</label><input class="form-input" value="Dr. H. Ahmad Fauzi, M.Pd"></div><div class="form-group"><label class="form-label">Gelar/Jabatan</label><input class="form-input" value="Kepala Sekolah"></div></div>
+            <div class="form-row"><div class="form-group"><label class="form-label">Nama Kepala Sekolah</label><input class="form-input" id="profilSambutanNama" value="Dr. H. Ahmad Fauzi, M.Pd"></div><div class="form-group"><label class="form-label">Gelar/Jabatan</label><input class="form-input" id="profilSambutanJabatan" value="Kepala Sekolah"></div></div>
             <div class="form-group"><label class="form-label">Foto Kepala Sekolah</label>
               <div class="upload-zone" style="padding:20px" onclick="showToast('Pilih foto kepala sekolah','')">
                 <i class="fa-solid fa-user-tie" style="font-size:24px;color:var(--gray)"></i>
@@ -685,9 +685,9 @@ Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
                 <button class="rich-btn"><i class="fa-solid fa-list"></i></button>
                 <button class="rich-btn"><i class="fa-solid fa-link"></i></button>
               </div>
-              <div class="rich-area" contenteditable="true">Assalamu'alaikum Warahmatullahi Wabarakatuh. Selamat datang di website resmi SMA Nusantara Bangsa. Kami berkomitmen untuk memberikan pendidikan terbaik bagi generasi penerus bangsa...</div>
+              <div class="rich-area" id="profilSambutanTeks" contenteditable="true">Assalamu'alaikum Warahmatullahi Wabarakatuh. Selamat datang di website resmi SMA Nusantara Bangsa. Kami berkomitmen untuk memberikan pendidikan terbaik bagi generasi penerus bangsa...</div>
             </div>
-            <button class="btn btn-primary" onclick="showToast('Sambutan berhasil disimpan','')"><i class="fa-solid fa-save"></i> Simpan</button>
+            <button class="btn btn-primary" onclick="saveProfilSekolah()"><i class="fa-solid fa-save"></i> Simpan</button>
           </div></div>
         </div>
         <div id="profil-fasilitas" class="tab-content">
@@ -723,18 +723,14 @@ Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
       <!-- PPDB ADMIN -->
       <div id="view-ppdb" style="display:none">
         <div class="dash-stats" style="grid-template-columns:repeat(3,1fr)">
-          <div class="stat-card"><div class="stat-icon blue"><i class="fa-solid fa-users"></i></div><div class="stat-info"><span>Total Pendaftar</span><div class="num">87</div></div></div>
-          <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-check"></i></div><div class="stat-info"><span>Diterima</span><div class="num">54</div></div></div>
-          <div class="stat-card"><div class="stat-icon amber"><i class="fa-solid fa-clock"></i></div><div class="stat-info"><span>Menunggu</span><div class="num">33</div></div></div>
+          <div class="stat-card"><div class="stat-icon blue"><i class="fa-solid fa-users"></i></div><div class="stat-info"><span>Total Pendaftar</span><div class="num" id="ppdbTotal">0</div></div></div>
+          <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-check"></i></div><div class="stat-info"><span>Diterima</span><div class="num" id="ppdbDiterima">0</div></div></div>
+          <div class="stat-card"><div class="stat-icon amber"><i class="fa-solid fa-clock"></i></div><div class="stat-info"><span>Menunggu</span><div class="num" id="ppdbMenunggu">0</div></div></div>
         </div>
         <div class="admin-card"><div class="admin-card-body" style="padding:0 0 16px">
           <table class="data-table">
             <thead><tr><th>Nama Calon Siswa</th><th>Asal Sekolah</th><th>Jurusan</th><th>Tanggal Daftar</th><th>Status</th><th>Aksi</th></tr></thead>
-            <tbody>
-              <tr><td>Andi Pratama</td><td>SMP Negeri 1</td><td>IPA</td><td>12 Jan 2025</td><td><span class="pill pill-amber">Menunggu</span></td><td><div class="action-btns"><button class="icon-btn edit" onclick="showToast('Buka detail pendaftar','')"><i class="fa-solid fa-eye"></i></button><button class="icon-btn" style="background:#d1fae5" onclick="showToast('Pendaftar diterima','')"><i class="fa-solid fa-check" style="color:#059669"></i></button><button class="icon-btn del"><i class="fa-solid fa-x"></i></button></div></td></tr>
-              <tr><td>Siti Rahayu</td><td>SMP Islam Al-Falah</td><td>IPS</td><td>13 Jan 2025</td><td><span class="pill pill-green">Diterima</span></td><td><div class="action-btns"><button class="icon-btn edit"><i class="fa-solid fa-eye"></i></button></div></td></tr>
-              <tr><td>Budi Santoso</td><td>MTs Nurul Hidayah</td><td>Bahasa</td><td>14 Jan 2025</td><td><span class="pill pill-green">Diterima</span></td><td><div class="action-btns"><button class="icon-btn edit"><i class="fa-solid fa-eye"></i></button></div></td></tr>
-            </tbody>
+            <tbody id="ppdbAdminBody"></tbody>
           </table>
         </div></div>
       </div>
@@ -894,7 +890,7 @@ Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
         <h2>Berita & Pengumuman</h2>
         <p>Informasi terbaru seputar kegiatan dan perkembangan sekolah</p>
       </div>
-      <div class="news-grid">
+      <div class="news-grid" id="publicNewsList">
         <div class="news-card">
           <div class="news-img"><i class="fa-solid fa-trophy"></i></div>
           <div class="news-body">
@@ -936,7 +932,7 @@ Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
         <div class="section-tag">Penting</div>
         <h2>Pengumuman</h2>
       </div>
-      <div class="announce-list">
+      <div class="announce-list" id="publicAnnouncementList">
         <div class="announce-item">
           <div class="announce-icon warn"><i class="fa-solid fa-triangle-exclamation"></i></div>
           <div class="announce-content"><h4>Pendaftaran PPDB 2025/2026 Telah Dibuka</h4><p>Penerimaan Peserta Didik Baru jalur prestasi dan reguler kini resmi dibuka. Kuota terbatas!</p><div class="announce-date">📅 Berlaku hingga 30 Maret 2025</div></div>
@@ -1066,8 +1062,8 @@ Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
   <div class="page-hero">
     <div class="container">
       <div class="breadcrumb">Beranda <span>›</span> <span>Profil Sekolah</span></div>
-      <h1>Profil Sekolah</h1>
-      <p>Mengenal lebih dekat SMA Nusantara Bangsa</p>
+      <h1 id="publicProfilTitle">Profil Sekolah</h1>
+      <p id="publicProfilSubtitle">Mengenal lebih dekat SMA Nusantara Bangsa</p>
     </div>
   </div>
   <div class="content-section">
@@ -1075,11 +1071,11 @@ Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
       <div class="vision-mission">
         <div class="vm-card">
           <h3><div class="vm-icon"><i class="fa-solid fa-eye"></i></div>Visi Sekolah</h3>
-          <p style="color:var(--slate);line-height:1.8">Menjadi sekolah unggul, berkarakter, dan berdaya saing global berlandaskan iman dan taqwa.</p>
+          <p id="publicVisiText" style="color:var(--slate);line-height:1.8">Menjadi sekolah unggul, berkarakter, dan berdaya saing global berlandaskan iman dan taqwa.</p>
         </div>
         <div class="vm-card">
           <h3><div class="vm-icon" style="background:var(--green)"><i class="fa-solid fa-bullseye"></i></div>Misi Sekolah</h3>
-          <ul style="color:var(--slate);line-height:1.9;padding-left:20px">
+          <ul id="publicMisiList" style="color:var(--slate);line-height:1.9;padding-left:20px">
             <li>Menyelenggarakan pendidikan berkualitas berbasis kurikulum nasional</li>
             <li>Mengembangkan karakter dan akhlak mulia peserta didik</li>
             <li>Meningkatkan kompetensi guru dan tenaga kependidikan</li>
@@ -1185,22 +1181,22 @@ Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
       <div class="ppdb-form">
         <h2 style="font-family:var(--font-serif);font-size:28px;margin-bottom:24px;text-align:center">Form Pendaftaran Online</h2>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">Nama Lengkap *</label><input class="form-input" placeholder="Nama sesuai ijazah"></div>
-          <div class="form-group"><label class="form-label">Tanggal Lahir *</label><input type="date" class="form-input"></div>
+          <div class="form-group"><label class="form-label">Nama Lengkap *</label><input class="form-input" id="ppdbNama" placeholder="Nama sesuai ijazah"></div>
+          <div class="form-group"><label class="form-label">Tanggal Lahir *</label><input type="date" class="form-input" id="ppdbTanggalLahir"></div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">Jenis Kelamin *</label><select class="form-input"><option value="">Pilih jenis kelamin</option><option>Laki-laki</option><option>Perempuan</option></select></div>
-          <div class="form-group"><label class="form-label">Asal Sekolah *</label><input class="form-input" placeholder="Nama SMP/MTs asal"></div>
+          <div class="form-group"><label class="form-label">Jenis Kelamin *</label><select class="form-input" id="ppdbJenisKelamin"><option value="">Pilih jenis kelamin</option><option>Laki-laki</option><option>Perempuan</option></select></div>
+          <div class="form-group"><label class="form-label">Asal Sekolah *</label><input class="form-input" id="ppdbAsalSekolah" placeholder="Nama SMP/MTs asal"></div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">Jurusan Pilihan *</label><select class="form-input"><option value="">Pilih jurusan</option><option>IPA (Ilmu Pengetahuan Alam)</option><option>IPS (Ilmu Pengetahuan Sosial)</option><option>Bahasa & Budaya</option></select></div>
-          <div class="form-group"><label class="form-label">Jalur Masuk *</label><select class="form-input"><option value="">Pilih jalur</option><option>Jalur Prestasi</option><option>Jalur Reguler</option><option>Jalur Afirmasi</option></select></div>
+          <div class="form-group"><label class="form-label">Jurusan Pilihan *</label><select class="form-input" id="ppdbJurusan"><option value="">Pilih jurusan</option><option>IPA (Ilmu Pengetahuan Alam)</option><option>IPS (Ilmu Pengetahuan Sosial)</option><option>Bahasa & Budaya</option></select></div>
+          <div class="form-group"><label class="form-label">Jalur Masuk *</label><select class="form-input" id="ppdbJalurMasuk"><option value="">Pilih jalur</option><option>Jalur Prestasi</option><option>Jalur Reguler</option><option>Jalur Afirmasi</option></select></div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">No. HP Orang Tua *</label><input class="form-input" placeholder="08xxxxxxxxxx"></div>
-          <div class="form-group"><label class="form-label">Email Aktif *</label><input type="email" class="form-input" placeholder="email@gmail.com"></div>
+          <div class="form-group"><label class="form-label">No. HP Orang Tua *</label><input class="form-input" id="ppdbNoHpOrtu" placeholder="08xxxxxxxxxx"></div>
+          <div class="form-group"><label class="form-label">Email Aktif *</label><input type="email" class="form-input" id="ppdbEmail" placeholder="email@gmail.com"></div>
         </div>
-        <div class="form-group"><label class="form-label">Alamat Lengkap *</label><textarea class="form-input" placeholder="Alamat lengkap calon siswa..."></textarea></div>
+        <div class="form-group"><label class="form-label">Alamat Lengkap *</label><textarea class="form-input" id="ppdbAlamat" placeholder="Alamat lengkap calon siswa..."></textarea></div>
         <button class="btn btn-success" style="width:100%;justify-content:center;padding:14px;font-size:16px" onclick="submitPPDB()">
           <i class="fa-solid fa-paper-plane"></i> Kirim Pendaftaran
         </button>
@@ -1425,8 +1421,45 @@ function showToast(msg,type){
 // ─── MISC ────────────────────────────────────────────────────
 function execCmd(cmd){document.execCommand(cmd,false,null)}
 function toggleMobileMenu(){showToast('Menu mobile aktif','warn')}
-function submitPPDB(){showToast('Pendaftaran berhasil dikirim! Cek email untuk konfirmasi.','')}
+async function submitPPDB(){
+  const payload = {
+    nama_lengkap: document.getElementById('ppdbNama')?.value.trim(),
+    tanggal_lahir: document.getElementById('ppdbTanggalLahir')?.value,
+    jenis_kelamin: document.getElementById('ppdbJenisKelamin')?.value,
+    asal_sekolah: document.getElementById('ppdbAsalSekolah')?.value.trim(),
+    jurusan: document.getElementById('ppdbJurusan')?.value,
+    jalur_masuk: document.getElementById('ppdbJalurMasuk')?.value,
+    no_hp_ortu: document.getElementById('ppdbNoHpOrtu')?.value.trim(),
+    email: document.getElementById('ppdbEmail')?.value.trim(),
+    alamat: document.getElementById('ppdbAlamat')?.value.trim(),
+  };
+  if (Object.values(payload).some(v => !v)) return showToast('Lengkapi semua data PPDB terlebih dahulu.','error');
+  const { error } = await _sb.from('ppdb_pendaftar').insert(payload);
+  if (error) return showToast('Gagal kirim pendaftaran: ' + error.message,'error');
+  showToast('Pendaftaran berhasil dikirim! Cek email untuk konfirmasi.','');
+}
 function saveItem(modal,msg){closeModal(modal);showToast(msg,'')}
+async function saveProfilSekolah(){
+  const payload = {
+    nama_sekolah: document.getElementById('profilNamaSekolah')?.value.trim(),
+    npsn: document.getElementById('profilNpsn')?.value.trim(),
+    kepala_sekolah: document.getElementById('profilKepalaSekolah')?.value.trim(),
+    akreditasi: document.getElementById('profilAkreditasi')?.value,
+    alamat: document.getElementById('profilAlamat')?.value.trim(),
+    telepon: document.getElementById('profilTelepon')?.value.trim(),
+    email: document.getElementById('profilEmail')?.value.trim(),
+    visi: document.getElementById('profilVisi')?.value.trim(),
+    misi: document.getElementById('profilMisi')?.value.trim(),
+    sambutan_nama: document.getElementById('profilSambutanNama')?.value.trim(),
+    sambutan_jabatan: document.getElementById('profilSambutanJabatan')?.value.trim(),
+    sambutan_teks: document.getElementById('profilSambutanTeks')?.innerText.trim(),
+  };
+  const { data: row } = await _sb.from('profil_sekolah').select('id').order('updated_at',{ascending:false}).limit(1).maybeSingle();
+  const { error } = row ? await _sb.from('profil_sekolah').update(payload).eq('id', row.id) : await _sb.from('profil_sekolah').insert(payload);
+  if (error) return showToast('Gagal simpan profil: ' + error.message,'error');
+  showToast('Profil sekolah berhasil disimpan','');
+  await loadPublicProfile();
+}
 
 function initChart(){
   const c=document.getElementById('visitChart');
@@ -1436,6 +1469,26 @@ function initChart(){
   c.innerHTML=vals.map(v=>`<div class="bar" style="height:${(v/max)*100}%" title="${v} pengunjung"></div>`).join('');
 }
 setTimeout(initChart,200);
+async function loadPublicContent(){
+  const newsEl = document.getElementById('publicNewsList');
+  const annEl = document.getElementById('publicAnnouncementList');
+  const [news, ann] = await Promise.all([
+    _sb.from('berita').select('*').eq('status','published').order('created_at',{ascending:false}).limit(3),
+    _sb.from('pengumuman').select('*').eq('status','aktif').order('created_at',{ascending:false}).limit(3),
+  ]);
+  if (newsEl && news.data?.length) newsEl.innerHTML = news.data.map(b => `<div class="news-card"><div class="news-img"><i class="fa-solid fa-newspaper"></i></div><div class="news-body"><div class="news-cat">${b.kategori}</div><h3>${b.judul}</h3><p>${(b.isi||'').slice(0,100)}...</p><div class="news-meta"><i class="fa-regular fa-calendar"></i> ${new Date(b.created_at).toLocaleDateString('id-ID')}</div></div></div>`).join('');
+  if (annEl && ann.data?.length) annEl.innerHTML = ann.data.map(p => `<div class="announce-item"><div class="announce-icon ${p.prioritas==='Mendesak'?'warn':''}"><i class="fa-solid fa-bullhorn"></i></div><div class="announce-content"><h4>${p.judul}</h4><p>${p.isi||''}</p><div class="announce-date">📅 ${p.tanggal_mulai ? new Date(p.tanggal_mulai).toLocaleDateString('id-ID') : '-'}</div></div></div>`).join('');
+}
+async function loadPublicProfile(){
+  const { data } = await _sb.from('profil_sekolah').select('*').order('updated_at',{ascending:false}).limit(1).maybeSingle();
+  if (!data) return;
+  const t = document.getElementById('publicProfilTitle'); if (t) t.textContent = data.nama_sekolah || 'Profil Sekolah';
+  const s = document.getElementById('publicProfilSubtitle'); if (s) s.textContent = `Mengenal lebih dekat ${data.nama_sekolah || 'sekolah kami'}`;
+  const v = document.getElementById('publicVisiText'); if (v) v.textContent = data.visi || '';
+  const m = document.getElementById('publicMisiList');
+  if (m && data.misi) m.innerHTML = data.misi.split('\n').filter(Boolean).map(x => `<li>${x}</li>`).join('');
+}
+document.addEventListener('DOMContentLoaded', async ()=>{ await loadPublicContent(); await loadPublicProfile(); });
 </script>
 </body>
 </html>
