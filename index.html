@@ -723,18 +723,14 @@ Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
       <!-- PPDB ADMIN -->
       <div id="view-ppdb" style="display:none">
         <div class="dash-stats" style="grid-template-columns:repeat(3,1fr)">
-          <div class="stat-card"><div class="stat-icon blue"><i class="fa-solid fa-users"></i></div><div class="stat-info"><span>Total Pendaftar</span><div class="num">87</div></div></div>
-          <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-check"></i></div><div class="stat-info"><span>Diterima</span><div class="num">54</div></div></div>
-          <div class="stat-card"><div class="stat-icon amber"><i class="fa-solid fa-clock"></i></div><div class="stat-info"><span>Menunggu</span><div class="num">33</div></div></div>
+          <div class="stat-card"><div class="stat-icon blue"><i class="fa-solid fa-users"></i></div><div class="stat-info"><span>Total Pendaftar</span><div class="num" id="ppdbTotal">0</div></div></div>
+          <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-check"></i></div><div class="stat-info"><span>Diterima</span><div class="num" id="ppdbDiterima">0</div></div></div>
+          <div class="stat-card"><div class="stat-icon amber"><i class="fa-solid fa-clock"></i></div><div class="stat-info"><span>Menunggu</span><div class="num" id="ppdbMenunggu">0</div></div></div>
         </div>
         <div class="admin-card"><div class="admin-card-body" style="padding:0 0 16px">
           <table class="data-table">
             <thead><tr><th>Nama Calon Siswa</th><th>Asal Sekolah</th><th>Jurusan</th><th>Tanggal Daftar</th><th>Status</th><th>Aksi</th></tr></thead>
-            <tbody>
-              <tr><td>Andi Pratama</td><td>SMP Negeri 1</td><td>IPA</td><td>12 Jan 2025</td><td><span class="pill pill-amber">Menunggu</span></td><td><div class="action-btns"><button class="icon-btn edit" onclick="showToast('Buka detail pendaftar','')"><i class="fa-solid fa-eye"></i></button><button class="icon-btn" style="background:#d1fae5" onclick="showToast('Pendaftar diterima','')"><i class="fa-solid fa-check" style="color:#059669"></i></button><button class="icon-btn del"><i class="fa-solid fa-x"></i></button></div></td></tr>
-              <tr><td>Siti Rahayu</td><td>SMP Islam Al-Falah</td><td>IPS</td><td>13 Jan 2025</td><td><span class="pill pill-green">Diterima</span></td><td><div class="action-btns"><button class="icon-btn edit"><i class="fa-solid fa-eye"></i></button></div></td></tr>
-              <tr><td>Budi Santoso</td><td>MTs Nurul Hidayah</td><td>Bahasa</td><td>14 Jan 2025</td><td><span class="pill pill-green">Diterima</span></td><td><div class="action-btns"><button class="icon-btn edit"><i class="fa-solid fa-eye"></i></button></div></td></tr>
-            </tbody>
+            <tbody id="ppdbAdminBody"></tbody>
           </table>
         </div></div>
       </div>
@@ -894,7 +890,7 @@ Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
         <h2>Berita & Pengumuman</h2>
         <p>Informasi terbaru seputar kegiatan dan perkembangan sekolah</p>
       </div>
-      <div class="news-grid">
+      <div class="news-grid" id="publicNewsList">
         <div class="news-card">
           <div class="news-img"><i class="fa-solid fa-trophy"></i></div>
           <div class="news-body">
@@ -936,7 +932,7 @@ Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
         <div class="section-tag">Penting</div>
         <h2>Pengumuman</h2>
       </div>
-      <div class="announce-list">
+      <div class="announce-list" id="publicAnnouncementList">
         <div class="announce-item">
           <div class="announce-icon warn"><i class="fa-solid fa-triangle-exclamation"></i></div>
           <div class="announce-content"><h4>Pendaftaran PPDB 2025/2026 Telah Dibuka</h4><p>Penerimaan Peserta Didik Baru jalur prestasi dan reguler kini resmi dibuka. Kuota terbatas!</p><div class="announce-date">📅 Berlaku hingga 30 Maret 2025</div></div>
@@ -1185,22 +1181,22 @@ Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
       <div class="ppdb-form">
         <h2 style="font-family:var(--font-serif);font-size:28px;margin-bottom:24px;text-align:center">Form Pendaftaran Online</h2>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">Nama Lengkap *</label><input class="form-input" placeholder="Nama sesuai ijazah"></div>
-          <div class="form-group"><label class="form-label">Tanggal Lahir *</label><input type="date" class="form-input"></div>
+          <div class="form-group"><label class="form-label">Nama Lengkap *</label><input class="form-input" id="ppdbNama" placeholder="Nama sesuai ijazah"></div>
+          <div class="form-group"><label class="form-label">Tanggal Lahir *</label><input type="date" class="form-input" id="ppdbTanggalLahir"></div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">Jenis Kelamin *</label><select class="form-input"><option value="">Pilih jenis kelamin</option><option>Laki-laki</option><option>Perempuan</option></select></div>
-          <div class="form-group"><label class="form-label">Asal Sekolah *</label><input class="form-input" placeholder="Nama SMP/MTs asal"></div>
+          <div class="form-group"><label class="form-label">Jenis Kelamin *</label><select class="form-input" id="ppdbJenisKelamin"><option value="">Pilih jenis kelamin</option><option>Laki-laki</option><option>Perempuan</option></select></div>
+          <div class="form-group"><label class="form-label">Asal Sekolah *</label><input class="form-input" id="ppdbAsalSekolah" placeholder="Nama SMP/MTs asal"></div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">Jurusan Pilihan *</label><select class="form-input"><option value="">Pilih jurusan</option><option>IPA (Ilmu Pengetahuan Alam)</option><option>IPS (Ilmu Pengetahuan Sosial)</option><option>Bahasa & Budaya</option></select></div>
-          <div class="form-group"><label class="form-label">Jalur Masuk *</label><select class="form-input"><option value="">Pilih jalur</option><option>Jalur Prestasi</option><option>Jalur Reguler</option><option>Jalur Afirmasi</option></select></div>
+          <div class="form-group"><label class="form-label">Jurusan Pilihan *</label><select class="form-input" id="ppdbJurusan"><option value="">Pilih jurusan</option><option>IPA (Ilmu Pengetahuan Alam)</option><option>IPS (Ilmu Pengetahuan Sosial)</option><option>Bahasa & Budaya</option></select></div>
+          <div class="form-group"><label class="form-label">Jalur Masuk *</label><select class="form-input" id="ppdbJalurMasuk"><option value="">Pilih jalur</option><option>Jalur Prestasi</option><option>Jalur Reguler</option><option>Jalur Afirmasi</option></select></div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">No. HP Orang Tua *</label><input class="form-input" placeholder="08xxxxxxxxxx"></div>
-          <div class="form-group"><label class="form-label">Email Aktif *</label><input type="email" class="form-input" placeholder="email@gmail.com"></div>
+          <div class="form-group"><label class="form-label">No. HP Orang Tua *</label><input class="form-input" id="ppdbNoHpOrtu" placeholder="08xxxxxxxxxx"></div>
+          <div class="form-group"><label class="form-label">Email Aktif *</label><input type="email" class="form-input" id="ppdbEmail" placeholder="email@gmail.com"></div>
         </div>
-        <div class="form-group"><label class="form-label">Alamat Lengkap *</label><textarea class="form-input" placeholder="Alamat lengkap calon siswa..."></textarea></div>
+        <div class="form-group"><label class="form-label">Alamat Lengkap *</label><textarea class="form-input" id="ppdbAlamat" placeholder="Alamat lengkap calon siswa..."></textarea></div>
         <button class="btn btn-success" style="width:100%;justify-content:center;padding:14px;font-size:16px" onclick="submitPPDB()">
           <i class="fa-solid fa-paper-plane"></i> Kirim Pendaftaran
         </button>
@@ -1425,7 +1421,23 @@ function showToast(msg,type){
 // ─── MISC ────────────────────────────────────────────────────
 function execCmd(cmd){document.execCommand(cmd,false,null)}
 function toggleMobileMenu(){showToast('Menu mobile aktif','warn')}
-function submitPPDB(){showToast('Pendaftaran berhasil dikirim! Cek email untuk konfirmasi.','')}
+async function submitPPDB(){
+  const payload = {
+    nama_lengkap: document.getElementById('ppdbNama')?.value.trim(),
+    tanggal_lahir: document.getElementById('ppdbTanggalLahir')?.value,
+    jenis_kelamin: document.getElementById('ppdbJenisKelamin')?.value,
+    asal_sekolah: document.getElementById('ppdbAsalSekolah')?.value.trim(),
+    jurusan: document.getElementById('ppdbJurusan')?.value,
+    jalur_masuk: document.getElementById('ppdbJalurMasuk')?.value,
+    no_hp_ortu: document.getElementById('ppdbNoHpOrtu')?.value.trim(),
+    email: document.getElementById('ppdbEmail')?.value.trim(),
+    alamat: document.getElementById('ppdbAlamat')?.value.trim(),
+  };
+  if (Object.values(payload).some(v => !v)) return showToast('Lengkapi semua data PPDB terlebih dahulu.','error');
+  const { error } = await _sb.from('ppdb_pendaftar').insert(payload);
+  if (error) return showToast('Gagal kirim pendaftaran: ' + error.message,'error');
+  showToast('Pendaftaran berhasil dikirim! Cek email untuk konfirmasi.','');
+}
 function saveItem(modal,msg){closeModal(modal);showToast(msg,'')}
 
 function initChart(){
@@ -1436,6 +1448,17 @@ function initChart(){
   c.innerHTML=vals.map(v=>`<div class="bar" style="height:${(v/max)*100}%" title="${v} pengunjung"></div>`).join('');
 }
 setTimeout(initChart,200);
+async function loadPublicContent(){
+  const newsEl = document.getElementById('publicNewsList');
+  const annEl = document.getElementById('publicAnnouncementList');
+  const [news, ann] = await Promise.all([
+    _sb.from('berita').select('*').eq('status','published').order('created_at',{ascending:false}).limit(3),
+    _sb.from('pengumuman').select('*').eq('status','aktif').order('created_at',{ascending:false}).limit(3),
+  ]);
+  if (newsEl && news.data?.length) newsEl.innerHTML = news.data.map(b => `<div class="news-card"><div class="news-img"><i class="fa-solid fa-newspaper"></i></div><div class="news-body"><div class="news-cat">${b.kategori}</div><h3>${b.judul}</h3><p>${(b.isi||'').slice(0,100)}...</p><div class="news-meta"><i class="fa-regular fa-calendar"></i> ${new Date(b.created_at).toLocaleDateString('id-ID')}</div></div></div>`).join('');
+  if (annEl && ann.data?.length) annEl.innerHTML = ann.data.map(p => `<div class="announce-item"><div class="announce-icon ${p.prioritas==='Mendesak'?'warn':''}"><i class="fa-solid fa-bullhorn"></i></div><div class="announce-content"><h4>${p.judul}</h4><p>${p.isi||''}</p><div class="announce-date">📅 ${p.tanggal_mulai ? new Date(p.tanggal_mulai).toLocaleDateString('id-ID') : '-'}</div></div></div>`).join('');
+}
+document.addEventListener('DOMContentLoaded', loadPublicContent);
 </script>
 </body>
 </html>

@@ -54,6 +54,25 @@ CREATE TABLE IF NOT EXISTS public.agenda (
 );
 
 -- ============================================================
+-- TABLE: ppdb_pendaftar
+-- ============================================================
+CREATE TABLE IF NOT EXISTS public.ppdb_pendaftar (
+  id              UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  nama_lengkap    TEXT NOT NULL,
+  tanggal_lahir   DATE NOT NULL,
+  jenis_kelamin   TEXT NOT NULL CHECK (jenis_kelamin IN ('Laki-laki', 'Perempuan')),
+  asal_sekolah    TEXT NOT NULL,
+  jurusan         TEXT NOT NULL,
+  jalur_masuk     TEXT NOT NULL,
+  no_hp_ortu      TEXT NOT NULL,
+  email           TEXT NOT NULL,
+  alamat          TEXT NOT NULL,
+  status          TEXT NOT NULL DEFAULT 'menunggu' CHECK (status IN ('menunggu', 'diterima', 'ditolak')),
+  created_at      TIMESTAMPTZ DEFAULT NOW(),
+  updated_at      TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- ============================================================
 -- AUTO-UPDATE updated_at trigger
 -- ============================================================
 CREATE OR REPLACE FUNCTION public.handle_updated_at()
@@ -76,6 +95,10 @@ CREATE TRIGGER on_agenda_updated
   BEFORE UPDATE ON public.agenda
   FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
 
+CREATE TRIGGER on_ppdb_pendaftar_updated
+  BEFORE UPDATE ON public.ppdb_pendaftar
+  FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
+
 -- ============================================================
 -- ROW LEVEL SECURITY (RLS)
 -- Publik bisa baca, hanya user login yang bisa tulis
@@ -83,6 +106,7 @@ CREATE TRIGGER on_agenda_updated
 ALTER TABLE public.berita      ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.pengumuman  ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.agenda      ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.ppdb_pendaftar ENABLE ROW LEVEL SECURITY;
 
 -- BERITA: siapa pun bisa baca yg published
 CREATE POLICY "berita_select_public"  ON public.berita  FOR SELECT USING (status = 'published' OR auth.role() = 'authenticated');
@@ -101,6 +125,12 @@ CREATE POLICY "agenda_select_public"  ON public.agenda  FOR SELECT USING (true);
 CREATE POLICY "agenda_insert_admin"   ON public.agenda  FOR INSERT WITH CHECK (auth.role() = 'authenticated');
 CREATE POLICY "agenda_update_admin"   ON public.agenda  FOR UPDATE USING (auth.role() = 'authenticated');
 CREATE POLICY "agenda_delete_admin"   ON public.agenda  FOR DELETE USING (auth.role() = 'authenticated');
+
+-- PPDB: publik bisa mendaftar, admin bisa kelola penuh
+CREATE POLICY "ppdb_insert_public"  ON public.ppdb_pendaftar FOR INSERT WITH CHECK (true);
+CREATE POLICY "ppdb_select_admin"   ON public.ppdb_pendaftar FOR SELECT USING (auth.role() = 'authenticated');
+CREATE POLICY "ppdb_update_admin"   ON public.ppdb_pendaftar FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "ppdb_delete_admin"   ON public.ppdb_pendaftar FOR DELETE USING (auth.role() = 'authenticated');
 
 -- ============================================================
 -- SEED DATA (opsional — hapus kalau tidak perlu)
