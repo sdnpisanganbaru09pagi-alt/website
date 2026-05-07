@@ -1479,16 +1479,7 @@ async function loadPublicContent(){
   if (newsEl && news.data?.length) newsEl.innerHTML = news.data.map(b => `<div class="news-card"><div class="news-img"><i class="fa-solid fa-newspaper"></i></div><div class="news-body"><div class="news-cat">${b.kategori}</div><h3>${b.judul}</h3><p>${(b.isi||'').slice(0,100)}...</p><div class="news-meta"><i class="fa-regular fa-calendar"></i> ${new Date(b.created_at).toLocaleDateString('id-ID')}</div></div></div>`).join('');
   if (annEl && ann.data?.length) annEl.innerHTML = ann.data.map(p => `<div class="announce-item"><div class="announce-icon ${p.prioritas==='Mendesak'?'warn':''}"><i class="fa-solid fa-bullhorn"></i></div><div class="announce-content"><h4>${p.judul}</h4><p>${p.isi||''}</p><div class="announce-date">📅 ${p.tanggal_mulai ? new Date(p.tanggal_mulai).toLocaleDateString('id-ID') : '-'}</div></div></div>`).join('');
 }
-async function loadPublicProfile(){
-  const { data } = await _sb.from('profil_sekolah').select('*').order('updated_at',{ascending:false}).limit(1).maybeSingle();
-  if (!data) return;
-  const t = document.getElementById('publicProfilTitle'); if (t) t.textContent = data.nama_sekolah || 'Profil Sekolah';
-  const s = document.getElementById('publicProfilSubtitle'); if (s) s.textContent = `Mengenal lebih dekat ${data.nama_sekolah || 'sekolah kami'}`;
-  const v = document.getElementById('publicVisiText'); if (v) v.textContent = data.visi || '';
-  const m = document.getElementById('publicMisiList');
-  if (m && data.misi) m.innerHTML = data.misi.split('\n').filter(Boolean).map(x => `<li>${x}</li>`).join('');
-}
-document.addEventListener('DOMContentLoaded', async ()=>{ await loadPublicContent(); await loadPublicProfile(); });
+document.addEventListener('DOMContentLoaded', loadPublicContent);
 </script>
 </body>
 </html>
