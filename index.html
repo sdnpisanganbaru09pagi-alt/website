@@ -201,34 +201,6 @@
     .footer-links a:hover { color: white; }
     .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.5); }
 
-
-    .topbar { background: var(--blue-dark); color: rgba(255,255,255,.9); font-size: 13px; }
-    .topbar .container { display:flex; justify-content:space-between; align-items:center; height:40px; }
-    .topbar i { color:#facc15; margin-right:6px; }
-    .topbar-contact { display:flex; gap:20px; }
-
-    .navbar .container { height: 84px; }
-    .brand-logo { width: 56px; height: 56px; border-radius: 14px; font-size: 24px; }
-    .brand-name { font-size: 28px; line-height: 1; }
-    .brand-sub { font-size: 13px; font-weight: 600; }
-    .nav-link { font-weight: 600; color: #334155; }
-
-    .hero { background:#fff; padding: 24px 0 42px; text-align:left; }
-    .hero::before { display:none; }
-    .hero-grid { display:grid; grid-template-columns: 1fr 1.05fr; gap: 28px; align-items:center; }
-    .hero h1 { font-family:'Plus Jakarta Sans',sans-serif; font-size:64px; font-weight:800; margin-bottom:18px; }
-    .hero p { margin:0 0 28px; max-width:580px; font-size:26px; }
-    .hero-image { border-radius: 36px; overflow:hidden; min-height: 520px; box-shadow: var(--shadow-md); }
-    .hero-image img { width:100%; height:100%; object-fit:cover; }
-    .hero-stats { margin-top: 30px; justify-content:flex-start; gap: 16px; }
-    .hero-stat-pill { background:#fff; border:1px solid var(--border); border-radius: 14px; padding:16px 18px; min-width: 185px; box-shadow: var(--shadow); }
-
-    .fitur-grid { grid-template-columns: repeat(4, 1fr); gap: 14px; }
-    .fitur-card { padding: 20px; border-radius: 14px; }
-    .fitur-icon { width: 44px; height:44px; border-radius:50%; margin-bottom:12px; }
-
-    .section-title { font-family: 'Plus Jakarta Sans',sans-serif; font-weight:800; color:var(--blue-dark); }
-
     /* ─────────────────────────────────────────
        LOGIN PAGE
     ───────────────────────────────────────── */
@@ -333,11 +305,8 @@
        RESPONSIVE
     ───────────────────────────────────────── */
     @media (max-width: 768px) {
-      .hero-grid { grid-template-columns:1fr; }
-      .hero-image { min-height:320px; }
-      .hero h1 { font-size: 42px; }
-      .hero p { font-size: 18px; }
-      .fitur-grid { grid-template-columns: 1fr 1fr; }
+      .hero h1 { font-size: 28px; }
+      .fitur-grid { grid-template-columns: 1fr; }
       #publicBeritaList { grid-template-columns: 1fr; }
       .galeri-pub-grid { grid-template-columns: repeat(2, 1fr); }
       .kontak-grid { grid-template-columns: 1fr; }
@@ -361,13 +330,6 @@
      PUBLIC SITE
 ════════════════════════════════════════ -->
 <div id="publicSite">
-
-  <div class="topbar">
-    <div class="container">
-      <div><i class="fa-solid fa-star"></i> Selamat datang di SDN 1 Contoh</div>
-      <div class="topbar-contact"><span><i class="fa-regular fa-clock"></i> Senin - Jumat, 07.00 - 14.00</span><span><i class="fa-solid fa-phone"></i> (021) 1234 5678</span></div>
-    </div>
-  </div>
 
   <!-- NAVBAR -->
   <nav class="navbar">
@@ -397,53 +359,130 @@
   <!-- ── PAGE: BERANDA ── -->
   <div id="page-home" class="pub-page active">
     <section class="hero">
-      <div class="container">
-        <div class="hero-grid">
-          <div>
-            <div class="hero-badge" id="sitHeroBadge">✦ Tahun Pelajaran 2025/2026</div>
-            <h1 id="sitHeroJudul">Sekolah Dasar<br>Hati, Ilmu, Prestasi</h1>
-            <p id="sitHeroTagline">Membentuk generasi cerdas, berkarakter, dan berprestasi dalam lingkungan yang aman, nyaman, dan menyenangkan.</p>
-            <div class="hero-btns" style="justify-content:flex-start">
-              <button class="btn-primary" onclick="showPage('profil')"><i class="fa-solid fa-school"></i> Kenali Kami</button>
-              <button class="btn-outline" onclick="showPage('berita')"><i class="fa-solid fa-calendar-days"></i> Lihat Kegiatan</button>
-            </div>
-            <div class="hero-stats">
-              <div class="hero-stat-pill"><div class="hero-stat-num" id="sitStat1Num">450+</div><div class="hero-stat-label" id="sitStat1Label">Siswa Aktif</div></div>
-              <div class="hero-stat-pill"><div class="hero-stat-num" id="sitStat2Num">28</div><div class="hero-stat-label" id="sitStat2Label">Guru Berkualitas</div></div>
-              <div class="hero-stat-pill"><div class="hero-stat-num" id="sitStat3Num">30+</div><div class="hero-stat-label" id="sitStat3Label">Prestasi Tahunan</div></div>
-            </div>
-          </div>
-          <div class="hero-image"><img src="https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=1200&q=80" alt="Siswa SD berprestasi"></div>
+      <div class="container" style="position:relative;z-index:1">
+        <div class="hero-badge" id="sitHeroBadge">✦ Tahun Pelajaran 2025/2026</div>
+        <h1 id="sitHeroJudul">Selamat Datang di<br><span id="sitHeroNama">SDN 1 Contoh</span></h1>
+        <p id="sitHeroTagline">Membentuk generasi cerdas, berkarakter, dan berprestasi untuk masa depan Indonesia</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="showPage('profil')">
+            <i class="fa-solid fa-school"></i> Profil Sekolah
+          </button>
+          <button class="btn-outline" onclick="showPage('kontak')">
+            <i class="fa-solid fa-phone"></i> Hubungi Kami
+          </button>
+        </div>
+        <div class="hero-stats">
+          <div><div class="hero-stat-num" id="sitStat1Num">450+</div><div class="hero-stat-label" id="sitStat1Label">Siswa Aktif</div></div>
+          <div><div class="hero-stat-num" id="sitStat2Num">28</div><div class="hero-stat-label" id="sitStat2Label">Guru & Staff</div></div>
+          <div><div class="hero-stat-num" id="sitStat3Num">30+</div><div class="hero-stat-label" id="sitStat3Label">Tahun Berdiri</div></div>
         </div>
       </div>
     </section>
 
-    <section class="section" style="padding-top:8px">
+    <!-- Fitur -->
+    <section class="section">
       <div class="container">
+        <div class="section-header">
+          <div class="section-label">Layanan Kami</div>
+          <h2 class="section-title">Fasilitas & Keunggulan Sekolah</h2>
+          <p class="section-desc">Kami berkomitmen memberikan pendidikan terbaik dengan fasilitas lengkap dan tenaga pengajar berpengalaman.</p>
+        </div>
         <div class="fitur-grid">
-          <div class="fitur-card"><div class="fitur-icon"><i class="fa-solid fa-user-group"></i></div><h3>Guru Berkualitas</h3><p>Didukung tenaga pendidik kompeten dan berpengalaman.</p></div>
-          <div class="fitur-card"><div class="fitur-icon"><i class="fa-solid fa-book-open-reader"></i></div><h3>Fasilitas Lengkap</h3><p>Fasilitas modern untuk mendukung pembelajaran optimal.</p></div>
-          <div class="fitur-card"><div class="fitur-icon"><i class="fa-solid fa-trophy"></i></div><h3>Prestasi Membanggakan</h3><p>Prestasi akademik dan non-akademik tingkat regional dan nasional.</p></div>
-          <div class="fitur-card"><div class="fitur-icon"><i class="fa-regular fa-heart"></i></div><h3>Karakter & Akhlak</h3><p>Pendidikan karakter dan akhlak mulia sebagai prioritas utama.</p></div>
+          <div class="fitur-card">
+            <div class="fitur-icon"><i class="fa-solid fa-book-open"></i></div>
+            <h3>Kurikulum Merdeka</h3>
+            <p>Penerapan Kurikulum Merdeka yang berfokus pada pengembangan kompetensi dan karakter siswa secara menyeluruh.</p>
+          </div>
+          <div class="fitur-card">
+            <div class="fitur-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+            <h3>Guru Berpengalaman</h3>
+            <p>Tenaga pendidik profesional dan berpengalaman yang berdedikasi tinggi terhadap perkembangan peserta didik.</p>
+          </div>
+          <div class="fitur-card">
+            <div class="fitur-icon"><i class="fa-solid fa-star"></i></div>
+            <h3>Prestasi Akademik</h3>
+            <p>Sekolah kami aktif mengikuti dan meraih prestasi dalam berbagai olimpiade dan kompetisi tingkat kecamatan hingga provinsi.</p>
+          </div>
+          <div class="fitur-card">
+            <div class="fitur-icon"><i class="fa-solid fa-computer"></i></div>
+            <h3>Lab Komputer</h3>
+            <p>Laboratorium komputer modern untuk mempersiapkan siswa menghadapi era digital dengan literasi teknologi yang baik.</p>
+          </div>
+          <div class="fitur-card">
+            <div class="fitur-icon"><i class="fa-solid fa-futbol"></i></div>
+            <h3>Ekstrakurikuler</h3>
+            <p>Berbagai kegiatan ekstrakurikuler pilihan mulai dari pramuka, seni tari, olahraga, dan paduan suara.</p>
+          </div>
+          <div class="fitur-card">
+            <div class="fitur-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3>Lingkungan Aman</h3>
+            <p>Lingkungan sekolah yang aman, nyaman, dan kondusif untuk mendukung proses belajar mengajar yang optimal.</p>
+          </div>
         </div>
       </div>
     </section>
 
+    <!-- Berita Terbaru -->
     <section class="section section-alt">
       <div class="container">
-        <div class="section-header"><div class="section-label">Informasi</div><h2 class="section-title">Berita Terbaru</h2><p class="section-desc">Kabar kegiatan, prestasi, dan pengumuman terbaru dari sekolah.</p></div>
-        <div id="publicBeritaList"><div style="text-align:center;padding:40px;color:#aaa;grid-column:1/-1"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div></div>
+        <div class="section-header">
+          <div class="section-label">Informasi</div>
+          <h2 class="section-title">Berita & Pengumuman</h2>
+          <p class="section-desc">Update terbaru kegiatan dan informasi penting dari sekolah kami.</p>
+        </div>
+        <div id="publicBeritaList">
+          <div style="text-align:center;padding:40px;color:#aaa;grid-column:1/-1"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
+        </div>
+        <div style="text-align:center;margin-top:32px">
+          <button class="btn-outline" onclick="showPage('berita')">Lihat Semua Berita <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
       </div>
     </section>
 
+    <!-- CTA -->
+    <section class="section" style="background: linear-gradient(135deg, var(--blue-dark), var(--blue)); color: white; text-align: center;">
+      <div class="container">
+        <h2 style="font-family:'Lora',serif;font-size:32px;margin-bottom:12px">Bergabunglah Bersama Kami</h2>
+        <p style="opacity:0.85;margin-bottom:32px;max-width:480px;margin-left:auto;margin-right:auto">Pendaftaran Peserta Didik Baru (PPDB) kini dibuka. Daftarkan putra-putri Anda sekarang!</p>
+        <button class="btn-primary" style="background:white;color:var(--blue-dark)" onclick="showPage('kontak')">
+          <i class="fa-solid fa-envelope"></i> Hubungi Kami
+        </button>
+      </div>
+    </section>
+
+    <!-- Footer -->
     <footer class="footer">
       <div class="container">
         <div class="footer-grid">
-          <div><div class="footer-brand"><div class="footer-brand-icon"><i class="fa-solid fa-school"></i></div><div class="footer-brand-name" id="sitFooterNama">SDN 1 Contoh</div></div><p class="footer-desc" id="sitFooterDesc">Sekolah dasar yang berkomitmen membentuk generasi cerdas, berkarakter, dan berprestasi.</p></div>
-          <div><h4>Menu</h4><ul class="footer-links"><li><a onclick="showPage('home')">Beranda</a></li><li><a onclick="showPage('profil')">Profil</a></li><li><a onclick="showPage('berita')">Berita</a></li><li><a onclick="showPage('galeri')">Galeri</a></li><li><a onclick="showPage('kontak')">Kontak</a></li></ul></div>
-          <div><h4>Kontak Kami</h4><ul class="footer-links"><li><a><i class="fa-solid fa-map-marker-alt"></i> <span id="sitFooterAlamat">Jl. Contoh No.1, Jakarta</span></a></li><li><a><i class="fa-solid fa-phone"></i> <span id="sitFooterTelepon">(021) 555-0100</span></a></li><li><a><i class="fa-solid fa-envelope"></i> <span id="sitFooterEmail">info@sdn1contoh.sch.id</span></a></li></ul></div>
+          <div>
+            <div class="footer-brand">
+              <div class="footer-brand-icon"><i class="fa-solid fa-school"></i></div>
+              <div class="footer-brand-name" id="sitFooterNama">SDN 1 Contoh</div>
+            </div>
+            <p class="footer-desc">Sekolah Dasar Negeri yang berkomitmen mencetak generasi penerus bangsa yang cerdas, berkarakter, dan berprestasi.</p>
+          </div>
+          <div>
+            <h4>Tautan</h4>
+            <ul class="footer-links">
+              <li><a onclick="showPage('home')">Beranda</a></li>
+              <li><a onclick="showPage('profil')">Profil Sekolah</a></li>
+              <li><a onclick="showPage('berita')">Berita</a></li>
+              <li><a onclick="showPage('galeri')">Galeri</a></li>
+              <li><a onclick="showPage('kontak')">Kontak</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Kontak</h4>
+            <ul class="footer-links">
+              <li><a><i class="fa-solid fa-map-marker-alt"></i> Jl. Contoh No.1, Jakarta</a></li>
+              <li><a><i class="fa-solid fa-phone"></i> (021) 555-0100</a></li>
+              <li><a><i class="fa-solid fa-envelope"></i> info@sdn1contoh.sch.id</a></li>
+            </ul>
+          </div>
         </div>
-        <div class="footer-bottom">&copy; <span class="sitTahunCopyright">2025</span> <span class="sitCopyrightNama">SDN 1 Contoh</span>. Hak cipta dilindungi.</div>
+        <div class="footer-bottom">
+          &copy; <span id="sitTahunCopyright">2025</span> <span id="sitCopyrightNama">SDN 1 Contoh</span>. Hak cipta dilindungi.
+        </div>
       </div>
     </footer>
   </div><!-- end page-home -->
@@ -495,7 +534,7 @@
         </div>
       </div>
     </div>
-    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; <span class="sitTahunCopyright">2025</span> <span class="sitCopyrightNama">SDN 1 Contoh</span>.</div></div></footer>
+    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
   </div>
 
   <!-- ── PAGE: BERITA ── -->
@@ -511,7 +550,7 @@
         <div style="text-align:center;padding:40px;color:#aaa;grid-column:1/-1"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
       </div>
     </div>
-    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; <span class="sitTahunCopyright">2025</span> <span class="sitCopyrightNama">SDN 1 Contoh</span>.</div></div></footer>
+    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
   </div>
 
   <!-- ── PAGE: BERITA DETAIL ── -->
@@ -528,7 +567,7 @@
       </div>
       <div class="berita-detail-body" id="detailBeritaIsi"></div>
     </div>
-    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; <span class="sitTahunCopyright">2025</span> <span class="sitCopyrightNama">SDN 1 Contoh</span>.</div></div></footer>
+    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
   </div>
 
   <!-- ── PAGE: GALERI ── -->
@@ -544,7 +583,7 @@
         <div style="text-align:center;padding:40px;color:#aaa;grid-column:1/-1"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
       </div>
     </div>
-    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; <span class="sitTahunCopyright">2025</span> <span class="sitCopyrightNama">SDN 1 Contoh</span>.</div></div></footer>
+    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
   </div>
 
   <!-- ── PAGE: KONTAK ── -->
@@ -623,7 +662,7 @@
         </div>
       </div>
     </div>
-    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; <span class="sitTahunCopyright">2025</span> <span class="sitCopyrightNama">SDN 1 Contoh</span>.</div></div></footer>
+    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
   </div>
 
 </div><!-- end publicSite -->
@@ -673,7 +712,7 @@
       <div class="topbar-brand-icon"><i class="fa-solid fa-school"></i></div>
       <span id="sitAdminTopbar">SDN 1 Contoh</span> — Admin Panel
     </div>
-    <div class="topbar-contact">
+    <div class="topbar-right">
       <span id="adminEmail" style="font-size:13px;color:var(--text-muted)"></span>
       <div class="topbar-avatar" id="adminAvatar">AD</div>
       <button class="btn-outline btn-sm" onclick="doLogout()">
@@ -875,10 +914,6 @@
               <label>Tagline / Deskripsi Hero</label>
               <input type="text" id="setPHeroTagline" placeholder="Membentuk generasi cerdas, berkarakter, dan berprestasi...">
             </div>
-            <div class="form-group" style="grid-column:1/-1">
-              <label>URL Gambar Hero</label>
-              <input type="text" id="setPHeroImage" placeholder="https://...">
-            </div>
           </div>
         </div>
 
@@ -931,10 +966,6 @@
             <div class="form-group" style="grid-column:1/-1">
               <label>Sejarah Singkat</label>
               <textarea id="setPSejarah" rows="4" placeholder="SDN 1 Contoh berdiri sejak..."></textarea>
-            </div>
-            <div class="form-group" style="grid-column:1/-1">
-              <label>Deskripsi Footer (halaman beranda)</label>
-              <textarea id="setPFooterDesc" rows="3" placeholder="Sekolah Dasar Negeri yang berkomitmen..."></textarea>
             </div>
           </div>
         </div>
