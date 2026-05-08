@@ -459,7 +459,7 @@
               <div class="footer-brand-icon"><i class="fa-solid fa-school"></i></div>
               <div class="footer-brand-name" id="sitFooterNama">SDN 1 Contoh</div>
             </div>
-            <p class="footer-desc">Sekolah Dasar Negeri yang berkomitmen mencetak generasi penerus bangsa yang cerdas, berkarakter, dan berprestasi.</p>
+            <p class="footer-desc" id="sitFooterDesc">Sekolah Dasar Negeri yang berkomitmen mencetak generasi penerus bangsa yang cerdas, berkarakter, dan berprestasi.</p>
           </div>
           <div>
             <h4>Tautan</h4>
@@ -474,14 +474,14 @@
           <div>
             <h4>Kontak</h4>
             <ul class="footer-links">
-              <li><a><i class="fa-solid fa-map-marker-alt"></i> Jl. Contoh No.1, Jakarta</a></li>
-              <li><a><i class="fa-solid fa-phone"></i> (021) 555-0100</a></li>
-              <li><a><i class="fa-solid fa-envelope"></i> info@sdn1contoh.sch.id</a></li>
+              <li><a><i class="fa-solid fa-map-marker-alt"></i> <span id="sitFooterAlamat">Jl. Contoh No.1, Jakarta</span></a></li>
+              <li><a><i class="fa-solid fa-phone"></i> <span id="sitFooterTelepon">(021) 555-0100</span></a></li>
+              <li><a><i class="fa-solid fa-envelope"></i> <span id="sitFooterEmail">info@sdn1contoh.sch.id</span></a></li>
             </ul>
           </div>
         </div>
         <div class="footer-bottom">
-          &copy; <span id="sitTahunCopyright">2025</span> <span id="sitCopyrightNama">SDN 1 Contoh</span>. Hak cipta dilindungi.
+          &copy; <span class="sitTahunCopyright">2025</span> <span class="sitCopyrightNama">SDN 1 Contoh</span>. Hak cipta dilindungi.
         </div>
       </div>
     </footer>
@@ -534,7 +534,7 @@
         </div>
       </div>
     </div>
-    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
+    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; <span class="sitTahunCopyright">2025</span> <span class="sitCopyrightNama">SDN 1 Contoh</span>.</div></div></footer>
   </div>
 
   <!-- ── PAGE: BERITA ── -->
@@ -550,7 +550,7 @@
         <div style="text-align:center;padding:40px;color:#aaa;grid-column:1/-1"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
       </div>
     </div>
-    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
+    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; <span class="sitTahunCopyright">2025</span> <span class="sitCopyrightNama">SDN 1 Contoh</span>.</div></div></footer>
   </div>
 
   <!-- ── PAGE: BERITA DETAIL ── -->
@@ -567,7 +567,7 @@
       </div>
       <div class="berita-detail-body" id="detailBeritaIsi"></div>
     </div>
-    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
+    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; <span class="sitTahunCopyright">2025</span> <span class="sitCopyrightNama">SDN 1 Contoh</span>.</div></div></footer>
   </div>
 
   <!-- ── PAGE: GALERI ── -->
@@ -583,7 +583,7 @@
         <div style="text-align:center;padding:40px;color:#aaa;grid-column:1/-1"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
       </div>
     </div>
-    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
+    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; <span class="sitTahunCopyright">2025</span> <span class="sitCopyrightNama">SDN 1 Contoh</span>.</div></div></footer>
   </div>
 
   <!-- ── PAGE: KONTAK ── -->
@@ -662,7 +662,7 @@
         </div>
       </div>
     </div>
-    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
+    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; <span class="sitTahunCopyright">2025</span> <span class="sitCopyrightNama">SDN 1 Contoh</span>.</div></div></footer>
   </div>
 
 </div><!-- end publicSite -->
@@ -966,6 +966,10 @@
             <div class="form-group" style="grid-column:1/-1">
               <label>Sejarah Singkat</label>
               <textarea id="setPSejarah" rows="4" placeholder="SDN 1 Contoh berdiri sejak..."></textarea>
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+              <label>Deskripsi Footer (halaman beranda)</label>
+              <textarea id="setPFooterDesc" rows="3" placeholder="Sekolah Dasar Negeri yang berkomitmen..."></textarea>
             </div>
           </div>
         </div>

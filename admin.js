@@ -680,20 +680,22 @@ const SETTINGS_DEFAULT = {
   kepsek:         'Drs. Hendra Kusuma, M.Pd',
   visi:           'Menjadi sekolah dasar unggulan yang melahirkan generasi cerdas, berkarakter Pancasila, dan siap menghadapi tantangan global.',
   sejarah:        'SDN 1 Contoh berdiri sejak tahun 1990 dan telah menjadi salah satu sekolah dasar terpercaya di Kecamatan Kebon Jeruk, Jakarta Barat.',
+  footerDesc:     'Sekolah Dasar Negeri yang berkomitmen mencetak generasi penerus bangsa yang cerdas, berkarakter, dan berprestasi.',
 };
 
 // Terapkan settings ke semua elemen di halaman publik
 function applySettings(s) {
   const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
-  const setHtml = (id, val) => { const el = document.getElementById(id); if (el && val) el.innerHTML = val; };
+  const setMany = (selector, val) => { if (!val) return; document.querySelectorAll(selector).forEach(el => { el.textContent = val; }); };
 
   // Navbar & header
   set('sitNamaSekolah',   s.namaSekolah);
   set('sitAlamatSingkat', s.alamatSingkat);
   set('sitFooterNama',    s.namaSekolah);
-  set('sitCopyrightNama', s.namaSekolah);
+  setMany('.sitCopyrightNama', s.namaSekolah);
   set('sitAdminTopbar',   s.namaSekolah);
-  set('sitLoginNama',     s.namaSekolah);
+  setMany('#sitLoginNama', s.namaSekolah);
+  setMany('.sitTahunCopyright', new Date().getFullYear().toString());
 
   // Hero
   set('sitHeroBadge',   s.heroBadge);
@@ -717,6 +719,10 @@ function applySettings(s) {
   if (kontakAlamat) kontakAlamat.textContent = s.alamatLengkap || SETTINGS_DEFAULT.alamatLengkap;
   const kontakJam = document.getElementById('sitKontakJam');
   if (kontakJam) kontakJam.textContent = s.jamOps || SETTINGS_DEFAULT.jamOps;
+  set('sitFooterAlamat', s.alamatLengkap || SETTINGS_DEFAULT.alamatLengkap);
+  set('sitFooterTelepon', s.telepon || SETTINGS_DEFAULT.telepon);
+  set('sitFooterEmail', s.email || SETTINGS_DEFAULT.email);
+  set('sitFooterDesc', s.footerDesc || SETTINGS_DEFAULT.footerDesc);
 
   // Profil sekolah
   const profilNama    = document.getElementById('sitProfilNama');    if (profilNama) profilNama.textContent = s.namaSekolah;
@@ -727,8 +733,12 @@ function applySettings(s) {
   const profilVisi    = document.getElementById('sitProfilVisi');    if (profilVisi) profilVisi.textContent = s.visi || SETTINGS_DEFAULT.visi;
   const profilSejarah1 = document.getElementById('sitProfilSejarah1'); if (profilSejarah1) profilSejarah1.textContent = s.sejarah || SETTINGS_DEFAULT.sejarah;
 
-  // Title halaman browser
-  document.title = (s.namaSekolah || 'SDN 1 Contoh') + ' — Website Resmi';
+  // Title + meta publik
+  const namaSekolah = s.namaSekolah || SETTINGS_DEFAULT.namaSekolah;
+  document.title = `${namaSekolah} — Website Resmi`;
+  const heroTagline = s.heroTagline || SETTINGS_DEFAULT.heroTagline;
+  const metaDescription = document.querySelector('meta[name="description"]');
+  if (metaDescription) metaDescription.setAttribute('content', `Website resmi ${namaSekolah} — ${heroTagline}.`);
 }
 
 // Muat pengaturan dari Firestore, terapkan ke halaman
@@ -772,6 +782,7 @@ async function loadPengaturan() {
     fill('setPKepsek',       'kepsek');
     fill('setPVisi',         'visi');
     fill('setPSejarah',      'sejarah');
+    fill('setPFooterDesc',   'footerDesc');
     showToast('Data pengaturan dimuat', 'info');
   } catch (err) {
     showToast('Gagal memuat pengaturan: ' + err.message, 'error');
@@ -803,6 +814,7 @@ async function simpanPengaturan() {
     kepsek:        get('setPKepsek'),
     visi:          get('setPVisi'),
     sejarah:       get('setPSejarah'),
+    footerDesc:    get('setPFooterDesc'),
     updatedAt:     firebase.firestore.FieldValue.serverTimestamp(),
   };
 
