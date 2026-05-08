@@ -3,17 +3,17 @@
 // Isi FIREBASE_CONFIG dari Firebase Console > Project Settings
 // ============================================================
 
-window.FIREBASE_CONFIG = {
-  apiKey: 'AIzaSyDE0ZRyMdEAadi71XTdbxJli6DJRr0Mbv0',
-  authDomain: 'website-sekolah-5b2a9.firebaseapp.com',
-  projectId: 'website-sekolah-5b2a9',
-  storageBucket: 'website-sekolah-5b2a9.firebasestorage.app',
-  messagingSenderId: '234766835923',
-  appId: '1:234766835923:web:7e13ca67f8d72d9b9cf426',
-  measurementId: 'G-2CLSHHW94N'
+const firebaseConfig = {
+  apiKey: "AIzaSyDE0ZRyMdEAadi71XTdbxJli6DJRr0Mbv0",
+  authDomain: "website-sekolah-5b2a9.firebaseapp.com",
+  projectId: "website-sekolah-5b2a9",
+  storageBucket: "website-sekolah-5b2a9.firebasestorage.app",
+  messagingSenderId: "234766835923",
+  appId: "1:234766835923:web:7e13ca67f8d72d9b9cf426",
+  measurementId: "G-2CLSHHW94N"
 };
 
-firebase.initializeApp(window.FIREBASE_CONFIG);
+firebase.initializeApp(FIREBASE_CONFIG);
 const _fbAuth = firebase.auth();
 const _fbDb = firebase.firestore();
 
