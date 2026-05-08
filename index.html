@@ -650,26 +650,26 @@ input:checked+.toggle-slider:before{transform:translateX(20px)}
         </div>
         <div id="profil-info" class="tab-content active">
           <div class="admin-card"><div class="admin-card-body">
-            <div class="form-row"><div class="form-group"><label class="form-label">Nama Sekolah</label><input class="form-input" value="SMA Nusantara Bangsa"></div><div class="form-group"><label class="form-label">NPSN</label><input class="form-input" value="20231456"></div></div>
-            <div class="form-row"><div class="form-group"><label class="form-label">Kepala Sekolah</label><input class="form-input" value="Dr. H. Ahmad Fauzi, M.Pd"></div><div class="form-group"><label class="form-label">Akreditasi</label><select class="form-input"><option>A (Unggul)</option><option>B</option><option>C</option></select></div></div>
-            <div class="form-group"><label class="form-label">Alamat Lengkap</label><textarea class="form-input" style="height:80px">Jl. Pendidikan No. 45, Kel. Merdeka, Kec. Sukamaju, Kota Bandung, Jawa Barat 40123</textarea></div>
-            <div class="form-row"><div class="form-group"><label class="form-label">Telepon</label><input class="form-input" value="(022) 1234567"></div><div class="form-group"><label class="form-label">Email</label><input class="form-input" value="info@smanusantara.sch.id"></div></div>
-            <button class="btn btn-primary" onclick="showToast('Profil sekolah berhasil disimpan','')"><i class="fa-solid fa-save"></i> Simpan Perubahan</button>
+            <div class="form-row"><div class="form-group"><label class="form-label">Nama Sekolah</label><input class="form-input" id="profilNamaSekolah" value="SMA Nusantara Bangsa"></div><div class="form-group"><label class="form-label">NPSN</label><input class="form-input" id="profilNpsn" value="20231456"></div></div>
+            <div class="form-row"><div class="form-group"><label class="form-label">Kepala Sekolah</label><input class="form-input" id="profilKepalaSekolah" value="Dr. H. Ahmad Fauzi, M.Pd"></div><div class="form-group"><label class="form-label">Akreditasi</label><select class="form-input" id="profilAkreditasi"><option>A (Unggul)</option><option>B</option><option>C</option></select></div></div>
+            <div class="form-group"><label class="form-label">Alamat Lengkap</label><textarea class="form-input" id="profilAlamat" style="height:80px">Jl. Pendidikan No. 45, Kel. Merdeka, Kec. Sukamaju, Kota Bandung, Jawa Barat 40123</textarea></div>
+            <div class="form-row"><div class="form-group"><label class="form-label">Telepon</label><input class="form-input" id="profilTelepon" value="(022) 1234567"></div><div class="form-group"><label class="form-label">Email</label><input class="form-input" id="profilEmail" value="info@smanusantara.sch.id"></div></div>
+            <button class="btn btn-primary" onclick="saveProfilSekolah()"><i class="fa-solid fa-save"></i> Simpan Perubahan</button>
           </div></div>
         </div>
         <div id="profil-visimisi" class="tab-content">
           <div class="admin-card"><div class="admin-card-body">
-            <div class="form-group"><label class="form-label">Visi Sekolah</label><textarea class="form-input" style="height:100px">Menjadi sekolah unggul, berkarakter, dan berdaya saing global berlandaskan iman dan taqwa.</textarea></div>
-            <div class="form-group"><label class="form-label">Misi Sekolah (pisahkan dengan baris baru)</label><textarea class="form-input" style="height:140px">Menyelenggarakan pendidikan berkualitas berbasis kurikulum nasional
+            <div class="form-group"><label class="form-label">Visi Sekolah</label><textarea class="form-input" id="profilVisi" style="height:100px">Menjadi sekolah unggul, berkarakter, dan berdaya saing global berlandaskan iman dan taqwa.</textarea></div>
+            <div class="form-group"><label class="form-label">Misi Sekolah (pisahkan dengan baris baru)</label><textarea class="form-input" id="profilMisi" style="height:140px">Menyelenggarakan pendidikan berkualitas berbasis kurikulum nasional
 Mengembangkan karakter dan akhlak mulia peserta didik
 Meningkatkan kompetensi guru dan tenaga kependidikan
 Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
-            <button class="btn btn-primary" onclick="showToast('Visi & Misi berhasil disimpan','')"><i class="fa-solid fa-save"></i> Simpan</button>
+            <button class="btn btn-primary" onclick="saveProfilSekolah()"><i class="fa-solid fa-save"></i> Simpan</button>
           </div></div>
         </div>
         <div id="profil-sambutan" class="tab-content">
           <div class="admin-card"><div class="admin-card-body">
-            <div class="form-row"><div class="form-group"><label class="form-label">Nama Kepala Sekolah</label><input class="form-input" value="Dr. H. Ahmad Fauzi, M.Pd"></div><div class="form-group"><label class="form-label">Gelar/Jabatan</label><input class="form-input" value="Kepala Sekolah"></div></div>
+            <div class="form-row"><div class="form-group"><label class="form-label">Nama Kepala Sekolah</label><input class="form-input" id="profilSambutanNama" value="Dr. H. Ahmad Fauzi, M.Pd"></div><div class="form-group"><label class="form-label">Gelar/Jabatan</label><input class="form-input" id="profilSambutanJabatan" value="Kepala Sekolah"></div></div>
             <div class="form-group"><label class="form-label">Foto Kepala Sekolah</label>
               <div class="upload-zone" style="padding:20px" onclick="showToast('Pilih foto kepala sekolah','')">
                 <i class="fa-solid fa-user-tie" style="font-size:24px;color:var(--gray)"></i>
@@ -685,9 +685,9 @@ Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
                 <button class="rich-btn"><i class="fa-solid fa-list"></i></button>
                 <button class="rich-btn"><i class="fa-solid fa-link"></i></button>
               </div>
-              <div class="rich-area" contenteditable="true">Assalamu'alaikum Warahmatullahi Wabarakatuh. Selamat datang di website resmi SMA Nusantara Bangsa. Kami berkomitmen untuk memberikan pendidikan terbaik bagi generasi penerus bangsa...</div>
+              <div class="rich-area" id="profilSambutanTeks" contenteditable="true">Assalamu'alaikum Warahmatullahi Wabarakatuh. Selamat datang di website resmi SMA Nusantara Bangsa. Kami berkomitmen untuk memberikan pendidikan terbaik bagi generasi penerus bangsa...</div>
             </div>
-            <button class="btn btn-primary" onclick="showToast('Sambutan berhasil disimpan','')"><i class="fa-solid fa-save"></i> Simpan</button>
+            <button class="btn btn-primary" onclick="saveProfilSekolah()"><i class="fa-solid fa-save"></i> Simpan</button>
           </div></div>
         </div>
         <div id="profil-fasilitas" class="tab-content">
@@ -1062,8 +1062,8 @@ Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
   <div class="page-hero">
     <div class="container">
       <div class="breadcrumb">Beranda <span>›</span> <span>Profil Sekolah</span></div>
-      <h1>Profil Sekolah</h1>
-      <p>Mengenal lebih dekat SMA Nusantara Bangsa</p>
+      <h1 id="publicProfilTitle">Profil Sekolah</h1>
+      <p id="publicProfilSubtitle">Mengenal lebih dekat SMA Nusantara Bangsa</p>
     </div>
   </div>
   <div class="content-section">
@@ -1071,11 +1071,11 @@ Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
       <div class="vision-mission">
         <div class="vm-card">
           <h3><div class="vm-icon"><i class="fa-solid fa-eye"></i></div>Visi Sekolah</h3>
-          <p style="color:var(--slate);line-height:1.8">Menjadi sekolah unggul, berkarakter, dan berdaya saing global berlandaskan iman dan taqwa.</p>
+          <p id="publicVisiText" style="color:var(--slate);line-height:1.8">Menjadi sekolah unggul, berkarakter, dan berdaya saing global berlandaskan iman dan taqwa.</p>
         </div>
         <div class="vm-card">
           <h3><div class="vm-icon" style="background:var(--green)"><i class="fa-solid fa-bullseye"></i></div>Misi Sekolah</h3>
-          <ul style="color:var(--slate);line-height:1.9;padding-left:20px">
+          <ul id="publicMisiList" style="color:var(--slate);line-height:1.9;padding-left:20px">
             <li>Menyelenggarakan pendidikan berkualitas berbasis kurikulum nasional</li>
             <li>Mengembangkan karakter dan akhlak mulia peserta didik</li>
             <li>Meningkatkan kompetensi guru dan tenaga kependidikan</li>
@@ -1439,6 +1439,27 @@ async function submitPPDB(){
   showToast('Pendaftaran berhasil dikirim! Cek email untuk konfirmasi.','');
 }
 function saveItem(modal,msg){closeModal(modal);showToast(msg,'')}
+async function saveProfilSekolah(){
+  const payload = {
+    nama_sekolah: document.getElementById('profilNamaSekolah')?.value.trim(),
+    npsn: document.getElementById('profilNpsn')?.value.trim(),
+    kepala_sekolah: document.getElementById('profilKepalaSekolah')?.value.trim(),
+    akreditasi: document.getElementById('profilAkreditasi')?.value,
+    alamat: document.getElementById('profilAlamat')?.value.trim(),
+    telepon: document.getElementById('profilTelepon')?.value.trim(),
+    email: document.getElementById('profilEmail')?.value.trim(),
+    visi: document.getElementById('profilVisi')?.value.trim(),
+    misi: document.getElementById('profilMisi')?.value.trim(),
+    sambutan_nama: document.getElementById('profilSambutanNama')?.value.trim(),
+    sambutan_jabatan: document.getElementById('profilSambutanJabatan')?.value.trim(),
+    sambutan_teks: document.getElementById('profilSambutanTeks')?.innerText.trim(),
+  };
+  const { data: row } = await _sb.from('profil_sekolah').select('id').order('updated_at',{ascending:false}).limit(1).maybeSingle();
+  const { error } = row ? await _sb.from('profil_sekolah').update(payload).eq('id', row.id) : await _sb.from('profil_sekolah').insert(payload);
+  if (error) return showToast('Gagal simpan profil: ' + error.message,'error');
+  showToast('Profil sekolah berhasil disimpan','');
+  await loadPublicProfile();
+}
 
 function initChart(){
   const c=document.getElementById('visitChart');
