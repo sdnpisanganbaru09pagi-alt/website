@@ -370,7 +370,6 @@ function initTables() {
   else if (name === 'pengumuman') loadPengumuman();
   else if (name === 'agenda') loadAgenda();
   else if (name === 'ppdb') loadPPDB();
-  else if (name === 'profil') loadProfilSekolah();
 }
 
 // ─── SEARCH HANDLERS (dipasang ke elemen di HTML) ─────────────
@@ -407,36 +406,3 @@ async function updatePPDBStatus(id, status) {
   loadPPDB();
 }
 window.updatePPDBStatus = updatePPDBStatus;
-
-async function loadProfilSekolah() {
-  const table = await resolveProfilTable();
-  if (!table) {
-    showToast('Tabel profil belum tersedia. Jalankan schema.sql terbaru di Supabase.', 'warn');
-    return;
-  }
-  const { data } = await _sb.from(table).select('*').order('updated_at', { ascending: false }).limit(1).maybeSingle();
-  if (!data) return;
-  const setVal = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
-  setVal('profilNamaSekolah', data.nama_sekolah);
-  setVal('profilNpsn', data.npsn);
-  setVal('profilKepalaSekolah', data.kepala_sekolah);
-  setVal('profilAkreditasi', data.akreditasi);
-  setVal('profilAlamat', data.alamat);
-  setVal('profilTelepon', data.telepon);
-  setVal('profilEmail', data.email);
-  setVal('profilVisi', data.visi);
-  setVal('profilMisi', data.misi);
-  setVal('profilSambutanNama', data.sambutan_nama);
-  setVal('profilSambutanJabatan', data.sambutan_jabatan);
-  const el = document.getElementById('profilSambutanTeks'); if (el) el.innerText = data.sambutan_teks || '';
-}
-window.loadProfilSekolah = loadProfilSekolah;
-
-async function resolveProfilTable() {
-  for (const table of ['profil_sekolah', 'profile_sekolah']) {
-    const { error } = await _sb.from(table).select('id').limit(1);
-    if (!error) return table;
-    if (error && !String(error.message || '').includes('schema cache')) return table;
-  }
-  return null;
-}

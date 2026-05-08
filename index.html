@@ -1440,10 +1440,6 @@ async function submitPPDB(){
 }
 function saveItem(modal,msg){closeModal(modal);showToast(msg,'')}
 async function saveProfilSekolah(){
-  const profileTable = await detectProfileTable();
-  if (!profileTable) {
-    return showToast('Tabel profil belum tersedia di Supabase. Jalankan schema.sql terbaru terlebih dahulu.','error');
-  }
   const payload = {
     nama_sekolah: document.getElementById('profilNamaSekolah')?.value.trim(),
     npsn: document.getElementById('profilNpsn')?.value.trim(),
@@ -1458,8 +1454,8 @@ async function saveProfilSekolah(){
     sambutan_jabatan: document.getElementById('profilSambutanJabatan')?.value.trim(),
     sambutan_teks: document.getElementById('profilSambutanTeks')?.innerText.trim(),
   };
-  const { data: row } = await _sb.from(profileTable).select('id').order('updated_at',{ascending:false}).limit(1).maybeSingle();
-  const { error } = row ? await _sb.from(profileTable).update(payload).eq('id', row.id) : await _sb.from(profileTable).insert(payload);
+  const { data: row } = await _sb.from('profil_sekolah').select('id').order('updated_at',{ascending:false}).limit(1).maybeSingle();
+  const { error } = row ? await _sb.from('profil_sekolah').update(payload).eq('id', row.id) : await _sb.from('profil_sekolah').insert(payload);
   if (error) return showToast('Gagal simpan profil: ' + error.message,'error');
   showToast('Profil sekolah berhasil disimpan','');
   await loadPublicProfile();
@@ -1483,27 +1479,7 @@ async function loadPublicContent(){
   if (newsEl && news.data?.length) newsEl.innerHTML = news.data.map(b => `<div class="news-card"><div class="news-img"><i class="fa-solid fa-newspaper"></i></div><div class="news-body"><div class="news-cat">${b.kategori}</div><h3>${b.judul}</h3><p>${(b.isi||'').slice(0,100)}...</p><div class="news-meta"><i class="fa-regular fa-calendar"></i> ${new Date(b.created_at).toLocaleDateString('id-ID')}</div></div></div>`).join('');
   if (annEl && ann.data?.length) annEl.innerHTML = ann.data.map(p => `<div class="announce-item"><div class="announce-icon ${p.prioritas==='Mendesak'?'warn':''}"><i class="fa-solid fa-bullhorn"></i></div><div class="announce-content"><h4>${p.judul}</h4><p>${p.isi||''}</p><div class="announce-date">📅 ${p.tanggal_mulai ? new Date(p.tanggal_mulai).toLocaleDateString('id-ID') : '-'}</div></div></div>`).join('');
 }
-async function loadPublicProfile(){
-  const profileTable = await detectProfileTable();
-  if (!profileTable) return;
-  const { data } = await _sb.from(profileTable).select('*').order('updated_at',{ascending:false}).limit(1).maybeSingle();
-  if (!data) return;
-  const t = document.getElementById('publicProfilTitle'); if (t) t.textContent = data.nama_sekolah || 'Profil Sekolah';
-  const s = document.getElementById('publicProfilSubtitle'); if (s) s.textContent = `Mengenal lebih dekat ${data.nama_sekolah || 'sekolah kami'}`;
-  const v = document.getElementById('publicVisiText'); if (v) v.textContent = data.visi || '';
-  const m = document.getElementById('publicMisiList');
-  if (m && data.misi) m.innerHTML = data.misi.split('\n').filter(Boolean).map(x => `<li>${x}</li>`).join('');
-}
-async function detectProfileTable(){
-  const candidates = ['profil_sekolah', 'profile_sekolah'];
-  for (const table of candidates) {
-    const { error } = await _sb.from(table).select('id').limit(1);
-    if (!error) return table;
-    if (error && !String(error.message || '').includes('schema cache')) return table;
-  }
-  return null;
-}
-document.addEventListener('DOMContentLoaded', async ()=>{ await loadPublicContent(); await loadPublicProfile(); });
+document.addEventListener('DOMContentLoaded', loadPublicContent);
 </script>
 </body>
 </html>
