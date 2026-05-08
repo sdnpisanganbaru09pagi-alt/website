@@ -13,7 +13,7 @@ const firebaseConfig = {
   measurementId: "G-2CLSHHW94N"
 };
 
-firebase.initializeApp(FIREBASE_CONFIG);
+firebase.initializeApp(FIREBASECONFIG);
 const _fbAuth = firebase.auth();
 const _fbDb = firebase.firestore();
 
