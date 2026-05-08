@@ -668,7 +668,8 @@ const SETTINGS_DEFAULT = {
   jamOps:         'Senin–Jumat: 07.00–14.00 WIB',
   heroBadge:      '✦ Tahun Pelajaran 2025/2026',
   heroNama:       'SDN 1 Contoh',
-  heroTagline:    'Membentuk generasi cerdas, berkarakter, dan berprestasi untuk masa depan Indonesia',
+  heroTagline:    'Membentuk generasi cerdas, berkarakter, dan berprestasi dalam lingkungan yang aman, nyaman, dan menyenangkan.',
+  heroImage:      'https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=1400&q=80',
   stat1Num:       '450+',
   stat1Label:     'Siswa Aktif',
   stat2Num:       '28',
@@ -701,6 +702,8 @@ function applySettings(s) {
   set('sitHeroBadge',   s.heroBadge);
   set('sitHeroNama',    s.heroNama);
   set('sitHeroTagline', s.heroTagline);
+  const heroImage = document.getElementById('sitHeroImage');
+  if (heroImage) heroImage.src = s.heroImage || SETTINGS_DEFAULT.heroImage;
 
   // Stats
   set('sitStat1Num',   s.stat1Num);
@@ -771,6 +774,7 @@ async function loadPengaturan() {
     fill('setPHeroBadge',    'heroBadge');
     fill('setPHeroNama',     'heroNama');
     fill('setPHeroTagline',  'heroTagline');
+    fill('setPHeroImage',    'heroImage');
     fill('setPStat1Num',     'stat1Num');
     fill('setPStat1Label',   'stat1Label');
     fill('setPStat2Num',     'stat2Num');
@@ -803,6 +807,7 @@ async function simpanPengaturan() {
     heroBadge:     get('setPHeroBadge'),
     heroNama:      get('setPHeroNama'),
     heroTagline:   get('setPHeroTagline'),
+    heroImage:     get('setPHeroImage'),
     stat1Num:      get('setPStat1Num'),
     stat1Label:    get('setPStat1Label'),
     stat2Num:      get('setPStat2Num'),
