@@ -1,1488 +1,1235 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SMA Nusantara Bangsa - Website Sekolah</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231e40af'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='16' fill='white' font-family='Arial'%3ES%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
---blue:#1e40af;--blue2:#2563eb;--blue3:#3b82f6;--blue-light:#dbeafe;--blue-pale:#eff6ff;
---navy:#0f172a;--slate:#334155;--gray:#64748b;--light:#f8fafc;--white:#ffffff;
---accent:#f59e0b;--green:#10b981;--red:#ef4444;
---font-main:'Plus Jakarta Sans',sans-serif;--font-serif:'Fraunces',serif;
---shadow:0 4px 24px rgba(30,64,175,.1);--shadow-lg:0 8px 40px rgba(30,64,175,.15);
---radius:12px;--radius-lg:20px;
-}
-body{font-family:var(--font-main);background:var(--white);color:var(--navy);line-height:1.6;overflow-x:hidden}
-img{max-width:100%}
-a{text-decoration:none;color:inherit}
-button{cursor:pointer;font-family:var(--font-main)}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SDN 1 Contoh — Sekolah Dasar Negeri</title>
+  <meta name="description" content="Website resmi SDN 1 Contoh — Membentuk generasi cerdas, berkarakter, dan berprestasi.">
 
-/* NAVIGATION */
-nav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(30,64,175,.08);transition:all .3s}
-.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:72px}
-.nav-logo{display:flex;align-items:center;gap:12px}
-.logo-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--blue),var(--blue3));border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-size:20px;font-weight:800;flex-shrink:0}
-.logo-text h1{font-size:16px;font-weight:700;color:var(--navy);line-height:1.2}
-.logo-text span{font-size:11px;color:var(--gray);font-weight:400}
-.nav-menu{display:flex;align-items:center;gap:4px}
-.nav-menu a{padding:8px 14px;border-radius:8px;font-size:14px;font-weight:500;color:var(--slate);transition:all .2s}
-.nav-menu a:hover,.nav-menu a.active{background:var(--blue-pale);color:var(--blue)}
-.nav-actions{display:flex;align-items:center;gap:10px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;border:none;transition:all .2s}
-.btn-primary{background:var(--blue);color:white}
-.btn-primary:hover{background:var(--blue2);transform:translateY(-1px);box-shadow:var(--shadow)}
-.btn-outline{background:transparent;color:var(--blue);border:1.5px solid var(--blue)}
-.btn-outline:hover{background:var(--blue-pale)}
-.btn-sm{padding:7px 14px;font-size:13px;border-radius:8px}
-.btn-danger{background:var(--red);color:white}
-.btn-success{background:var(--green);color:white}
-.btn-accent{background:var(--accent);color:white}
-.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px}
-.hamburger span{display:block;width:24px;height:2px;background:var(--navy);border-radius:2px;transition:all .3s}
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-/* PAGES */
-.page{display:none;min-height:100vh;padding-top:72px}
-.page.active{display:block}
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:wght@600&display=swap" rel="stylesheet">
 
-/* === HOME PAGE === */
-.hero{background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 50%,#1e40af 100%);color:white;padding:100px 0 80px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 60% 40%,rgba(59,130,246,.2) 0%,transparent 50%)}
-.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to top,white,transparent)}
-.hero-content{max-width:1200px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:1}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.3);padding:6px 14px;border-radius:50px;font-size:13px;font-weight:600;margin-bottom:20px}
-.hero h1{font-family:var(--font-serif);font-size:52px;line-height:1.15;margin-bottom:20px;font-weight:700}
-.hero h1 em{font-style:italic;color:#93c5fd}
-.hero p{font-size:16px;color:rgba(255,255,255,.75);line-height:1.7;margin-bottom:32px}
-.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
-.hero-visual{position:relative}
-.hero-card{background:rgba(255,255,255,.08);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius-lg);padding:28px;margin-bottom:16px}
-.hero-card h3{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em}
-.stats-row{display:flex;gap:24px}
-.stat-item{text-align:center}
-.stat-item .num{font-size:32px;font-weight:800;color:white;font-family:var(--font-serif)}
-.stat-item .label{font-size:12px;color:rgba(255,255,255,.6)}
-.hero-badges{display:flex;flex-wrap:wrap;gap:8px}
-.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:50px;font-size:12px;font-weight:600;background:rgba(255,255,255,.12);color:rgba(255,255,255,.85)}
+  <style>
+    /* ─────────────────────────────────────────
+       RESET & BASE
+    ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue:       #185FA5;
+      --blue-dark:  #0C447C;
+      --blue-light: #E6F1FB;
+      --blue-mid:   #B5D4F4;
+      --green:      #3B6D11;
+      --green-bg:   #EAF3DE;
+      --amber:      #854F0B;
+      --amber-bg:   #FAEEDA;
+      --gray:       #5F5E5A;
+      --gray-bg:    #F1EFE8;
+      --red:        #A32D2D;
+      --red-bg:     #FCEBEB;
+      --text:       #1a1a1a;
+      --text-muted: #6b7280;
+      --border:     #e5e7eb;
+      --bg:         #f8fafc;
+      --white:      #ffffff;
+      --radius:     10px;
+      --radius-sm:  6px;
+      --shadow:     0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md:  0 4px 12px rgba(0,0,0,0.1);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); background: var(--white); line-height: 1.6; }
+    img  { max-width: 100%; display: block; }
+    a    { text-decoration: none; color: inherit; }
+    button { cursor: pointer; font-family: inherit; }
 
-/* SECTION STYLES */
-section{padding:80px 0}
-.container{max-width:1200px;margin:0 auto;padding:0 24px}
-.section-header{text-align:center;margin-bottom:52px}
-.section-tag{display:inline-block;background:var(--blue-pale);color:var(--blue);padding:6px 16px;border-radius:50px;font-size:13px;font-weight:600;margin-bottom:12px}
-.section-header h2{font-family:var(--font-serif);font-size:40px;font-weight:700;color:var(--navy);margin-bottom:12px}
-.section-header p{color:var(--gray);font-size:16px;max-width:560px;margin:0 auto}
+    /* ─────────────────────────────────────────
+       UTILITIES
+    ───────────────────────────────────────── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    .hidden { display: none !important; }
 
-/* GREETING */
-.greeting{background:var(--blue-pale)}
-.greeting-inner{display:grid;grid-template-columns:300px 1fr;gap:60px;align-items:center}
-.principal-card{background:white;border-radius:var(--radius-lg);padding:28px;text-align:center;box-shadow:var(--shadow)}
-.principal-avatar{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue3));display:flex;align-items:center;justify-content:center;font-size:36px;color:white;margin:0 auto 16px}
-.principal-card h3{font-size:18px;font-weight:700;margin-bottom:4px}
-.principal-card .role{font-size:13px;color:var(--gray);margin-bottom:12px}
-.quote{background:var(--blue-pale);border-left:4px solid var(--blue);padding:16px;border-radius:8px;font-style:italic;font-size:14px;color:var(--slate)}
-.greeting-text h2{font-family:var(--font-serif);font-size:36px;font-weight:700;margin-bottom:16px}
-.greeting-text p{color:var(--slate);line-height:1.8;margin-bottom:16px}
+    /* ─────────────────────────────────────────
+       TOAST
+    ───────────────────────────────────────── */
+    #toastContainer { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
+    .toast { background: var(--text); color: white; padding: 12px 18px; border-radius: var(--radius-sm); font-size: 14px; display: flex; align-items: center; gap: 8px; opacity: 0; transform: translateY(8px); transition: all 0.25s; max-width: 340px; box-shadow: var(--shadow-md); }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast-success { background: #166534; }
+    .toast-error   { background: var(--red); }
+    .toast-warn    { background: var(--amber); }
+    .toast-info    { background: var(--blue); }
 
-/* NEWS GRID */
-.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.news-card{background:white;border-radius:var(--radius);border:1px solid #e2e8f0;overflow:hidden;transition:all .3s}
-.news-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
-.news-img{height:180px;background:linear-gradient(135deg,var(--blue),var(--blue3));display:flex;align-items:center;justify-content:center;font-size:40px;color:rgba(255,255,255,.5)}
-.news-body{padding:20px}
-.news-cat{display:inline-block;background:var(--blue-pale);color:var(--blue);padding:4px 10px;border-radius:50px;font-size:11px;font-weight:600;margin-bottom:10px}
-.news-body h3{font-size:16px;font-weight:700;margin-bottom:8px;color:var(--navy);line-height:1.4}
-.news-body p{font-size:13px;color:var(--gray);line-height:1.6}
-.news-meta{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:12px;color:var(--gray)}
+    /* ─────────────────────────────────────────
+       BADGE & BUTTON COMMONS
+    ───────────────────────────────────────── */
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .badge-green { background: var(--green-bg); color: var(--green); }
+    .badge-amber { background: var(--amber-bg); color: var(--amber); }
+    .badge-gray  { background: var(--gray-bg);  color: var(--gray); }
+    .badge-blue  { background: var(--blue-light); color: var(--blue-dark); }
+    .badge-red   { background: var(--red-bg);   color: var(--red); }
 
-/* ANNOUNCEMENTS */
-.announce-bg{background:#f0f9ff}
-.announce-list{display:flex;flex-direction:column;gap:14px}
-.announce-item{background:white;border-radius:var(--radius);padding:20px 24px;display:flex;align-items:flex-start;gap:16px;border:1px solid #e0f2fe;box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.announce-icon{width:44px;height:44px;background:var(--blue-pale);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:18px;flex-shrink:0}
-.announce-icon.warn{background:#fffbeb;color:var(--accent)}
-.announce-icon.red{background:#fef2f2;color:var(--red)}
-.announce-content h4{font-size:15px;font-weight:700;margin-bottom:4px}
-.announce-content p{font-size:13px;color:var(--gray)}
-.announce-date{font-size:11px;color:var(--gray);margin-top:4px}
+    .btn-primary   { display: inline-flex; align-items: center; gap: 8px; background: var(--blue); color: white; border: none; padding: 10px 20px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; transition: background 0.2s; }
+    .btn-primary:hover { background: var(--blue-dark); }
+    .btn-outline   { display: inline-flex; align-items: center; gap: 8px; background: white; color: var(--blue); border: 1px solid var(--blue-mid); padding: 10px 20px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; transition: all 0.2s; }
+    .btn-outline:hover { background: var(--blue-light); }
+    .btn-sm        { padding: 6px 14px; font-size: 13px; }
+    .btn-icon      { background: none; border: 1px solid var(--border); color: var(--text-muted); padding: 5px 8px; border-radius: var(--radius-sm); font-size: 13px; transition: all 0.15s; }
+    .btn-icon:hover { border-color: var(--blue); color: var(--blue); }
+    .btn-danger-icon:hover { border-color: var(--red); color: var(--red); }
+    .btn-icon-white { background: rgba(255,255,255,0.9); border: none; color: var(--red); padding: 5px 8px; border-radius: var(--radius-sm); font-size: 13px; }
 
-/* GALLERY */
-.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.gallery-item{border-radius:var(--radius);overflow:hidden;aspect-ratio:1;background:linear-gradient(135deg,var(--blue),var(--blue3));display:flex;align-items:center;justify-content:center;font-size:32px;color:rgba(255,255,255,.5);cursor:pointer;transition:transform .3s}
-.gallery-item:hover{transform:scale(1.03)}
-.gallery-item:nth-child(2n){background:linear-gradient(135deg,#0f766e,#14b8a6)}
-.gallery-item:nth-child(3n){background:linear-gradient(135deg,#7c3aed,#a78bfa)}
-.gallery-item:nth-child(4n){background:linear-gradient(135deg,#b45309,#f59e0b)}
+    /* ─────────────────────────────────────────
+       PUBLIC SITE — NAVBAR
+    ───────────────────────────────────────── */
+    #publicSite { display: block; }
+    .navbar { background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+    .navbar .container { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .navbar-brand { display: flex; align-items: center; gap: 12px; }
+    .brand-logo { width: 40px; height: 40px; background: var(--blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
+    .brand-name { font-size: 15px; font-weight: 700; color: var(--blue-dark); }
+    .brand-sub  { font-size: 11px; color: var(--text-muted); }
+    .navbar-links { display: flex; gap: 4px; }
+    .nav-link { padding: 8px 14px; border-radius: var(--radius-sm); font-size: 14px; color: var(--text-muted); transition: all 0.15s; font-weight: 500; }
+    .nav-link:hover, .nav-link.active { color: var(--blue); background: var(--blue-light); }
+    .navbar-actions { display: flex; gap: 8px; }
 
-/* ACHIEVEMENTS */
-.achieve-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.achieve-card{background:white;border-radius:var(--radius);padding:28px;text-align:center;border:1px solid #e2e8f0;transition:all .3s}
-.achieve-card:hover{box-shadow:var(--shadow);border-color:var(--blue3)}
-.achieve-medal{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#fbbf24);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px;box-shadow:0 4px 16px rgba(245,158,11,.3)}
-.achieve-card h3{font-size:16px;font-weight:700;margin-bottom:6px}
-.achieve-card p{font-size:13px;color:var(--gray)}
+    /* ─────────────────────────────────────────
+       PUBLIC PAGES
+    ───────────────────────────────────────── */
+    .pub-page { display: none; }
+    .pub-page.active { display: block; }
 
-/* TESTIMONIALS */
-.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.testi-card{background:white;border-radius:var(--radius);padding:24px;border:1px solid #e2e8f0}
-.testi-stars{color:var(--accent);margin-bottom:12px;font-size:14px}
-.testi-text{font-size:14px;color:var(--slate);line-height:1.7;margin-bottom:16px;font-style:italic}
-.testi-author{display:flex;align-items:center;gap:10px}
-.testi-avatar{width:40px;height:40px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;color:white;font-size:14px;font-weight:700}
-.testi-info h4{font-size:14px;font-weight:600}
-.testi-info span{font-size:12px;color:var(--gray)}
+    /* HERO */
+    .hero { background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 60%, #f0fdf4 100%); padding: 72px 0; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23185FA5' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+    .hero-badge { display: inline-block; background: white; color: var(--blue); font-size: 12px; font-weight: 600; padding: 6px 16px; border-radius: 20px; margin-bottom: 20px; box-shadow: var(--shadow); }
+    .hero h1 { font-family: 'Lora', serif; font-size: 42px; color: var(--blue-dark); line-height: 1.2; margin-bottom: 16px; }
+    .hero h1 span { color: var(--blue); }
+    .hero p { font-size: 16px; color: var(--text-muted); max-width: 480px; margin: 0 auto 32px; }
+    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .hero-stats { display: flex; gap: 40px; justify-content: center; margin-top: 56px; }
+    .hero-stat-num { font-size: 28px; font-weight: 700; color: var(--blue-dark); }
+    .hero-stat-label { font-size: 13px; color: var(--text-muted); }
 
-/* FOOTER */
-footer{background:var(--navy);color:rgba(255,255,255,.8);padding:60px 0 28px}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
-.footer-brand h3{font-size:20px;font-weight:700;color:white;margin-bottom:8px}
-.footer-brand p{font-size:14px;line-height:1.7;margin-bottom:20px}
-.social-links{display:flex;gap:10px}
-.social-link{width:38px;height:38px;background:rgba(255,255,255,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.social-link:hover{background:var(--blue3)}
-footer h4{font-size:13px;font-weight:700;color:white;text-transform:uppercase;letter-spacing:.05em;margin-bottom:16px}
-footer ul{list-style:none}
-footer ul li{margin-bottom:10px;font-size:14px}
-footer ul li a{color:rgba(255,255,255,.6);transition:color .2s}
-footer ul li a:hover{color:white}
-.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:rgba(255,255,255,.4)}
+    /* SECTION */
+    .section { padding: 64px 0; }
+    .section-alt { background: var(--bg); }
+    .section-header { text-align: center; margin-bottom: 48px; }
+    .section-label { font-size: 12px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .section-title { font-family: 'Lora', serif; font-size: 30px; color: var(--text); margin-bottom: 12px; }
+    .section-desc { color: var(--text-muted); max-width: 520px; margin: 0 auto; }
 
-/* PROFILE PAGE */
-.page-hero{background:linear-gradient(135deg,var(--navy),var(--blue));color:white;padding:80px 0 60px}
-.page-hero h1{font-family:var(--font-serif);font-size:44px;font-weight:700;margin-bottom:12px}
-.page-hero p{font-size:16px;color:rgba(255,255,255,.7)}
-.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.5);margin-bottom:16px}
-.breadcrumb span{color:rgba(255,255,255,.8)}
-.content-section{padding:60px 0}
-.vision-mission{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:48px}
-.vm-card{background:white;border-radius:var(--radius-lg);padding:32px;border:1px solid #e2e8f0;box-shadow:var(--shadow)}
-.vm-card h3{font-size:20px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px;color:var(--navy)}
-.vm-icon{width:44px;height:44px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-size:20px}
-.teacher-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.teacher-card{background:white;border-radius:var(--radius);padding:20px;text-align:center;border:1px solid #e2e8f0;transition:all .3s}
-.teacher-card:hover{box-shadow:var(--shadow);transform:translateY(-3px)}
-.teacher-avatar{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue3));display:flex;align-items:center;justify-content:center;font-size:26px;color:rgba(255,255,255,.7);margin:0 auto 12px}
-.teacher-card h4{font-size:15px;font-weight:600;margin-bottom:4px}
-.teacher-card .subject{font-size:12px;color:var(--blue);font-weight:600;background:var(--blue-pale);padding:3px 8px;border-radius:50px;display:inline-block;margin-bottom:8px}
-.teacher-card p{font-size:12px;color:var(--gray)}
+    /* FITUR GRID */
+    .fitur-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .fitur-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; transition: box-shadow 0.2s, transform 0.2s; }
+    .fitur-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .fitur-icon { width: 48px; height: 48px; background: var(--blue-light); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--blue); margin-bottom: 16px; }
+    .fitur-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .fitur-card p  { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
 
-/* ACADEMIC PAGE */
-.curriculum-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:48px}
-.curriculum-card{background:white;border-radius:var(--radius);padding:24px;border:1px solid #e2e8f0}
-.curriculum-card .icon{font-size:32px;margin-bottom:14px}
-.curriculum-card h3{font-size:16px;font-weight:700;margin-bottom:8px}
-.schedule-table{width:100%;border-collapse:collapse;background:white;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
-.schedule-table th{background:var(--blue);color:white;padding:14px 16px;text-align:left;font-size:13px;font-weight:600}
-.schedule-table td{padding:12px 16px;border-bottom:1px solid #f1f5f9;font-size:13px}
-.schedule-table tr:hover td{background:var(--blue-pale)}
-.extracurr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.extracurr-card{background:white;border-radius:var(--radius);padding:20px;text-align:center;border:1px solid #e2e8f0}
-.extracurr-card .icon{font-size:28px;margin-bottom:10px}
-.extracurr-card h4{font-size:14px;font-weight:600}
+    /* BERITA PUBLIK */
+    #publicBeritaList { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .berita-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: box-shadow 0.2s, transform 0.2s; }
+    .berita-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .berita-img { width: 100%; height: 160px; object-fit: cover; }
+    .berita-no-img { width: 100%; height: 160px; background: var(--blue-light); display: flex; align-items: center; justify-content: center; color: var(--blue); font-size: 36px; }
+    .berita-body { padding: 16px; }
+    .berita-kategori { font-size: 11px; font-weight: 600; color: var(--blue); text-transform: uppercase; letter-spacing: 0.5px; }
+    .berita-judul { font-size: 15px; font-weight: 600; margin: 6px 0 4px; line-height: 1.4; }
+    .berita-tanggal { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+    .berita-preview { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
 
-/* PPDB PAGE */
-.ppdb-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:48px}
-.step-card{background:white;border-radius:var(--radius);padding:24px;text-align:center;border:1px solid #e2e8f0;position:relative}
-.step-num{width:40px;height:40px;background:var(--blue);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;margin:0 auto 14px}
-.step-card h4{font-size:15px;font-weight:600;margin-bottom:6px}
-.step-card p{font-size:13px;color:var(--gray)}
-.ppdb-form{background:white;border-radius:var(--radius-lg);padding:40px;border:1px solid #e2e8f0;box-shadow:var(--shadow);max-width:700px;margin:0 auto}
-.form-group{margin-bottom:20px}
-.form-label{display:block;font-size:14px;font-weight:600;color:var(--navy);margin-bottom:6px}
-.form-input{width:100%;padding:12px 16px;border:1.5px solid #e2e8f0;border-radius:10px;font-size:14px;font-family:var(--font-main);transition:border-color .2s;background:white;color:var(--navy)}
-.form-input:focus{outline:none;border-color:var(--blue3);box-shadow:0 0 0 3px rgba(59,130,246,.1)}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='%236b7280' d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 12px center;background-size:16px;padding-right:36px}
+    /* DETAIL BERITA PUBLIK */
+    .berita-detail-header { max-width: 760px; margin: 48px auto 0; padding: 0 20px; }
+    .berita-detail-img { width: 100%; max-height: 400px; object-fit: cover; border-radius: var(--radius); margin: 24px 0; }
+    .berita-detail-body { max-width: 760px; margin: 0 auto 64px; padding: 0 20px; font-size: 16px; line-height: 1.8; color: #374151; }
 
-/* CONTACT PAGE */
-.contact-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:48px;align-items:start}
-.contact-info-card{background:white;border-radius:var(--radius-lg);padding:32px;border:1px solid #e2e8f0}
-.contact-item{display:flex;align-items:flex-start;gap:14px;margin-bottom:24px}
-.contact-icon{width:44px;height:44px;background:var(--blue-pale);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:18px;flex-shrink:0}
-.contact-item h4{font-size:14px;font-weight:600;margin-bottom:3px}
-.contact-item p{font-size:13px;color:var(--gray);line-height:1.6}
-.map-embed{background:var(--blue-pale);border-radius:var(--radius-lg);height:300px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;font-size:40px;border:1px solid #e0f2fe}
-.wa-float{position:fixed;bottom:28px;right:28px;width:56px;height:56px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:26px;box-shadow:0 4px 20px rgba(37,211,102,.4);z-index:998;transition:all .3s;cursor:pointer}
-.wa-float:hover{transform:scale(1.1)}
+    /* GALERI PUBLIK */
+    .galeri-pub-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .galeri-pub-item { border-radius: var(--radius-sm); overflow: hidden; aspect-ratio: 4/3; }
+    .galeri-pub-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+    .galeri-pub-item:hover img { transform: scale(1.05); }
 
-/* ==================== ADMIN PANEL ==================== */
-#admin-panel{display:none;min-height:100vh;background:#f1f5f9}
-#admin-panel.active{display:flex}
-.admin-sidebar{width:260px;background:var(--navy);display:flex;flex-direction:column;flex-shrink:0;height:100vh;position:sticky;top:0;overflow-y:auto}
-.sidebar-logo{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
-.sidebar-logo h2{font-size:16px;font-weight:700;color:white;margin-bottom:2px}
-.sidebar-logo span{font-size:11px;color:rgba(255,255,255,.4)}
-.sidebar-nav{flex:1;padding:16px 12px}
-.sidebar-section{font-size:10px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;padding:8px 10px;margin-top:8px}
-.sidebar-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;cursor:pointer;transition:all .2s;margin-bottom:2px;color:rgba(255,255,255,.6);font-size:14px}
-.sidebar-item i{font-size:16px;width:20px;text-align:center}
-.sidebar-item:hover{background:rgba(255,255,255,.08);color:rgba(255,255,255,.9)}
-.sidebar-item.active{background:var(--blue);color:white}
-.sidebar-badge{margin-left:auto;background:var(--red);color:white;font-size:10px;font-weight:700;padding:2px 7px;border-radius:50px}
-.admin-main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
-.admin-topbar{background:white;padding:0 28px;height:68px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:99}
-.topbar-title{font-size:18px;font-weight:700;color:var(--navy)}
-.topbar-right{display:flex;align-items:center;gap:14px}
-.notif-btn{width:38px;height:38px;background:var(--blue-pale);border:none;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--blue);cursor:pointer;position:relative;font-size:16px}
-.notif-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--red);border-radius:50%;border:2px solid white}
-.admin-avatar{width:38px;height:38px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:13px;font-weight:700;cursor:pointer}
-.admin-content{flex:1;padding:28px}
+    /* KONTAK */
+    .kontak-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .kontak-info h3 { font-size: 20px; font-weight: 600; margin-bottom: 24px; }
+    .kontak-item { display: flex; gap: 16px; margin-bottom: 20px; }
+    .kontak-item-icon { width: 40px; height: 40px; background: var(--blue-light); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--blue); font-size: 16px; flex-shrink: 0; }
+    .kontak-item-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
+    .kontak-item-text span { font-size: 13px; color: var(--text-muted); }
+    .kontak-form { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; }
+    .kontak-form h3 { font-size: 18px; font-weight: 600; margin-bottom: 24px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+      font-size: 14px; font-family: inherit; transition: border-color 0.15s; color: var(--text);
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--blue); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-/* ADMIN DASHBOARD */
-.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:28px}
-.stat-card{background:white;border-radius:var(--radius);padding:20px;border:1px solid #e2e8f0;display:flex;align-items:center;gap:16px}
-.stat-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.stat-icon.blue{background:#dbeafe;color:var(--blue)}
-.stat-icon.green{background:#d1fae5;color:var(--green)}
-.stat-icon.amber{background:#fef3c7;color:var(--accent)}
-.stat-icon.red{background:#fee2e2;color:var(--red)}
-.stat-info span{display:block;font-size:12px;color:var(--gray);margin-bottom:4px}
-.stat-info .num{font-size:28px;font-weight:800;color:var(--navy);font-family:var(--font-serif);line-height:1}
-.stat-info .trend{font-size:11px;color:var(--green);font-weight:600}
-.dash-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:20px;margin-bottom:20px}
-.admin-card{background:white;border-radius:var(--radius);border:1px solid #e2e8f0}
-.admin-card-header{padding:16px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
-.admin-card-header h3{font-size:15px;font-weight:700}
-.admin-card-body{padding:16px 20px}
-.activity-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #f8fafc}
-.activity-item:last-child{border-bottom:none}
-.act-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:6px}
-.activity-item .act-text{font-size:13px;color:var(--slate);flex:1}
-.activity-item .act-time{font-size:11px;color:var(--gray);flex-shrink:0}
-.quick-links{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.quick-link-btn{background:var(--blue-pale);border:none;border-radius:8px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:all .2s;color:var(--blue)}
-.quick-link-btn:hover{background:var(--blue);color:white}
-.quick-link-btn i{font-size:22px}
-.quick-link-btn span{font-size:12px;font-weight:600}
+    /* PROFIL */
+    .profil-content { max-width: 860px; margin: 0 auto; }
+    .profil-section { margin-bottom: 48px; }
+    .profil-section h2 { font-family: 'Lora', serif; font-size: 22px; color: var(--blue-dark); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid var(--blue-light); }
+    .profil-section p  { font-size: 15px; color: #374151; line-height: 1.8; margin-bottom: 12px; }
+    .visi-misi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .visi-card, .misi-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+    .visi-card { border-top: 3px solid var(--blue); }
+    .misi-card { border-top: 3px solid #3B6D11; }
+    .visi-card h3, .misi-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+    .misi-list { list-style: none; }
+    .misi-list li { padding: 6px 0; font-size: 14px; color: #374151; display: flex; gap: 10px; }
+    .misi-list li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
 
-/* ADMIN TABLES */
-.admin-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
-.search-input{padding:9px 14px 9px 38px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;font-family:var(--font-main);width:240px;background:white;position:relative}
-.search-wrap{position:relative}
-.search-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--gray);font-size:14px}
-.data-table{width:100%;border-collapse:collapse}
-.data-table th{background:#f8fafc;padding:12px 16px;text-align:left;font-size:12px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;border-bottom:1.5px solid #e2e8f0}
-.data-table td{padding:14px 16px;border-bottom:1px solid #f1f5f9;font-size:14px;vertical-align:middle}
-.data-table tr:hover td{background:#f8fafc}
-.pill{display:inline-block;padding:3px 10px;border-radius:50px;font-size:11px;font-weight:700}
-.pill-green{background:#d1fae5;color:#065f46}
-.pill-blue{background:#dbeafe;color:#1e40af}
-.pill-amber{background:#fef3c7;color:#92400e}
-.pill-red{background:#fee2e2;color:#991b1b}
-.action-btns{display:flex;gap:6px}
-.icon-btn{width:32px;height:32px;border:none;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .2s}
-.icon-btn.edit{background:#dbeafe;color:var(--blue)}
-.icon-btn.del{background:#fee2e2;color:var(--red)}
-.icon-btn:hover{filter:brightness(.9);transform:scale(1.05)}
-.pagination{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid #f1f5f9;margin-top:4px}
-.pagination-info{font-size:13px;color:var(--gray)}
-.page-btns{display:flex;gap:4px}
-.page-btn{width:32px;height:32px;border:1px solid #e2e8f0;background:white;border-radius:6px;font-size:13px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:var(--slate)}
-.page-btn.active,.page-btn:hover{background:var(--blue);color:white;border-color:var(--blue)}
+    /* FOOTER */
+    .footer { background: var(--blue-dark); color: rgba(255,255,255,0.8); padding: 48px 0 24px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .footer-brand-icon { width: 36px; height: 36px; background: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--blue-dark); font-size: 16px; }
+    .footer-brand-name { font-size: 15px; font-weight: 700; color: white; }
+    .footer-desc { font-size: 13px; line-height: 1.7; }
+    .footer-col h4 { color: white; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 8px; }
+    .footer-links a { font-size: 13px; color: rgba(255,255,255,0.65); transition: color 0.15s; }
+    .footer-links a:hover { color: white; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.5); }
 
-/* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:10000;align-items:center;justify-content:center}
-.modal-overlay.open{display:flex}
-.modal{background:white;border-radius:var(--radius-lg);width:90%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-.modal-header{padding:20px 24px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
-.modal-header h3{font-size:18px;font-weight:700}
-.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--gray);line-height:1;padding:4px;border-radius:6px}
-.modal-close:hover{background:#f1f5f9;color:var(--navy)}
-.modal-body{padding:24px}
-.modal-footer{padding:16px 24px;border-top:1px solid #f1f5f9;display:flex;gap:10px;justify-content:flex-end}
-textarea.form-input{min-height:120px;resize:vertical}
-.rich-toolbar{display:flex;gap:4px;flex-wrap:wrap;padding:8px;background:#f8fafc;border:1.5px solid #e2e8f0;border-bottom:none;border-radius:8px 8px 0 0}
-.rich-btn{background:none;border:none;width:28px;height:28px;border-radius:4px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;color:var(--slate)}
-.rich-btn:hover{background:#e2e8f0}
-.rich-area{border:1.5px solid #e2e8f0;border-radius:0 0 8px 8px;padding:12px;min-height:120px;font-family:var(--font-main);font-size:14px;line-height:1.7;outline:none;background:white;color:var(--navy)}
+    /* ─────────────────────────────────────────
+       LOGIN PAGE
+    ───────────────────────────────────────── */
+    #loginPage { display: none; position: fixed; inset: 0; background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 100%); z-index: 500; align-items: center; justify-content: center; }
+    #loginPage.active { display: flex; }
+    .login-box { background: white; border-radius: 16px; padding: 40px; width: 100%; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.25); }
+    .login-logo { text-align: center; margin-bottom: 28px; }
+    .login-icon { width: 60px; height: 60px; background: var(--blue-light); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 24px; color: var(--blue); }
+    .login-logo h2 { font-size: 20px; font-weight: 700; color: var(--blue-dark); }
+    .login-logo p { font-size: 13px; color: var(--text-muted); }
+    .pw-wrapper { position: relative; }
+    .pw-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); font-size: 14px; padding: 4px; }
+    .btn-login { width: 100%; padding: 12px; background: var(--blue); color: white; border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; margin-top: 8px; transition: background 0.2s; }
+    .btn-login:hover { background: var(--blue-dark); }
 
-/* LOGIN */
-.login-page{display:none;min-height:100vh;background:linear-gradient(135deg,var(--navy),var(--blue));align-items:center;justify-content:center}
-.login-page.active{display:flex}
-.login-card{background:white;border-radius:var(--radius-lg);padding:44px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-.login-logo{text-align:center;margin-bottom:32px}
-.login-logo .icon{width:60px;height:60px;background:var(--blue);border-radius:14px;display:flex;align-items:center;justify-content:center;color:white;font-size:28px;margin:0 auto 12px}
-.login-logo h2{font-size:22px;font-weight:700}
-.login-logo p{font-size:14px;color:var(--gray);margin-top:4px}
-.input-group{position:relative}
-.input-group i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gray);font-size:16px}
-.input-group .form-input{padding-left:42px}
-.toggle-pw{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--gray);cursor:pointer;font-size:16px}
+    /* ─────────────────────────────────────────
+       ADMIN PANEL
+    ───────────────────────────────────────── */
+    #adminPanel { display: none; position: fixed; inset: 0; z-index: 400; background: var(--bg); }
+    #adminPanel.active { display: flex; flex-direction: column; }
+    .admin-topbar { background: white; border-bottom: 1px solid var(--border); height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; flex-shrink: 0; }
+    .topbar-brand { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; color: var(--blue-dark); }
+    .topbar-brand-icon { width: 32px; height: 32px; background: var(--blue); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .topbar-avatar { width: 34px; height: 34px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 700; }
+    .admin-body { display: flex; flex: 1; overflow: hidden; }
+    .admin-sidebar { width: 220px; background: var(--blue-dark); flex-shrink: 0; overflow-y: auto; padding: 16px 0; }
+    .sidebar-section-label { font-size: 10px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 1px; padding: 12px 16px 4px; }
+    .sidebar-item { display: flex; align-items: center; gap: 10px; padding: 10px 16px; font-size: 13px; color: rgba(255,255,255,0.65); cursor: pointer; transition: all 0.15s; border-left: 3px solid transparent; }
+    .sidebar-item:hover { background: rgba(255,255,255,0.08); color: white; }
+    .sidebar-item.active { background: rgba(255,255,255,0.12); color: white; border-left-color: white; }
+    .sidebar-item i { font-size: 15px; width: 18px; text-align: center; }
+    .admin-main { flex: 1; overflow-y: auto; padding: 28px; }
 
-/* TOAST */
-.toast-container{position:fixed;top:20px;right:20px;z-index:99999;display:flex;flex-direction:column;gap:8px}
-.toast{background:white;border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,.15);min-width:280px;animation:slideIn .3s ease;border-left:4px solid var(--green)}
-.toast.error{border-color:var(--red)}
-.toast.warn{border-color:var(--accent)}
-.toast i{font-size:18px;color:var(--green)}
-.toast.error i{color:var(--red)}
-.toast.warn i{color:var(--accent)}
-.toast-msg{font-size:14px;font-weight:500;flex:1}
-.toast-close{background:none;border:none;font-size:14px;color:var(--gray);cursor:pointer}
-@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+    /* ADMIN SECTIONS */
+    .admin-section { display: none; }
+    .admin-section.active { display: block; }
+    .admin-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .admin-section-title { font-size: 20px; font-weight: 700; color: var(--text); }
+    .admin-section-title small { display: block; font-size: 13px; font-weight: 400; color: var(--text-muted); margin-top: 2px; }
 
-/* SETTINGS */
-.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.settings-section{background:white;border-radius:var(--radius);padding:24px;border:1px solid #e2e8f0}
-.settings-section h3{font-size:15px;font-weight:700;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:8px}
-.color-picker-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.color-preview{width:36px;height:36px;border-radius:8px;border:2px solid #e2e8f0;cursor:pointer}
-.toggle-switch{position:relative;width:44px;height:24px;display:inline-block}
-.toggle-switch input{opacity:0;width:0;height:0}
-.toggle-slider{position:absolute;inset:0;background:#e2e8f0;border-radius:50px;cursor:pointer;transition:.3s}
-.toggle-slider:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:white;border-radius:50%;transition:.3s}
-input:checked+.toggle-slider{background:var(--blue)}
-input:checked+.toggle-slider:before{transform:translateX(20px)}
+    /* STAT CARDS */
+    .admin-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .stat-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; }
+    .stat-card-label { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-bottom: 6px; }
+    .stat-card-num { font-size: 28px; font-weight: 700; color: var(--text); }
+    .stat-card-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
-/* MEDIA MANAGER */
-.media-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-.media-item{border-radius:8px;overflow:hidden;aspect-ratio:1;background:linear-gradient(135deg,var(--blue),var(--blue3));display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;border:1px solid #e2e8f0}
-.media-item:nth-child(2n){background:linear-gradient(135deg,#0f766e,#14b8a6)}
-.media-item:nth-child(3n){background:linear-gradient(135deg,#7c3aed,#a78bfa)}
-.media-item .icon{font-size:28px;color:rgba(255,255,255,.6)}
-.media-item .filename{font-size:10px;color:rgba(255,255,255,.8);padding:4px;text-align:center;word-break:break-all}
-.media-item .overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;gap:8px}
-.media-item:hover .overlay{display:flex}
-.upload-zone{border:2px dashed #e2e8f0;border-radius:var(--radius);padding:40px;text-align:center;cursor:pointer;transition:all .3s;background:#f8fafc;margin-bottom:20px}
-.upload-zone:hover{border-color:var(--blue3);background:var(--blue-pale)}
-.upload-zone i{font-size:36px;color:var(--gray);margin-bottom:12px}
-.upload-zone p{font-size:14px;color:var(--gray)}
+    /* TABLE */
+    .admin-table-wrap { background: white; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 20px; }
+    .admin-table-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+    .admin-table-title { font-size: 14px; font-weight: 600; }
+    .admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .admin-table th { text-align: left; padding: 10px 16px; color: var(--text-muted); font-weight: 500; font-size: 12px; border-bottom: 1px solid var(--border); background: var(--bg); }
+    .admin-table td { padding: 11px 16px; border-bottom: 1px solid #f5f5f5; color: var(--text); }
+    .admin-table tr:last-child td { border-bottom: none; }
+    .admin-table tr:hover td { background: #fafafa; }
+    .loading-cell { text-align: center; color: var(--text-muted); padding: 32px !important; }
+    .pesan-baru td { font-weight: 500; }
 
-/* CHART SIMPLE */
-.bar-chart{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 4px}
-.bar{flex:1;background:var(--blue3);border-radius:4px 4px 0 0;min-height:4px;transition:height .5s ease;opacity:.8}
-.bar:hover{opacity:1}
-.chart-labels{display:flex;gap:8px;padding:6px 4px 0;font-size:10px;color:var(--gray);text-align:center}
-.chart-label{flex:1}
+    /* FILTER BAR */
+    .filter-bar { display: flex; gap: 6px; }
+    .filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: white; font-size: 12px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+    .filter-btn.active, .filter-btn:hover { background: var(--blue); color: white; border-color: var(--blue); }
 
-/* TABS */
-.tabs{display:flex;gap:0;border-bottom:1.5px solid #e2e8f0;margin-bottom:24px}
-.tab{padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;color:var(--gray);border-bottom:2.5px solid transparent;transition:all .2s;margin-bottom:-1.5px}
-.tab.active{color:var(--blue);border-bottom-color:var(--blue)}
-.tab-content{display:none}
-.tab-content.active{display:block}
+    /* GALERI ADMIN GRID */
+    #galeriGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .galeri-item { border-radius: var(--radius-sm); overflow: hidden; aspect-ratio: 4/3; position: relative; cursor: pointer; }
+    .galeri-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+    .galeri-item:hover img { transform: scale(1.05); }
+    .galeri-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.55); opacity: 0; transition: opacity 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 10px; }
+    .galeri-item:hover .galeri-overlay { opacity: 1; }
+    .galeri-overlay p { color: white; font-size: 12px; text-align: center; }
+    .loading-center { text-align: center; padding: 48px; color: var(--text-muted); grid-column: 1 / -1; }
 
-/* RESPONSIVE */
-@media(max-width:900px){
-  .hero-content,.greeting-inner,.vision-mission{grid-template-columns:1fr}
-  .news-grid,.achieve-grid,.testi-grid,.teacher-grid,.extracurr-grid{grid-template-columns:1fr 1fr}
-  .gallery-grid{grid-template-columns:1fr 1fr 1fr}
-  .footer-grid{grid-template-columns:1fr 1fr}
-  .nav-menu{display:none}
-  .hamburger{display:flex}
-  .ppdb-steps{grid-template-columns:1fr 1fr}
-  .contact-grid{grid-template-columns:1fr}
-  .dash-stats{grid-template-columns:1fr 1fr}
-  .dash-grid{grid-template-columns:1fr}
-  .settings-grid{grid-template-columns:1fr}
-  .admin-sidebar{width:220px}
-}
-</style>
+    /* UPLOAD PREVIEW */
+    #galeriUploadPreview { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+
+    /* ─────────────────────────────────────────
+       MODALS
+    ───────────────────────────────────────── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 600; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.active { display: flex; }
+    .modal-box { background: white; border-radius: 14px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .modal-box-lg { max-width: 700px; }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px 0; margin-bottom: 20px; }
+    .modal-title { font-size: 17px; font-weight: 700; }
+    .modal-close { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 4px; line-height: 1; }
+    .modal-close:hover { color: var(--text); }
+    .modal-body { padding: 0 24px 24px; }
+
+    /* DETAIL PESAN */
+    .detail-field { margin-bottom: 14px; }
+    .detail-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .detail-value { font-size: 14px; color: var(--text); }
+    .detail-pesan-text { background: var(--bg); border-radius: var(--radius-sm); padding: 14px; font-size: 14px; line-height: 1.7; white-space: pre-wrap; margin-top: 4px; }
+
+    /* PHOTO PREVIEW */
+    #beritaFotoPreview { width: 100%; max-height: 180px; object-fit: cover; border-radius: var(--radius-sm); margin-top: 8px; display: none; }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 28px; }
+      .fitur-grid { grid-template-columns: 1fr; }
+      #publicBeritaList { grid-template-columns: 1fr; }
+      .galeri-pub-grid { grid-template-columns: repeat(2, 1fr); }
+      .kontak-grid { grid-template-columns: 1fr; }
+      .visi-misi-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .navbar-links { display: none; }
+      .admin-sidebar { width: 180px; }
+      .admin-stats { grid-template-columns: 1fr 1fr; }
+      #galeriGrid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
 </head>
 <body>
 
-<!-- TOAST CONTAINER -->
-<div class="toast-container" id="toastContainer"></div>
+<!-- ════════════════════════════════════════
+     TOAST CONTAINER
+════════════════════════════════════════ -->
+<div id="toastContainer"></div>
 
-<!-- WhatsApp Float -->
-<div class="wa-float" title="Chat WhatsApp" onclick="showToast('Menghubungkan ke WhatsApp...','warn')">
-  <i class="fa-brands fa-whatsapp"></i>
-</div>
+<!-- ════════════════════════════════════════
+     PUBLIC SITE
+════════════════════════════════════════ -->
+<div id="publicSite">
 
-<!-- ============ LOGIN PAGE ============ -->
-<div class="login-page" id="loginPage">
-  <div class="login-card">
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <div class="brand-logo"><i class="fa-solid fa-school"></i></div>
+        <div>
+          <div class="brand-name" id="sitNamaSekolah">SDN 1 Contoh</div>
+          <div class="brand-sub" id="sitAlamatSingkat">Kec. Kebon Jeruk, Jakarta</div>
+        </div>
+      </div>
+      <div class="navbar-links">
+        <a class="nav-link active" onclick="showPage('home', this)">Beranda</a>
+        <a class="nav-link" onclick="showPage('profil', this)">Profil</a>
+        <a class="nav-link" onclick="showPage('berita', this)">Berita</a>
+        <a class="nav-link" onclick="showPage('galeri', this)">Galeri</a>
+        <a class="nav-link" onclick="showPage('kontak', this)">Kontak</a>
+      </div>
+      <div class="navbar-actions">
+        <button class="btn-outline btn-sm" onclick="showLogin()">
+          <i class="fa-solid fa-lock"></i> Admin
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── PAGE: BERANDA ── -->
+  <div id="page-home" class="pub-page active">
+    <section class="hero">
+      <div class="container" style="position:relative;z-index:1">
+        <div class="hero-badge" id="sitHeroBadge">✦ Tahun Pelajaran 2025/2026</div>
+        <h1 id="sitHeroJudul">Selamat Datang di<br><span id="sitHeroNama">SDN 1 Contoh</span></h1>
+        <p id="sitHeroTagline">Membentuk generasi cerdas, berkarakter, dan berprestasi untuk masa depan Indonesia</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="showPage('profil')">
+            <i class="fa-solid fa-school"></i> Profil Sekolah
+          </button>
+          <button class="btn-outline" onclick="showPage('kontak')">
+            <i class="fa-solid fa-phone"></i> Hubungi Kami
+          </button>
+        </div>
+        <div class="hero-stats">
+          <div><div class="hero-stat-num" id="sitStat1Num">450+</div><div class="hero-stat-label" id="sitStat1Label">Siswa Aktif</div></div>
+          <div><div class="hero-stat-num" id="sitStat2Num">28</div><div class="hero-stat-label" id="sitStat2Label">Guru & Staff</div></div>
+          <div><div class="hero-stat-num" id="sitStat3Num">30+</div><div class="hero-stat-label" id="sitStat3Label">Tahun Berdiri</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fitur -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Layanan Kami</div>
+          <h2 class="section-title">Fasilitas & Keunggulan Sekolah</h2>
+          <p class="section-desc">Kami berkomitmen memberikan pendidikan terbaik dengan fasilitas lengkap dan tenaga pengajar berpengalaman.</p>
+        </div>
+        <div class="fitur-grid">
+          <div class="fitur-card">
+            <div class="fitur-icon"><i class="fa-solid fa-book-open"></i></div>
+            <h3>Kurikulum Merdeka</h3>
+            <p>Penerapan Kurikulum Merdeka yang berfokus pada pengembangan kompetensi dan karakter siswa secara menyeluruh.</p>
+          </div>
+          <div class="fitur-card">
+            <div class="fitur-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+            <h3>Guru Berpengalaman</h3>
+            <p>Tenaga pendidik profesional dan berpengalaman yang berdedikasi tinggi terhadap perkembangan peserta didik.</p>
+          </div>
+          <div class="fitur-card">
+            <div class="fitur-icon"><i class="fa-solid fa-star"></i></div>
+            <h3>Prestasi Akademik</h3>
+            <p>Sekolah kami aktif mengikuti dan meraih prestasi dalam berbagai olimpiade dan kompetisi tingkat kecamatan hingga provinsi.</p>
+          </div>
+          <div class="fitur-card">
+            <div class="fitur-icon"><i class="fa-solid fa-computer"></i></div>
+            <h3>Lab Komputer</h3>
+            <p>Laboratorium komputer modern untuk mempersiapkan siswa menghadapi era digital dengan literasi teknologi yang baik.</p>
+          </div>
+          <div class="fitur-card">
+            <div class="fitur-icon"><i class="fa-solid fa-futbol"></i></div>
+            <h3>Ekstrakurikuler</h3>
+            <p>Berbagai kegiatan ekstrakurikuler pilihan mulai dari pramuka, seni tari, olahraga, dan paduan suara.</p>
+          </div>
+          <div class="fitur-card">
+            <div class="fitur-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3>Lingkungan Aman</h3>
+            <p>Lingkungan sekolah yang aman, nyaman, dan kondusif untuk mendukung proses belajar mengajar yang optimal.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Berita Terbaru -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Informasi</div>
+          <h2 class="section-title">Berita & Pengumuman</h2>
+          <p class="section-desc">Update terbaru kegiatan dan informasi penting dari sekolah kami.</p>
+        </div>
+        <div id="publicBeritaList">
+          <div style="text-align:center;padding:40px;color:#aaa;grid-column:1/-1"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
+        </div>
+        <div style="text-align:center;margin-top:32px">
+          <button class="btn-outline" onclick="showPage('berita')">Lihat Semua Berita <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section" style="background: linear-gradient(135deg, var(--blue-dark), var(--blue)); color: white; text-align: center;">
+      <div class="container">
+        <h2 style="font-family:'Lora',serif;font-size:32px;margin-bottom:12px">Bergabunglah Bersama Kami</h2>
+        <p style="opacity:0.85;margin-bottom:32px;max-width:480px;margin-left:auto;margin-right:auto">Pendaftaran Peserta Didik Baru (PPDB) kini dibuka. Daftarkan putra-putri Anda sekarang!</p>
+        <button class="btn-primary" style="background:white;color:var(--blue-dark)" onclick="showPage('kontak')">
+          <i class="fa-solid fa-envelope"></i> Hubungi Kami
+        </button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-brand">
+              <div class="footer-brand-icon"><i class="fa-solid fa-school"></i></div>
+              <div class="footer-brand-name" id="sitFooterNama">SDN 1 Contoh</div>
+            </div>
+            <p class="footer-desc">Sekolah Dasar Negeri yang berkomitmen mencetak generasi penerus bangsa yang cerdas, berkarakter, dan berprestasi.</p>
+          </div>
+          <div>
+            <h4>Tautan</h4>
+            <ul class="footer-links">
+              <li><a onclick="showPage('home')">Beranda</a></li>
+              <li><a onclick="showPage('profil')">Profil Sekolah</a></li>
+              <li><a onclick="showPage('berita')">Berita</a></li>
+              <li><a onclick="showPage('galeri')">Galeri</a></li>
+              <li><a onclick="showPage('kontak')">Kontak</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Kontak</h4>
+            <ul class="footer-links">
+              <li><a><i class="fa-solid fa-map-marker-alt"></i> Jl. Contoh No.1, Jakarta</a></li>
+              <li><a><i class="fa-solid fa-phone"></i> (021) 555-0100</a></li>
+              <li><a><i class="fa-solid fa-envelope"></i> info@sdn1contoh.sch.id</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          &copy; <span id="sitTahunCopyright">2025</span> <span id="sitCopyrightNama">SDN 1 Contoh</span>. Hak cipta dilindungi.
+        </div>
+      </div>
+    </footer>
+  </div><!-- end page-home -->
+
+  <!-- ── PAGE: PROFIL ── -->
+  <div id="page-profil" class="pub-page">
+    <div style="background:var(--blue-light);padding:48px 0 32px;margin-bottom:48px">
+      <div class="container">
+        <div class="section-label">Tentang Kami</div>
+        <h1 style="font-family:'Lora',serif;font-size:34px;color:var(--blue-dark);margin-top:8px">Profil Sekolah</h1>
+      </div>
+    </div>
+    <div class="container" style="margin-bottom:64px">
+      <div class="profil-content" id="profilContent">
+        <div class="profil-section">
+          <h2>Sejarah Singkat</h2>
+          <p id="sitProfilSejarah1">SDN 1 Contoh berdiri sejak tahun 1990 dan telah menjadi salah satu sekolah dasar terpercaya di Kecamatan Kebon Jeruk, Jakarta Barat. Selama lebih dari tiga dekade, sekolah ini telah melahirkan ribuan alumni yang kini tersebar di berbagai penjuru tanah air.</p>
+          <p>Dengan pengalaman panjang di dunia pendidikan dasar, SDN 1 Contoh terus berinovasi dalam metode pembelajaran untuk memastikan setiap siswa mendapatkan pendidikan berkualitas yang relevan dengan perkembangan zaman.</p>
+        </div>
+        <div class="profil-section">
+          <h2>Visi & Misi</h2>
+          <div class="visi-misi-grid">
+            <div class="visi-card">
+              <h3>🎯 Visi</h3>
+              <p id="sitProfilVisi">Menjadi sekolah dasar unggulan yang melahirkan generasi cerdas, berkarakter Pancasila, dan siap menghadapi tantangan global.</p>
+            </div>
+            <div class="misi-card">
+              <h3>🚀 Misi</h3>
+              <ul class="misi-list">
+                <li>Menyelenggarakan pembelajaran aktif, kreatif, dan menyenangkan</li>
+                <li>Membentuk karakter siswa yang berakhlak mulia</li>
+                <li>Mengembangkan potensi akademik dan non-akademik</li>
+                <li>Membangun kemitraan antara sekolah, orang tua, dan masyarakat</li>
+                <li>Memanfaatkan teknologi untuk meningkatkan mutu pendidikan</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="profil-section">
+          <h2>Identitas Sekolah</h2>
+          <table style="width:100%;font-size:14px;border-collapse:collapse">
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text-muted);width:200px">Nama Sekolah</td><td style="padding:10px 0;font-weight:500" id="sitProfilNama">SDN 1 Contoh</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text-muted)">NPSN</td><td style="padding:10px 0" id="sitProfilNPSN">12345678</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text-muted)">Akreditasi</td><td style="padding:10px 0"><span class="badge badge-green" id="sitProfilAkred">A — Unggul</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text-muted)">Status</td><td style="padding:10px 0">Negeri</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text-muted)">Kepala Sekolah</td><td style="padding:10px 0;font-weight:500" id="sitProfilKepsek">Drs. Hendra Kusuma, M.Pd</td></tr>
+            <tr><td style="padding:10px 0;color:var(--text-muted)">Alamat</td><td style="padding:10px 0" id="sitProfilAlamat">Jl. Contoh No.1, Kebon Jeruk, Jakarta Barat 11530</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
+  </div>
+
+  <!-- ── PAGE: BERITA ── -->
+  <div id="page-berita" class="pub-page">
+    <div style="background:var(--blue-light);padding:48px 0 32px;margin-bottom:48px">
+      <div class="container">
+        <div class="section-label">Informasi Sekolah</div>
+        <h1 style="font-family:'Lora',serif;font-size:34px;color:var(--blue-dark);margin-top:8px">Berita & Pengumuman</h1>
+      </div>
+    </div>
+    <div class="container" style="margin-bottom:64px">
+      <div id="publicBeritaListFull" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+        <div style="text-align:center;padding:40px;color:#aaa;grid-column:1/-1"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
+      </div>
+    </div>
+    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
+  </div>
+
+  <!-- ── PAGE: BERITA DETAIL ── -->
+  <div id="page-berita-detail" class="pub-page">
+    <div class="container">
+      <div style="padding:24px 0">
+        <button class="btn-outline btn-sm" onclick="showPage('berita')"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
+      </div>
+      <div class="berita-detail-header">
+        <span id="detailBeritaKategori" class="badge badge-blue"></span>
+        <h1 id="detailBeritaJudul" style="font-family:'Lora',serif;font-size:30px;margin:16px 0 8px;line-height:1.3"></h1>
+        <p id="detailBeritaTanggal" style="color:var(--text-muted);font-size:14px"><i class="fa-regular fa-calendar"></i></p>
+        <img id="detailBeritaFoto" class="berita-detail-img" src="" alt="">
+      </div>
+      <div class="berita-detail-body" id="detailBeritaIsi"></div>
+    </div>
+    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
+  </div>
+
+  <!-- ── PAGE: GALERI ── -->
+  <div id="page-galeri" class="pub-page">
+    <div style="background:var(--blue-light);padding:48px 0 32px;margin-bottom:48px">
+      <div class="container">
+        <div class="section-label">Dokumentasi Kegiatan</div>
+        <h1 style="font-family:'Lora',serif;font-size:34px;color:var(--blue-dark);margin-top:8px">Galeri Foto</h1>
+      </div>
+    </div>
+    <div class="container" style="margin-bottom:64px">
+      <div id="publicGaleriGrid" class="galeri-pub-grid">
+        <div style="text-align:center;padding:40px;color:#aaa;grid-column:1/-1"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
+      </div>
+    </div>
+    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
+  </div>
+
+  <!-- ── PAGE: KONTAK ── -->
+  <div id="page-kontak" class="pub-page">
+    <div style="background:var(--blue-light);padding:48px 0 32px;margin-bottom:48px">
+      <div class="container">
+        <div class="section-label">Hubungi Kami</div>
+        <h1 style="font-family:'Lora',serif;font-size:34px;color:var(--blue-dark);margin-top:8px">Kontak & Pesan</h1>
+      </div>
+    </div>
+    <div class="container" style="margin-bottom:64px">
+      <div class="kontak-grid">
+        <div class="kontak-info">
+          <h3>Informasi Kontak</h3>
+          <div class="kontak-item">
+            <div class="kontak-item-icon"><i class="fa-solid fa-map-marker-alt"></i></div>
+            <div class="kontak-item-text">
+              <strong>Alamat</strong>
+              <span id="sitKontakAlamat">Jl. Contoh No.1, Kebon Jeruk, Jakarta Barat 11530</span>
+            </div>
+          </div>
+          <div class="kontak-item">
+            <div class="kontak-item-icon"><i class="fa-solid fa-phone"></i></div>
+            <div class="kontak-item-text">
+              <strong>Telepon</strong>
+              <span id="sitKontakTelepon">(021) 555-0100</span>
+            </div>
+          </div>
+          <div class="kontak-item">
+            <div class="kontak-item-icon"><i class="fa-solid fa-envelope"></i></div>
+            <div class="kontak-item-text">
+              <strong>Email</strong>
+              <span id="sitKontakEmail">info@sdn1contoh.sch.id</span>
+            </div>
+          </div>
+          <div class="kontak-item">
+            <div class="kontak-item-icon"><i class="fa-solid fa-clock"></i></div>
+            <div class="kontak-item-text">
+              <strong>Jam Operasional</strong>
+              <span id="sitKontakJam">Senin–Jumat: 07.00–14.00 WIB</span>
+            </div>
+          </div>
+          <div style="margin-top:24px;background:var(--bg);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.7945959!3d-6.2087634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMTInMzEuNiJTIDEwNsKwNDcnNDAuNiJF!5e0!3m2!1sid!2sid!4v1620000000000!5m2!1sid!2sid" width="100%" height="220" style="border:0;display:block" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+        </div>
+        <div class="kontak-form">
+          <h3>Kirim Pesan</h3>
+          <form id="formKontak" onsubmit="return false">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nama Lengkap <span style="color:red">*</span></label>
+                <input type="text" id="kontakNama" placeholder="Nama Anda">
+              </div>
+              <div class="form-group">
+                <label>Nomor HP</label>
+                <input type="tel" id="kontakTelepon" placeholder="08xx-xxxx-xxxx">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Email <span style="color:red">*</span></label>
+              <input type="email" id="kontakEmail" placeholder="email@contoh.com">
+            </div>
+            <div class="form-group">
+              <label>Subjek <span style="color:red">*</span></label>
+              <input type="text" id="kontakSubjek" placeholder="Topik pesan Anda">
+            </div>
+            <div class="form-group">
+              <label>Pesan <span style="color:red">*</span></label>
+              <textarea id="kontakPesan" rows="5" placeholder="Tulis pesan Anda di sini..."></textarea>
+            </div>
+            <button type="button" id="btnKirimPesan" class="btn-primary" style="width:100%" onclick="kirimPesan()">
+              <i class="fa-solid fa-paper-plane"></i> Kirim Pesan
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
+  </div>
+
+</div><!-- end publicSite -->
+
+<!-- ════════════════════════════════════════
+     LOGIN PAGE
+════════════════════════════════════════ -->
+<div id="loginPage">
+  <div class="login-box">
     <div class="login-logo">
-      <div class="icon"><i class="fa-solid fa-graduation-cap"></i></div>
+      <div class="login-icon"><i class="fa-solid fa-school"></i></div>
       <h2>Admin Panel</h2>
-      <p>SMA Nusantara Bangsa</p>
+      <p><span id="sitLoginNama">SDN 1 Contoh</span> — Login untuk mengelola website</p>
     </div>
     <div class="form-group">
-      <label class="form-label">Email</label>
-      <div class="input-group">
-        <i class="fa-regular fa-envelope"></i>
-        <input type="email" class="form-input" id="loginEmail" placeholder="admin@sekolah.sch.id" value="admin@sekolah.sch.id">
-      </div>
+      <label>Email Admin</label>
+      <input type="email" id="loginEmail" placeholder="admin@sdn1.sch.id">
     </div>
     <div class="form-group">
-      <label class="form-label">Password</label>
-      <div class="input-group">
-        <i class="fa-solid fa-lock"></i>
-        <input type="password" class="form-input" id="loginPass" placeholder="••••••••" value="admin123">
-        <button class="toggle-pw" onclick="togglePw()"><i class="fa-regular fa-eye"></i></button>
+      <label>Password</label>
+      <div class="pw-wrapper">
+        <input type="password" id="loginPass" placeholder="Masukkan password">
+        <button class="pw-toggle" onclick="togglePw()" type="button">
+          <i class="fa-solid fa-eye" id="togglePwIcon"></i>
+        </button>
       </div>
     </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
-      <label style="display:flex;align-items:center;gap:8px;font-size:14px"><input type="checkbox" checked> Ingat saya</label>
-      <a href="#" style="font-size:13px;color:var(--blue)">Lupa password?</a>
-    </div>
-    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="doLogin()">
+    <button class="btn-login" onclick="doLogin()">
       <i class="fa-solid fa-right-to-bracket"></i> Masuk ke Admin Panel
     </button>
-    <div style="text-align:center;margin-top:20px">
-      <a href="#" onclick="showPublic()" style="font-size:13px;color:var(--gray)">← Kembali ke website</a>
+    <div style="text-align:center;margin-top:16px">
+      <button style="background:none;border:none;color:var(--text-muted);font-size:13px;cursor:pointer" onclick="showPublic()">
+        ← Kembali ke website
+      </button>
     </div>
   </div>
 </div>
 
-<!-- ============ ADMIN PANEL ============ -->
-<div id="admin-panel">
-  <!-- SIDEBAR -->
-  <div class="admin-sidebar">
-    <div class="sidebar-logo">
-      <h2>🎓 Admin Panel</h2>
-      <span>SMA Nusantara Bangsa</span>
+<!-- ════════════════════════════════════════
+     ADMIN PANEL
+════════════════════════════════════════ -->
+<div id="adminPanel">
+
+  <!-- TOPBAR -->
+  <div class="admin-topbar">
+    <div class="topbar-brand">
+      <div class="topbar-brand-icon"><i class="fa-solid fa-school"></i></div>
+      <span id="sitAdminTopbar">SDN 1 Contoh</span> — Admin Panel
     </div>
-    <div class="sidebar-nav">
-      <div class="sidebar-section">Utama</div>
-      <div class="sidebar-item active" onclick="switchAdmin('dashboard',this)"><i class="fa-solid fa-gauge"></i> Dashboard</div>
-      
-      <div class="sidebar-section">Konten</div>
-      <div class="sidebar-item" onclick="switchAdmin('berita',this)"><i class="fa-solid fa-newspaper"></i> Berita <span class="sidebar-badge">12</span></div>
-      <div class="sidebar-item" onclick="switchAdmin('pengumuman',this)"><i class="fa-solid fa-bullhorn"></i> Pengumuman</div>
-      <div class="sidebar-item" onclick="switchAdmin('agenda',this)"><i class="fa-solid fa-calendar-days"></i> Agenda</div>
-      <div class="sidebar-item" onclick="switchAdmin('galeri',this)"><i class="fa-solid fa-images"></i> Galeri</div>
-      
-      <div class="sidebar-section">Profil</div>
-      <div class="sidebar-item" onclick="switchAdmin('profil',this)"><i class="fa-solid fa-school"></i> Profil Sekolah</div>
-      <div class="sidebar-item" onclick="switchAdmin('guru',this)"><i class="fa-solid fa-chalkboard-user"></i> Data Guru</div>
-      <div class="sidebar-item" onclick="switchAdmin('ppdb',this)"><i class="fa-solid fa-user-plus"></i> PPDB</div>
-      
-      <div class="sidebar-section">Media</div>
-      <div class="sidebar-item" onclick="switchAdmin('media',this)"><i class="fa-solid fa-photo-film"></i> Media Manager</div>
-      
-      <div class="sidebar-section">Sistem</div>
-      <div class="sidebar-item" onclick="switchAdmin('pengaturan',this)"><i class="fa-solid fa-gear"></i> Pengaturan</div>
-      <div class="sidebar-item" onclick="doLogout()" style="color:rgba(255,100,100,.7)"><i class="fa-solid fa-right-from-bracket"></i> Keluar</div>
+    <div class="topbar-right">
+      <span id="adminEmail" style="font-size:13px;color:var(--text-muted)"></span>
+      <div class="topbar-avatar" id="adminAvatar">AD</div>
+      <button class="btn-outline btn-sm" onclick="doLogout()">
+        <i class="fa-solid fa-right-from-bracket"></i> Keluar
+      </button>
     </div>
   </div>
 
-  <!-- MAIN CONTENT -->
-  <div class="admin-main">
-    <div class="admin-topbar">
-      <div class="topbar-title" id="adminTitle">Dashboard</div>
-      <div class="topbar-right">
-        <button class="notif-btn" onclick="showToast('Anda memiliki 3 notifikasi baru','warn')">
-          <i class="fa-solid fa-bell"></i><div class="notif-dot"></div>
-        </button>
-        <button class="btn btn-outline btn-sm" onclick="window.open('#','_blank')"><i class="fa-solid fa-eye"></i> Lihat Website</button>
-        <div class="admin-avatar" id="adminAvatar" title="Admin">AD</div>
+  <!-- BODY -->
+  <div class="admin-body">
+
+    <!-- SIDEBAR -->
+    <div class="admin-sidebar">
+      <div class="sidebar-section-label">Menu Utama</div>
+      <div class="sidebar-item active" data-section="dashboard" onclick="switchAdmin('dashboard')">
+        <i class="fa-solid fa-gauge"></i> Dashboard
+      </div>
+      <div class="sidebar-section-label">Kelola Konten</div>
+      <div class="sidebar-item" data-section="halaman" onclick="switchAdmin('halaman')">
+        <i class="fa-solid fa-file-lines"></i> Halaman
+      </div>
+      <div class="sidebar-item" data-section="berita" onclick="switchAdmin('berita')">
+        <i class="fa-solid fa-newspaper"></i> Berita
+      </div>
+      <div class="sidebar-item" data-section="galeri" onclick="switchAdmin('galeri')">
+        <i class="fa-solid fa-images"></i> Galeri
+      </div>
+      <div class="sidebar-section-label">Komunikasi</div>
+      <div class="sidebar-item" data-section="pesan" onclick="switchAdmin('pesan')">
+        <i class="fa-solid fa-envelope"></i> Pesan Masuk
+      </div>
+      <div class="sidebar-section-label">Sistem</div>
+      <div class="sidebar-item" data-section="pengaturan" onclick="switchAdmin('pengaturan')">
+        <i class="fa-solid fa-sliders"></i> Pengaturan Website
       </div>
     </div>
 
-    <div class="admin-content">
-      <!-- DASHBOARD -->
-      <div id="view-dashboard" class="admin-view active" style="display:block">
-        <div class="dash-stats">
+    <!-- MAIN CONTENT -->
+    <div class="admin-main">
+
+      <!-- ── DASHBOARD ── -->
+      <div id="section-dashboard" class="admin-section active">
+        <div class="admin-section-header">
+          <div class="admin-section-title">Dashboard <small>Ringkasan aktivitas website</small></div>
+        </div>
+        <div class="admin-stats">
           <div class="stat-card">
-            <div class="stat-icon blue"><i class="fa-solid fa-newspaper"></i></div>
-            <div class="stat-info"><span>Total Berita</span><div class="num" id="statBerita">—</div><span class="trend">dari database</span></div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon green"><i class="fa-solid fa-images"></i></div>
-            <div class="stat-info"><span>Foto Galeri</span><div class="num">—</div><span class="trend">Supabase Storage</span></div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon amber"><i class="fa-solid fa-bullhorn"></i></div>
-            <div class="stat-info"><span>Pengumuman Aktif</span><div class="num" id="statPengumuman">—</div><span class="trend">dari database</span></div>
+            <div class="stat-card-label">Total Berita</div>
+            <div class="stat-card-num" id="dashBerita">—</div>
+            <div class="stat-card-sub">artikel dipublikasikan</div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon red"><i class="fa-solid fa-calendar-days"></i></div>
-            <div class="stat-info"><span>Agenda</span><div class="num" id="statAgenda">—</div><span class="trend">dari database</span></div>
+            <div class="stat-card-label">Pesan Masuk</div>
+            <div class="stat-card-num" id="dashPesan" style="color:var(--blue)">—</div>
+            <div class="stat-card-sub" id="dashPesanBaru">— belum dibaca</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Halaman Aktif</div>
+            <div class="stat-card-num" id="dashHalaman">—</div>
+            <div class="stat-card-sub">halaman tersedia</div>
           </div>
         </div>
-        <div class="dash-grid">
-          <div class="admin-card">
-            <div class="admin-card-header">
-              <h3>Statistik Pengunjung (7 Hari)</h3>
-              <select class="form-input" style="width:auto;padding:4px 28px 4px 10px;font-size:12px">
-                <option>7 hari</option><option>30 hari</option>
-              </select>
-            </div>
-            <div class="admin-card-body">
-              <div class="bar-chart" id="visitChart"></div>
-              <div class="chart-labels">
-                <div class="chart-label">Sen</div><div class="chart-label">Sel</div><div class="chart-label">Rab</div>
-                <div class="chart-label">Kam</div><div class="chart-label">Jum</div><div class="chart-label">Sab</div><div class="chart-label">Min</div>
-              </div>
-            </div>
+        <div class="admin-table-wrap">
+          <div class="admin-table-header">
+            <span class="admin-table-title">Berita Terbaru</span>
+            <button class="btn-primary btn-sm" onclick="showFormBerita()"><i class="fa-solid fa-plus"></i> Tambah Berita</button>
           </div>
-          <div class="admin-card">
-            <div class="admin-card-header"><h3>Aksi Cepat</h3></div>
-            <div class="admin-card-body">
-              <div class="quick-links">
-                <div class="quick-link-btn" onclick="switchAdmin('berita',null);openModal('beritaModal')">
-                  <i class="fa-solid fa-plus"></i><span>Tambah Berita</span>
-                </div>
-                <div class="quick-link-btn" onclick="switchAdmin('pengumuman',null);openModal('pengumumanModal')">
-                  <i class="fa-solid fa-bullhorn"></i><span>Pengumuman</span>
-                </div>
-                <div class="quick-link-btn" onclick="switchAdmin('galeri',null)">
-                  <i class="fa-solid fa-upload"></i><span>Upload Foto</span>
-                </div>
-                <div class="quick-link-btn" onclick="switchAdmin('pengaturan',null)">
-                  <i class="fa-solid fa-gear"></i><span>Pengaturan</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-header"><h3>Aktivitas Terbaru</h3></div>
-          <div class="admin-card-body" id="activityFeed">
-            <div style="color:var(--gray);font-size:13px;padding:12px 0"><i class="fa-solid fa-spinner fa-spin"></i> Memuat...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- BERITA -->
-      <div id="view-berita" style="display:none">
-        <div class="admin-toolbar">
-          <div class="search-wrap"><i class="fa-solid fa-search"></i><input type="text" class="search-input" placeholder="Cari berita..." oninput="onBeritaSearch(this.value)"></div>
-          <div style="display:flex;gap:8px">
-            <select class="form-input" id="beritaKategoriFilter" style="width:auto;padding:8px 28px 8px 10px;font-size:13px" onchange="loadBerita(1,document.querySelector('#view-berita .search-input').value,this.value)">
-              <option value="">Semua Kategori</option>
-              <option>Akademik</option><option>Prestasi</option><option>Kegiatan</option><option>Kerjasama</option><option>Fasilitas</option><option>Umum</option>
-            </select>
-            <button class="btn btn-primary btn-sm" onclick="openNewBerita()"><i class="fa-solid fa-plus"></i> Tambah Berita</button>
-          </div>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-body" style="padding:0 0 16px">
-            <table class="data-table">
-              <thead><tr><th>Judul</th><th>Kategori</th><th>Tanggal</th><th>Status</th><th>Aksi</th></tr></thead>
-              <tbody id="beritaBody"></tbody>
-            </table>
-            <div class="pagination" style="padding:12px 20px 0" id="beritaPagination"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PENGUMUMAN -->
-      <div id="view-pengumuman" style="display:none">
-        <div class="admin-toolbar">
-          <div class="search-wrap"><i class="fa-solid fa-search"></i><input type="text" class="search-input" placeholder="Cari pengumuman..." oninput="onPengumumanSearch(this.value)"></div>
-          <button class="btn btn-primary btn-sm" onclick="openNewPengumuman()"><i class="fa-solid fa-plus"></i> Tambah Pengumuman</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-body" style="padding:0 0 16px">
-            <table class="data-table">
-              <thead><tr><th>Judul</th><th>Prioritas</th><th>Tanggal Tampil</th><th>Status</th><th>Aksi</th></tr></thead>
-              <tbody id="pengumumanBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- AGENDA -->
-      <div id="view-agenda" style="display:none">
-        <div class="admin-toolbar">
-          <div class="search-wrap"><i class="fa-solid fa-search"></i><input type="text" class="search-input" placeholder="Cari agenda..." oninput="onAgendaSearch(this.value)"></div>
-          <button class="btn btn-primary btn-sm" onclick="openNewAgenda()"><i class="fa-solid fa-plus"></i> Tambah Agenda</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-body" style="padding:0 0 16px">
-            <table class="data-table">
-              <thead><tr><th>Kegiatan</th><th>Tanggal</th><th>Lokasi</th><th>Status</th><th>Aksi</th></tr></thead>
-              <tbody id="agendaBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- GALERI -->
-      <div id="view-galeri" style="display:none">
-        <div class="tabs">
-          <div class="tab active" onclick="switchTab('galeri','foto',this)">Foto</div>
-          <div class="tab" onclick="switchTab('galeri','video',this)">Video YouTube</div>
-          <div class="tab" onclick="switchTab('galeri','album',this)">Album/Folder</div>
-        </div>
-        <div id="galeri-foto" class="tab-content active">
-          <div class="upload-zone" onclick="showToast('Fitur upload foto aktif. Pilih file dari komputer Anda.','')">
-            <i class="fa-solid fa-cloud-arrow-up"></i>
-            <p><b>Drag & drop foto di sini</b> atau klik untuk pilih file</p>
-            <p style="font-size:12px;margin-top:4px">JPG, PNG, WEBP max 5MB per file</p>
-          </div>
-          <div class="media-grid">
-            <div class="media-item" style="background:linear-gradient(135deg,#1e40af,#3b82f6)"><i class="fa-solid fa-image icon"></i><div class="overlay"><button class="icon-btn edit" style="color:white;background:rgba(255,255,255,.2)"><i class="fa-solid fa-eye"></i></button><button class="icon-btn del" style="color:white;background:rgba(255,0,0,.3)"><i class="fa-solid fa-trash"></i></button></div></div>
-            <div class="media-item"><i class="fa-solid fa-image icon"></i><div class="overlay"><button class="icon-btn edit" style="color:white;background:rgba(255,255,255,.2)"><i class="fa-solid fa-eye"></i></button><button class="icon-btn del" style="color:white;background:rgba(255,0,0,.3)"><i class="fa-solid fa-trash"></i></button></div></div>
-            <div class="media-item"><i class="fa-solid fa-image icon"></i><div class="overlay"><button class="icon-btn edit" style="color:white;background:rgba(255,255,255,.2)"><i class="fa-solid fa-eye"></i></button></div></div>
-            <div class="media-item"><i class="fa-solid fa-image icon"></i><div class="overlay"><button class="icon-btn del" style="color:white;background:rgba(255,0,0,.3)"><i class="fa-solid fa-trash"></i></button></div></div>
-            <div class="media-item"><i class="fa-solid fa-image icon"></i><div class="overlay"></div></div>
-          </div>
-        </div>
-        <div id="galeri-video" class="tab-content">
-          <div class="admin-toolbar">
-            <div></div>
-            <button class="btn btn-primary btn-sm" onclick="openModal('videoModal')"><i class="fa-brands fa-youtube"></i> Tambah Video YouTube</button>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-            <div class="admin-card"><div class="admin-card-body" style="display:flex;gap:14px;align-items:center">
-              <div style="width:100px;height:60px;background:#1e40af;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:22px;flex-shrink:0"><i class="fa-brands fa-youtube"></i></div>
-              <div style="flex:1"><div style="font-size:14px;font-weight:600;margin-bottom:4px">Profil SMA Nusantara 2025</div><div style="font-size:12px;color:var(--gray)">youtu.be/abc123 · 8:24</div></div>
-              <div class="action-btns"><button class="icon-btn edit"><i class="fa-solid fa-pen"></i></button><button class="icon-btn del"><i class="fa-solid fa-trash"></i></button></div>
-            </div></div>
-          </div>
-        </div>
-        <div id="galeri-album" class="tab-content">
-          <div class="admin-toolbar"><div></div><button class="btn btn-primary btn-sm" onclick="showToast('Folder baru dibuat','')"><i class="fa-solid fa-folder-plus"></i> Buat Folder</button></div>
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
-            <div class="admin-card" style="cursor:pointer"><div class="admin-card-body" style="text-align:center;padding:20px"><i class="fa-solid fa-folder" style="font-size:36px;color:var(--accent);margin-bottom:8px"></i><div style="font-size:14px;font-weight:600">Pensi 2025</div><div style="font-size:12px;color:var(--gray)">24 foto</div></div></div>
-            <div class="admin-card" style="cursor:pointer"><div class="admin-card-body" style="text-align:center;padding:20px"><i class="fa-solid fa-folder" style="font-size:36px;color:var(--accent);margin-bottom:8px"></i><div style="font-size:14px;font-weight:600">Wisuda 2024</div><div style="font-size:12px;color:var(--gray)">68 foto</div></div></div>
-            <div class="admin-card" style="cursor:pointer"><div class="admin-card-body" style="text-align:center;padding:20px"><i class="fa-solid fa-folder" style="font-size:36px;color:var(--accent);margin-bottom:8px"></i><div style="font-size:14px;font-weight:600">Olahraga 2025</div><div style="font-size:12px;color:var(--gray)">36 foto</div></div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PROFIL SEKOLAH -->
-      <div id="view-profil" style="display:none">
-        <div class="tabs">
-          <div class="tab active" onclick="switchTab('profil','info',this)">Info Sekolah</div>
-          <div class="tab" onclick="switchTab('profil','visimisi',this)">Visi & Misi</div>
-          <div class="tab" onclick="switchTab('profil','sambutan',this)">Sambutan Kepsek</div>
-          <div class="tab" onclick="switchTab('profil','fasilitas',this)">Fasilitas</div>
-        </div>
-        <div id="profil-info" class="tab-content active">
-          <div class="admin-card"><div class="admin-card-body">
-            <div class="form-row"><div class="form-group"><label class="form-label">Nama Sekolah</label><input class="form-input" id="profilNamaSekolah" value="SMA Nusantara Bangsa"></div><div class="form-group"><label class="form-label">NPSN</label><input class="form-input" id="profilNpsn" value="20231456"></div></div>
-            <div class="form-row"><div class="form-group"><label class="form-label">Kepala Sekolah</label><input class="form-input" id="profilKepalaSekolah" value="Dr. H. Ahmad Fauzi, M.Pd"></div><div class="form-group"><label class="form-label">Akreditasi</label><select class="form-input" id="profilAkreditasi"><option>A (Unggul)</option><option>B</option><option>C</option></select></div></div>
-            <div class="form-group"><label class="form-label">Alamat Lengkap</label><textarea class="form-input" id="profilAlamat" style="height:80px">Jl. Pendidikan No. 45, Kel. Merdeka, Kec. Sukamaju, Kota Bandung, Jawa Barat 40123</textarea></div>
-            <div class="form-row"><div class="form-group"><label class="form-label">Telepon</label><input class="form-input" id="profilTelepon" value="(022) 1234567"></div><div class="form-group"><label class="form-label">Email</label><input class="form-input" id="profilEmail" value="info@smanusantara.sch.id"></div></div>
-            <button class="btn btn-primary" onclick="saveProfilSekolah()"><i class="fa-solid fa-save"></i> Simpan Perubahan</button>
-          </div></div>
-        </div>
-        <div id="profil-visimisi" class="tab-content">
-          <div class="admin-card"><div class="admin-card-body">
-            <div class="form-group"><label class="form-label">Visi Sekolah</label><textarea class="form-input" id="profilVisi" style="height:100px">Menjadi sekolah unggul, berkarakter, dan berdaya saing global berlandaskan iman dan taqwa.</textarea></div>
-            <div class="form-group"><label class="form-label">Misi Sekolah (pisahkan dengan baris baru)</label><textarea class="form-input" id="profilMisi" style="height:140px">Menyelenggarakan pendidikan berkualitas berbasis kurikulum nasional
-Mengembangkan karakter dan akhlak mulia peserta didik
-Meningkatkan kompetensi guru dan tenaga kependidikan
-Memfasilitasi pengembangan bakat dan minat siswa</textarea></div>
-            <button class="btn btn-primary" onclick="saveProfilSekolah()"><i class="fa-solid fa-save"></i> Simpan</button>
-          </div></div>
-        </div>
-        <div id="profil-sambutan" class="tab-content">
-          <div class="admin-card"><div class="admin-card-body">
-            <div class="form-row"><div class="form-group"><label class="form-label">Nama Kepala Sekolah</label><input class="form-input" id="profilSambutanNama" value="Dr. H. Ahmad Fauzi, M.Pd"></div><div class="form-group"><label class="form-label">Gelar/Jabatan</label><input class="form-input" id="profilSambutanJabatan" value="Kepala Sekolah"></div></div>
-            <div class="form-group"><label class="form-label">Foto Kepala Sekolah</label>
-              <div class="upload-zone" style="padding:20px" onclick="showToast('Pilih foto kepala sekolah','')">
-                <i class="fa-solid fa-user-tie" style="font-size:24px;color:var(--gray)"></i>
-                <p style="margin-top:6px;font-size:13px">Klik untuk upload foto</p>
-              </div>
-            </div>
-            <div class="form-group"><label class="form-label">Teks Sambutan</label>
-              <div class="rich-toolbar">
-                <button class="rich-btn" onclick="execCmd('bold')"><b>B</b></button>
-                <button class="rich-btn" onclick="execCmd('italic')"><i>I</i></button>
-                <button class="rich-btn" onclick="execCmd('underline')"><u>U</u></button>
-                <button class="rich-btn">H1</button><button class="rich-btn">H2</button>
-                <button class="rich-btn"><i class="fa-solid fa-list"></i></button>
-                <button class="rich-btn"><i class="fa-solid fa-link"></i></button>
-              </div>
-              <div class="rich-area" id="profilSambutanTeks" contenteditable="true">Assalamu'alaikum Warahmatullahi Wabarakatuh. Selamat datang di website resmi SMA Nusantara Bangsa. Kami berkomitmen untuk memberikan pendidikan terbaik bagi generasi penerus bangsa...</div>
-            </div>
-            <button class="btn btn-primary" onclick="saveProfilSekolah()"><i class="fa-solid fa-save"></i> Simpan</button>
-          </div></div>
-        </div>
-        <div id="profil-fasilitas" class="tab-content">
-          <div class="admin-toolbar"><div></div><button class="btn btn-primary btn-sm" onclick="openModal('fasilitasModal')"><i class="fa-solid fa-plus"></i> Tambah Fasilitas</button></div>
-          <div class="admin-card"><div class="admin-card-body" style="padding:0">
-            <table class="data-table">
-              <thead><tr><th>Nama Fasilitas</th><th>Jumlah</th><th>Kondisi</th><th>Aksi</th></tr></thead>
-              <tbody>
-                <tr><td>Ruang Kelas</td><td>24</td><td><span class="pill pill-green">Baik</span></td><td><div class="action-btns"><button class="icon-btn edit"><i class="fa-solid fa-pen"></i></button><button class="icon-btn del"><i class="fa-solid fa-trash"></i></button></div></td></tr>
-                <tr><td>Lab Komputer</td><td>3</td><td><span class="pill pill-green">Baik</span></td><td><div class="action-btns"><button class="icon-btn edit"><i class="fa-solid fa-pen"></i></button><button class="icon-btn del"><i class="fa-solid fa-trash"></i></button></div></td></tr>
-                <tr><td>Perpustakaan</td><td>1</td><td><span class="pill pill-amber">Sedang</span></td><td><div class="action-btns"><button class="icon-btn edit"><i class="fa-solid fa-pen"></i></button><button class="icon-btn del"><i class="fa-solid fa-trash"></i></button></div></td></tr>
-                <tr><td>Lapangan Olahraga</td><td>2</td><td><span class="pill pill-green">Baik</span></td><td><div class="action-btns"><button class="icon-btn edit"><i class="fa-solid fa-pen"></i></button><button class="icon-btn del"><i class="fa-solid fa-trash"></i></button></div></td></tr>
-              </tbody>
-            </table>
-          </div></div>
-        </div>
-      </div>
-
-      <!-- GURU -->
-      <div id="view-guru" style="display:none">
-        <div class="admin-toolbar">
-          <div class="search-wrap"><i class="fa-solid fa-search"></i><input type="text" class="search-input" placeholder="Cari guru/staff..."></div>
-          <button class="btn btn-primary btn-sm" onclick="openModal('guruModal')"><i class="fa-solid fa-plus"></i> Tambah Guru</button>
-        </div>
-        <div class="admin-card"><div class="admin-card-body" style="padding:0 0 16px">
-          <table class="data-table">
-            <thead><tr><th>Nama</th><th>Mata Pelajaran</th><th>Jabatan</th><th>Status</th><th>Aksi</th></tr></thead>
-            <tbody id="guruBody"></tbody>
+          <table class="admin-table">
+            <thead><tr><th>Judul</th><th>Tanggal</th><th>Status</th><th>Aksi</th></tr></thead>
+            <tbody id="dashBeritaList"><tr><td colspan="4" class="loading-cell"><i class="fa-solid fa-spinner fa-spin"></i> Memuat...</td></tr></tbody>
           </table>
-        </div></div>
-      </div>
-
-      <!-- PPDB ADMIN -->
-      <div id="view-ppdb" style="display:none">
-        <div class="dash-stats" style="grid-template-columns:repeat(3,1fr)">
-          <div class="stat-card"><div class="stat-icon blue"><i class="fa-solid fa-users"></i></div><div class="stat-info"><span>Total Pendaftar</span><div class="num" id="ppdbTotal">0</div></div></div>
-          <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-check"></i></div><div class="stat-info"><span>Diterima</span><div class="num" id="ppdbDiterima">0</div></div></div>
-          <div class="stat-card"><div class="stat-icon amber"><i class="fa-solid fa-clock"></i></div><div class="stat-info"><span>Menunggu</span><div class="num" id="ppdbMenunggu">0</div></div></div>
         </div>
-        <div class="admin-card"><div class="admin-card-body" style="padding:0 0 16px">
-          <table class="data-table">
-            <thead><tr><th>Nama Calon Siswa</th><th>Asal Sekolah</th><th>Jurusan</th><th>Tanggal Daftar</th><th>Status</th><th>Aksi</th></tr></thead>
-            <tbody id="ppdbAdminBody"></tbody>
+        <div class="admin-table-wrap">
+          <div class="admin-table-header">
+            <span class="admin-table-title">Pesan Terbaru</span>
+            <button class="btn-outline btn-sm" onclick="switchAdmin('pesan')">Lihat Semua</button>
+          </div>
+          <table class="admin-table">
+            <thead><tr><th>Pengirim</th><th>Subjek</th><th>Status</th></tr></thead>
+            <tbody id="dashPesanList"><tr><td colspan="3" class="loading-cell"><i class="fa-solid fa-spinner fa-spin"></i> Memuat...</td></tr></tbody>
           </table>
-        </div></div>
+        </div>
       </div>
 
-      <!-- MEDIA MANAGER -->
-      <div id="view-media" style="display:none">
-        <div class="upload-zone" onclick="showToast('Pilih file untuk diupload','')">
-          <i class="fa-solid fa-cloud-arrow-up"></i>
-          <p><b>Upload File Media</b></p>
-          <p style="font-size:12px;margin-top:4px">Gambar, dokumen, atau file lainnya</p>
+      <!-- ── HALAMAN ── -->
+      <div id="section-halaman" class="admin-section">
+        <div class="admin-section-header">
+          <div class="admin-section-title">Kelola Halaman <small>Kelola konten halaman statis website</small></div>
+          <button class="btn-primary" onclick="showFormHalaman()"><i class="fa-solid fa-plus"></i> Tambah Halaman</button>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th style="width:50px">No</th><th>Judul Halaman</th><th>Status</th><th style="width:100px">Aksi</th></tr></thead>
+            <tbody id="halamanList"><tr><td colspan="4" class="loading-cell"><i class="fa-solid fa-spinner fa-spin"></i> Memuat...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── BERITA ── -->
+      <div id="section-berita" class="admin-section">
+        <div class="admin-section-header">
+          <div class="admin-section-title">Kelola Berita <small>Tambah, edit, dan publish berita sekolah</small></div>
+          <button class="btn-primary" onclick="showFormBerita()"><i class="fa-solid fa-plus"></i> Tulis Berita</button>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-          <h3 style="font-size:15px;font-weight:700">Semua Media (47 file)</h3>
-          <div class="search-wrap"><i class="fa-solid fa-search"></i><input type="text" class="search-input" placeholder="Cari file..."></div>
+          <div class="filter-bar">
+            <button class="filter-btn active" onclick="loadBerita('semua');setFilter(this)">Semua</button>
+            <button class="filter-btn" onclick="loadBerita('tayang');setFilter(this)">Tayang</button>
+            <button class="filter-btn" onclick="loadBerita('draft');setFilter(this)">Draft</button>
+          </div>
         </div>
-        <div class="media-grid" style="grid-template-columns:repeat(6,1fr)">
-          <div class="media-item"><i class="fa-solid fa-image icon"></i><div class="overlay"><button class="icon-btn del" style="color:white;background:rgba(255,0,0,.4)"><i class="fa-solid fa-trash"></i></button></div></div>
-          <div class="media-item"><i class="fa-solid fa-image icon"></i><div class="overlay"><button class="icon-btn del" style="color:white;background:rgba(255,0,0,.4)"><i class="fa-solid fa-trash"></i></button></div></div>
-          <div class="media-item"><i class="fa-solid fa-image icon"></i><div class="overlay"><button class="icon-btn del" style="color:white;background:rgba(255,0,0,.4)"><i class="fa-solid fa-trash"></i></button></div></div>
-          <div class="media-item" style="background:linear-gradient(135deg,#374151,#6b7280)"><i class="fa-solid fa-file-pdf icon"></i><div class="filename">SK_Kepsek.pdf</div><div class="overlay"><button class="icon-btn del" style="color:white;background:rgba(255,0,0,.4)"><i class="fa-solid fa-trash"></i></button></div></div>
-          <div class="media-item"><i class="fa-solid fa-image icon"></i><div class="overlay"></div></div>
-          <div class="media-item"><i class="fa-solid fa-image icon"></i><div class="overlay"></div></div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Judul & Kategori</th><th>Tanggal</th><th>Status</th><th style="width:80px">Aksi</th></tr></thead>
+            <tbody id="beritaList"><tr><td colspan="4" class="loading-cell"><i class="fa-solid fa-spinner fa-spin"></i> Memuat...</td></tr></tbody>
+          </table>
         </div>
       </div>
 
-      <!-- PENGATURAN -->
-      <div id="view-pengaturan" style="display:none">
-        <div class="settings-grid">
-          <div class="settings-section">
-            <h3><i class="fa-solid fa-palette" style="color:var(--blue)"></i> Tampilan & Tema</h3>
-            <div class="form-group"><label class="form-label">Warna Primer</label>
-              <div class="color-picker-row"><div class="color-preview" style="background:#1e40af"></div><input type="color" class="form-input" value="#1e40af" style="width:80px;height:38px;padding:4px"><span style="font-size:13px;color:var(--gray)">#1e40af</span></div>
+      <!-- ── GALERI ── -->
+      <div id="section-galeri" class="admin-section">
+        <div class="admin-section-header">
+          <div class="admin-section-title">Kelola Galeri <small>Upload dan kelola foto kegiatan sekolah</small></div>
+          <button class="btn-primary" onclick="openModalGaleri()"><i class="fa-solid fa-upload"></i> Upload Foto</button>
+        </div>
+        <div id="galeriGrid">
+          <div class="loading-center"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
+        </div>
+      </div>
+
+      <!-- ── PESAN ── -->
+      <div id="section-pesan" class="admin-section">
+        <div class="admin-section-header">
+          <div class="admin-section-title">Pesan Masuk <small>Pesan dari orang tua dan masyarakat</small></div>
+        </div>
+        <div style="display:flex;margin-bottom:16px">
+          <div class="filter-bar">
+            <button class="filter-btn active" onclick="loadPesan('semua');setFilter(this)">Semua</button>
+            <button class="filter-btn" onclick="loadPesan('baru');setFilter(this)">Belum Dibaca</button>
+            <button class="filter-btn" onclick="loadPesan('dibaca');setFilter(this)">Sudah Dibaca</button>
+          </div>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Pengirim</th><th>Subjek</th><th>Status</th><th>Tanggal</th><th style="width:80px">Aksi</th></tr></thead>
+            <tbody id="pesanList"><tr><td colspan="5" class="loading-cell"><i class="fa-solid fa-spinner fa-spin"></i> Memuat...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+
+      <!-- ── PENGATURAN WEBSITE ── -->
+      <div id="section-pengaturan" class="admin-section">
+        <div class="admin-section-header">
+          <div class="admin-section-title">Pengaturan Website <small>Edit teks dan informasi utama halaman beranda</small></div>
+          <button class="btn-primary" onclick="simpanPengaturan()"><i class="fa-solid fa-save"></i> Simpan Perubahan</button>
+        </div>
+
+        <!-- IDENTITAS SEKOLAH -->
+        <div class="admin-table-wrap" style="margin-bottom:20px">
+          <div class="admin-table-header"><span class="admin-table-title"><i class="fa-solid fa-school" style="color:var(--blue);margin-right:6px"></i>Identitas Sekolah</span></div>
+          <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="form-group">
+              <label>Nama Sekolah</label>
+              <input type="text" id="setPNamaSekolah" placeholder="SDN 1 Contoh">
             </div>
-            <div class="form-group"><label class="form-label">Logo Sekolah</label>
-              <div class="upload-zone" style="padding:16px" onclick="showToast('Pilih file logo','')">
-                <i class="fa-solid fa-image" style="font-size:20px;color:var(--gray)"></i>
-                <p style="font-size:12px;margin-top:4px">Upload logo (PNG/SVG)</p>
-              </div>
+            <div class="form-group">
+              <label>Alamat Singkat (navbar)</label>
+              <input type="text" id="setPAlamatSingkat" placeholder="Kec. Kebon Jeruk, Jakarta">
             </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-              <span style="font-size:14px;font-weight:500">Mode Gelap (Dark Mode)</span>
-              <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+            <div class="form-group">
+              <label>Telepon</label>
+              <input type="text" id="setpTelepon" placeholder="(021) 555-0100">
             </div>
-          </div>
-          <div class="settings-section">
-            <h3><i class="fa-solid fa-school" style="color:var(--blue)"></i> Informasi Sekolah</h3>
-            <div class="form-group"><label class="form-label">Nama Website</label><input class="form-input" value="SMA Nusantara Bangsa"></div>
-            <div class="form-group"><label class="form-label">Tagline</label><input class="form-input" value="Unggul, Berkarakter, Berdaya Saing"></div>
-            <div class="form-group"><label class="form-label">WhatsApp</label><input class="form-input" value="+62 812 3456 7890"></div>
-          </div>
-          <div class="settings-section">
-            <h3><i class="fa-solid fa-share-nodes" style="color:var(--blue)"></i> Media Sosial</h3>
-            <div class="form-group"><label class="form-label"><i class="fa-brands fa-instagram"></i> Instagram</label><input class="form-input" value="@smanusantara"></div>
-            <div class="form-group"><label class="form-label"><i class="fa-brands fa-facebook"></i> Facebook</label><input class="form-input" value="SMA Nusantara Bangsa"></div>
-            <div class="form-group"><label class="form-label"><i class="fa-brands fa-youtube"></i> YouTube</label><input class="form-input" value="SMA Nusantara Official"></div>
-          </div>
-          <div class="settings-section">
-            <h3><i class="fa-solid fa-shield-halved" style="color:var(--blue)"></i> Keamanan</h3>
-            <div class="form-group"><label class="form-label">Ganti Password</label><input type="password" class="form-input" placeholder="Password baru"></div>
-            <div class="form-group"><label class="form-label">Konfirmasi Password</label><input type="password" class="form-input" placeholder="Ulang password baru"></div>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-              <span style="font-size:14px;font-weight:500">Login 2 Faktor</span>
-              <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="text" id="setpEmail" placeholder="info@sdn1contoh.sch.id">
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+              <label>Alamat Lengkap</label>
+              <input type="text" id="setpAlamatLengkap" placeholder="Jl. Contoh No.1, Kebon Jeruk, Jakarta Barat 11530">
             </div>
           </div>
         </div>
-        <div style="margin-top:8px"><button class="btn btn-primary" onclick="showToast('Pengaturan berhasil disimpan','')"><i class="fa-solid fa-save"></i> Simpan Semua Pengaturan</button></div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- ============ PUBLIC WEBSITE ============ -->
-<div id="public-site">
-<!-- NAVIGATION -->
-<nav id="mainNav">
-  <div class="nav-inner">
-    <div class="nav-logo">
-      <div class="logo-icon">N</div>
-      <div class="logo-text"><h1>SMA Nusantara Bangsa</h1><span>Terakreditasi A • Est. 1985</span></div>
-    </div>
-    <div class="nav-menu">
-      <a href="#" class="active" onclick="showPage('home',this)">Beranda</a>
-      <a href="#" onclick="showPage('profil',this)">Profil</a>
-      <a href="#" onclick="showPage('akademik',this)">Akademik</a>
-      <a href="#" onclick="showPage('info',this)">Informasi</a>
-      <a href="#" onclick="showPage('ppdb',this)">PPDB</a>
-      <a href="#" onclick="showPage('kontak',this)">Kontak</a>
-    </div>
-    <div class="nav-actions">
-      <button class="btn btn-outline btn-sm" onclick="showLogin()"><i class="fa-solid fa-lock"></i> Admin</button>
-      <button class="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-</nav>
-
-<!-- HOME PAGE -->
-<div id="page-home" class="page active">
-  <div class="hero">
-    <div class="hero-content">
-      <div>
-        <div class="hero-badge"><i class="fa-solid fa-star"></i> Akreditasi A — Unggul 2025</div>
-        <h1>Cetak Generasi<br><em>Unggul & Berkarakter</em><br>untuk Indonesia</h1>
-        <p>SMA Nusantara Bangsa hadir dengan pendidikan berkualitas, lingkungan kondusif, dan kurikulum modern yang mempersiapkan siswa menghadapi tantangan global.</p>
-        <div class="hero-btns">
-          <button class="btn btn-primary" onclick="showPage('ppdb',document.querySelector('.nav-menu a:nth-child(5)'))"><i class="fa-solid fa-user-plus"></i> Daftar PPDB 2025</button>
-          <button class="btn" style="background:rgba(255,255,255,.15);color:white;border:1px solid rgba(255,255,255,.3)" onclick="showPage('profil',null)"><i class="fa-solid fa-play"></i> Lihat Profil</button>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <div class="hero-card">
-          <h3>Statistik Sekolah 2025</h3>
-          <div class="stats-row">
-            <div class="stat-item"><div class="num">1.2K</div><div class="label">Siswa Aktif</div></div>
-            <div class="stat-item"><div class="num">89</div><div class="label">Tenaga Pengajar</div></div>
-            <div class="stat-item"><div class="num">40+</div><div class="label">Tahun Berdiri</div></div>
-            <div class="stat-item"><div class="num">98%</div><div class="label">Kelulusan</div></div>
-          </div>
-        </div>
-        <div class="hero-badges">
-          <div class="badge"><i class="fa-solid fa-trophy"></i> Juara OSN</div>
-          <div class="badge"><i class="fa-solid fa-medal"></i> FLSN Nasional</div>
-          <div class="badge"><i class="fa-solid fa-award"></i> Adiwiyata</div>
-          <div class="badge"><i class="fa-solid fa-graduation-cap"></i> 100% PTN</div>
-          <div class="badge"><i class="fa-solid fa-shield"></i> ISO 9001</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- GREETING -->
-  <section class="greeting">
-    <div class="container">
-      <div class="greeting-inner">
-        <div class="principal-card">
-          <div class="principal-avatar"><i class="fa-solid fa-user-tie"></i></div>
-          <h3>Dr. H. Ahmad Fauzi, M.Pd</h3>
-          <div class="role">Kepala Sekolah</div>
-          <div class="quote">"Pendidikan bukan hanya tentang ilmu, tapi membentuk karakter yang kuat untuk kehidupan."</div>
-        </div>
-        <div class="greeting-text">
-          <div class="section-tag">Sambutan Kepala Sekolah</div>
-          <h2>Selamat Datang di SMA Nusantara Bangsa</h2>
-          <p>Assalamu'alaikum Warahmatullahi Wabarakatuh. Kami menyambut Anda di website resmi SMA Nusantara Bangsa, sekolah yang telah berdiri selama lebih dari 40 tahun dengan komitmen penuh dalam mencerdaskan generasi bangsa.</p>
-          <p>Dengan tenaga pengajar berpengalaman, fasilitas modern, dan kurikulum yang terus diperbarui, kami memastikan setiap siswa mendapatkan pendidikan terbaik yang mempersiapkan mereka untuk masa depan yang gemilang.</p>
-          <button class="btn btn-primary" onclick="showPage('profil',null)"><i class="fa-solid fa-arrow-right"></i> Selengkapnya</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- NEWS -->
-  <section>
-    <div class="container">
-      <div class="section-header">
-        <div class="section-tag">Terkini</div>
-        <h2>Berita & Pengumuman</h2>
-        <p>Informasi terbaru seputar kegiatan dan perkembangan sekolah</p>
-      </div>
-      <div class="news-grid" id="publicNewsList">
-        <div class="news-card">
-          <div class="news-img"><i class="fa-solid fa-trophy"></i></div>
-          <div class="news-body">
-            <div class="news-cat">Prestasi</div>
-            <h3>Siswa SMA Nusantara Raih Medali Emas OSN Matematika Provinsi 2025</h3>
-            <p>Keberhasilan ini menjadi kebanggaan bagi seluruh warga sekolah dan orang tua siswa...</p>
-            <div class="news-meta"><i class="fa-regular fa-calendar"></i> 15 Januari 2025 <i class="fa-regular fa-clock" style="margin-left:8px"></i> 5 menit baca</div>
-          </div>
-        </div>
-        <div class="news-card">
-          <div class="news-img"><i class="fa-solid fa-users"></i></div>
-          <div class="news-body">
-            <div class="news-cat">Kegiatan</div>
-            <h3>Pekan Seni & Budaya 2025 Resmi Dibuka dengan Penuh Semangat</h3>
-            <p>Ratusan siswa tampil memukau dalam berbagai pertunjukan seni dan budaya Nusantara...</p>
-            <div class="news-meta"><i class="fa-regular fa-calendar"></i> 10 Januari 2025</div>
-          </div>
-        </div>
-        <div class="news-card">
-          <div class="news-img"><i class="fa-solid fa-graduation-cap"></i></div>
-          <div class="news-body">
-            <div class="news-cat">Akademik</div>
-            <h3>100% Siswa Angkatan 2024 Berhasil Masuk Perguruan Tinggi Negeri</h3>
-            <p>Pencapaian luar biasa ini merupakan hasil kerja keras seluruh civitas akademika...</p>
-            <div class="news-meta"><i class="fa-regular fa-calendar"></i> 5 Januari 2025</div>
-          </div>
-        </div>
-      </div>
-      <div style="text-align:center;margin-top:32px">
-        <button class="btn btn-outline" onclick="showPage('info',null)">Lihat Semua Berita <i class="fa-solid fa-arrow-right"></i></button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ANNOUNCEMENTS -->
-  <section class="announce-bg">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-tag">Penting</div>
-        <h2>Pengumuman</h2>
-      </div>
-      <div class="announce-list" id="publicAnnouncementList">
-        <div class="announce-item">
-          <div class="announce-icon warn"><i class="fa-solid fa-triangle-exclamation"></i></div>
-          <div class="announce-content"><h4>Pendaftaran PPDB 2025/2026 Telah Dibuka</h4><p>Penerimaan Peserta Didik Baru jalur prestasi dan reguler kini resmi dibuka. Kuota terbatas!</p><div class="announce-date">📅 Berlaku hingga 30 Maret 2025</div></div>
-          <button class="btn btn-accent btn-sm" onclick="showPage('ppdb',null)">Daftar</button>
-        </div>
-        <div class="announce-item">
-          <div class="announce-icon"><i class="fa-solid fa-calendar"></i></div>
-          <div class="announce-content"><h4>Ujian Tengah Semester Genap — Jadwal Diperbarui</h4><p>UTS Semester Genap TA 2024/2025 dilaksanakan pada tanggal 20–27 Februari 2025.</p><div class="announce-date">📅 20 – 27 Februari 2025</div></div>
-        </div>
-        <div class="announce-item">
-          <div class="announce-icon red"><i class="fa-solid fa-circle-info"></i></div>
-          <div class="announce-content"><h4>Libur Semester dan Hari Besar Nasional</h4><p>Sekolah diliburkan pada tanggal 7–15 Februari 2025 dalam rangka liburan semester ganjil.</p><div class="announce-date">📅 7 – 15 Februari 2025</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- GALLERY -->
-  <section>
-    <div class="container">
-      <div class="section-header">
-        <div class="section-tag">Dokumentasi</div>
-        <h2>Galeri Sekolah</h2>
-        <p>Momen-momen berkesan dari berbagai kegiatan sekolah</p>
-      </div>
-      <div class="gallery-grid">
-        <div class="gallery-item"><i class="fa-solid fa-users"></i></div>
-        <div class="gallery-item"><i class="fa-solid fa-futbol"></i></div>
-        <div class="gallery-item"><i class="fa-solid fa-music"></i></div>
-        <div class="gallery-item"><i class="fa-solid fa-flask"></i></div>
-        <div class="gallery-item"><i class="fa-solid fa-book"></i></div>
-        <div class="gallery-item"><i class="fa-solid fa-palette"></i></div>
-        <div class="gallery-item"><i class="fa-solid fa-graduation-cap"></i></div>
-        <div class="gallery-item"><i class="fa-solid fa-trophy"></i></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ACHIEVEMENTS -->
-  <section style="background:var(--blue-pale)">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-tag">Kebanggaan Kami</div>
-        <h2>Prestasi Siswa</h2>
-        <p>Berbagai penghargaan yang membanggakan dari siswa-siswi terbaik kami</p>
-      </div>
-      <div class="achieve-grid">
-        <div class="achieve-card"><div class="achieve-medal"><i class="fa-solid fa-medal"></i></div><h3>Juara 1 OSN Matematika Nasional</h3><p>Diraih oleh Ahmad Rizky — Kelas XI IPA 2 • 2024</p></div>
-        <div class="achieve-card"><div class="achieve-medal"><i class="fa-solid fa-trophy"></i></div><h3>Juara 2 FLSN Seni Tari Tingkat Provinsi</h3><p>Tim Tari SMA Nusantara • Provinsi Jawa Barat • 2024</p></div>
-        <div class="achieve-card"><div class="achieve-medal"><i class="fa-solid fa-award"></i></div><h3>Juara 1 Debat Bahasa Inggris Antar-SMA</h3><p>Siti Nurhaliza & Tim • Kota Bandung • 2024</p></div>
-        <div class="achieve-card"><div class="achieve-medal"><i class="fa-solid fa-star"></i></div><h3>Lolos 100% ke PTN Melalui SNBP</h3><p>Angkatan 2024 — 98% masuk universitas pilihan pertama</p></div>
-        <div class="achieve-card"><div class="achieve-medal"><i class="fa-solid fa-leaf"></i></div><h3>Penghargaan Adiwiyata Mandiri Nasional</h3><p>Sekolah Hijau & Ramah Lingkungan • Kemendikbud 2023</p></div>
-        <div class="achieve-card"><div class="achieve-medal"><i class="fa-solid fa-chess-king"></i></div><h3>Juara Umum O2SN Cabang Atletik</h3><p>8 Medali Emas • Tingkat Kota Bandung • 2024</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section>
-    <div class="container">
-      <div class="section-header">
-        <div class="section-tag">Kata Mereka</div>
-        <h2>Testimoni Alumni & Orang Tua</h2>
-      </div>
-      <div class="testi-grid">
-        <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"SMA Nusantara benar-benar mengubah hidup saya. Guru-gurunya luar biasa dan selalu mendukung potensi kami."</p><div class="testi-author"><div class="testi-avatar">AR</div><div class="testi-info"><h4>Ahmad Rizky</h4><span>Alumni 2023 • Mahasiswa ITB</span></div></div></div>
-        <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"Anak saya berkembang pesat sejak bersekolah di sini. Bukan hanya akademik, tapi karakter dan kepemimpinannya juga terbentuk."</p><div class="testi-author"><div class="testi-avatar" style="background:#059669">IR</div><div class="testi-info"><h4>Ibu Ratna Dewi</h4><span>Orang Tua Siswa Kelas XII</span></div></div></div>
-        <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"Fasilitas lengkap, guru kompeten, dan lingkungan yang sangat kondusif untuk belajar. Pilihan terbaik untuk pendidikan anak!"</p><div class="testi-author"><div class="testi-avatar" style="background:#7c3aed">BS</div><div class="testi-info"><h4>Bapak Sutrisno</h4><span>Orang Tua Siswa Kelas X</span></div></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <h3>🎓 SMA Nusantara Bangsa</h3>
-          <p>Sekolah Menengah Atas terbaik yang berkomitmen menghasilkan generasi unggul, berkarakter, dan siap menghadapi tantangan global.</p>
-          <div class="social-links">
-            <a class="social-link"><i class="fa-brands fa-instagram"></i></a>
-            <a class="social-link"><i class="fa-brands fa-facebook"></i></a>
-            <a class="social-link"><i class="fa-brands fa-youtube"></i></a>
-            <a class="social-link"><i class="fa-brands fa-tiktok"></i></a>
-          </div>
-        </div>
-        <div>
-          <h4>Menu Utama</h4>
-          <ul>
-            <li><a href="#" onclick="showPage('home',null)">Beranda</a></li>
-            <li><a href="#" onclick="showPage('profil',null)">Profil Sekolah</a></li>
-            <li><a href="#" onclick="showPage('akademik',null)">Akademik</a></li>
-            <li><a href="#" onclick="showPage('info',null)">Informasi</a></li>
-            <li><a href="#" onclick="showPage('ppdb',null)">PPDB 2025</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Informasi</h4>
-          <ul>
-            <li><a href="#">Kalender Akademik</a></li>
-            <li><a href="#">Jadwal Pelajaran</a></li>
-            <li><a href="#">Ekstrakurikuler</a></li>
-            <li><a href="#">Beasiswa</a></li>
-            <li><a href="#">Alumni</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Kontak</h4>
-          <ul>
-            <li><a href="#">📍 Jl. Pendidikan No. 45, Bandung</a></li>
-            <li><a href="#">📞 (022) 1234567</a></li>
-            <li><a href="#">✉️ info@smanusantara.sch.id</a></li>
-            <li><a href="#">💬 WhatsApp Admin</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© 2025 SMA Nusantara Bangsa. Hak Cipta Dilindungi.</span>
-        <span>Dirancang dengan ❤️ untuk pendidikan Indonesia</span>
-      </div>
-    </div>
-  </footer>
-</div>
-
-<!-- PROFIL PAGE -->
-<div id="page-profil" class="page">
-  <div class="page-hero">
-    <div class="container">
-      <div class="breadcrumb">Beranda <span>›</span> <span>Profil Sekolah</span></div>
-      <h1 id="publicProfilTitle">Profil Sekolah</h1>
-      <p id="publicProfilSubtitle">Mengenal lebih dekat SMA Nusantara Bangsa</p>
-    </div>
-  </div>
-  <div class="content-section">
-    <div class="container">
-      <div class="vision-mission">
-        <div class="vm-card">
-          <h3><div class="vm-icon"><i class="fa-solid fa-eye"></i></div>Visi Sekolah</h3>
-          <p id="publicVisiText" style="color:var(--slate);line-height:1.8">Menjadi sekolah unggul, berkarakter, dan berdaya saing global berlandaskan iman dan taqwa.</p>
-        </div>
-        <div class="vm-card">
-          <h3><div class="vm-icon" style="background:var(--green)"><i class="fa-solid fa-bullseye"></i></div>Misi Sekolah</h3>
-          <ul id="publicMisiList" style="color:var(--slate);line-height:1.9;padding-left:20px">
-            <li>Menyelenggarakan pendidikan berkualitas berbasis kurikulum nasional</li>
-            <li>Mengembangkan karakter dan akhlak mulia peserta didik</li>
-            <li>Meningkatkan kompetensi guru dan tenaga kependidikan</li>
-            <li>Memfasilitasi pengembangan bakat dan minat siswa</li>
-          </ul>
-        </div>
-      </div>
-      <div class="section-header" style="text-align:left;margin-bottom:28px"><h2 style="font-family:var(--font-serif);font-size:32px">Data Guru & Staff</h2></div>
-      <div class="teacher-grid">
-        <div class="teacher-card"><div class="teacher-avatar"><i class="fa-solid fa-user-tie"></i></div><h4>Dr. H. Ahmad Fauzi</h4><div class="subject">Kepala Sekolah</div><p>M.Pd • 20 tahun pengalaman</p></div>
-        <div class="teacher-card"><div class="teacher-avatar"><i class="fa-solid fa-calculator"></i></div><h4>Siti Aminah, S.Pd</h4><div class="subject">Matematika</div><p>S.Pd • 15 tahun mengajar</p></div>
-        <div class="teacher-card"><div class="teacher-avatar"><i class="fa-solid fa-flask"></i></div><h4>Budi Santoso, M.Si</h4><div class="subject">Fisika</div><p>M.Si • 12 tahun mengajar</p></div>
-        <div class="teacher-card"><div class="teacher-avatar"><i class="fa-solid fa-language"></i></div><h4>Sarah Putri, M.Pd</h4><div class="subject">Bahasa Inggris</div><p>M.Pd • 10 tahun mengajar</p></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- AKADEMIK PAGE -->
-<div id="page-akademik" class="page">
-  <div class="page-hero">
-    <div class="container">
-      <div class="breadcrumb">Beranda <span>›</span> <span>Akademik</span></div>
-      <h1>Informasi Akademik</h1>
-      <p>Kurikulum, jadwal, dan program unggulan SMA Nusantara Bangsa</p>
-    </div>
-  </div>
-  <div class="content-section">
-    <div class="container">
-      <div class="section-header" style="text-align:left;margin-bottom:28px"><h2 style="font-family:var(--font-serif);font-size:32px">Program Kurikulum</h2></div>
-      <div class="curriculum-grid">
-        <div class="curriculum-card"><div class="icon">📚</div><h3>Kurikulum Merdeka</h3><p style="font-size:13px;color:var(--gray)">Implementasi Kurikulum Merdeka dengan pendekatan berbasis proyek dan penguatan profil pelajar Pancasila.</p></div>
-        <div class="curriculum-card"><div class="icon">🔬</div><h3>Program STEM</h3><p style="font-size:13px;color:var(--gray)">Penguatan sains, teknologi, rekayasa, dan matematika untuk menghadapi industri 4.0.</p></div>
-        <div class="curriculum-card"><div class="icon">🌐</div><h3>Program Bilingual</h3><p style="font-size:13px;color:var(--gray)">Beberapa mata pelajaran diajarkan dalam Bahasa Indonesia dan Inggris secara terintegrasi.</p></div>
-      </div>
-      <div class="section-header" style="text-align:left;margin-bottom:28px"><h2 style="font-family:var(--font-serif);font-size:32px">Jadwal Pelajaran</h2></div>
-      <div style="overflow-x:auto;margin-bottom:48px">
-        <table class="schedule-table">
-          <thead><tr><th>Jam</th><th>Senin</th><th>Selasa</th><th>Rabu</th><th>Kamis</th><th>Jumat</th></tr></thead>
-          <tbody>
-            <tr><td>07.00–08.30</td><td>Matematika</td><td>Bahasa Indonesia</td><td>Fisika</td><td>Kimia</td><td>Biologi</td></tr>
-            <tr><td>08.30–10.00</td><td>Bahasa Inggris</td><td>Fisika</td><td>Matematika</td><td>Sejarah</td><td>Ekonomi</td></tr>
-            <tr><td>10.00–11.30</td><td>Kimia</td><td>Geografi</td><td>Bahasa Inggris</td><td>Matematika</td><td>Pendidikan Agama</td></tr>
-            <tr><td>12.30–14.00</td><td>Biologi</td><td>Seni Budaya</td><td>PJOK</td><td>Prakarya</td><td>—</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="section-header" style="text-align:left;margin-bottom:20px"><h2 style="font-family:var(--font-serif);font-size:32px">Ekstrakurikuler</h2></div>
-      <div class="extracurr-grid">
-        <div class="extracurr-card"><div class="icon">⚽</div><h4>Sepak Bola</h4></div>
-        <div class="extracurr-card"><div class="icon">🎭</div><h4>Teater</h4></div>
-        <div class="extracurr-card"><div class="icon">🎸</div><h4>Band & Musik</h4></div>
-        <div class="extracurr-card"><div class="icon">💻</div><h4>Coding Club</h4></div>
-        <div class="extracurr-card"><div class="icon">📷</div><h4>Fotografi</h4></div>
-        <div class="extracurr-card"><div class="icon">🥊</div><h4>Pencak Silat</h4></div>
-        <div class="extracurr-card"><div class="icon">🎨</div><h4>Seni Lukis</h4></div>
-        <div class="extracurr-card"><div class="icon">🔭</div><h4>Astronomi</h4></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- INFO PAGE -->
-<div id="page-info" class="page">
-  <div class="page-hero">
-    <div class="container">
-      <div class="breadcrumb">Beranda <span>›</span> <span>Informasi</span></div>
-      <h1>Berita & Informasi</h1>
-    </div>
-  </div>
-  <div class="content-section">
-    <div class="container">
-      <div class="news-grid">
-        <div class="news-card"><div class="news-img"><i class="fa-solid fa-trophy"></i></div><div class="news-body"><div class="news-cat">Prestasi</div><h3>Juara OSN Matematika Provinsi 2025</h3><p>Keberhasilan gemilang membanggakan seluruh civitas akademika sekolah...</p><div class="news-meta"><i class="fa-regular fa-calendar"></i> 15 Jan 2025</div></div></div>
-        <div class="news-card"><div class="news-img"><i class="fa-solid fa-users"></i></div><div class="news-body"><div class="news-cat">Kegiatan</div><h3>Pekan Seni & Budaya 2025 Dibuka Meriah</h3><p>Ratusan siswa tampil memukau dalam pertunjukan seni Nusantara...</p><div class="news-meta"><i class="fa-regular fa-calendar"></i> 10 Jan 2025</div></div></div>
-        <div class="news-card"><div class="news-img"><i class="fa-solid fa-graduation-cap"></i></div><div class="news-body"><div class="news-cat">Akademik</div><h3>100% Lulusan 2024 Masuk PTN</h3><p>Pencapaian luar biasa yang menjadi kebanggaan bersama...</p><div class="news-meta"><i class="fa-regular fa-calendar"></i> 5 Jan 2025</div></div></div>
-        <div class="news-card"><div class="news-img"><i class="fa-solid fa-leaf"></i></div><div class="news-body"><div class="news-cat">Lingkungan</div><h3>Penghargaan Adiwiyata Mandiri Nasional</h3><p>Sekolah berhasil meraih predikat Adiwiyata Mandiri dari Kemendikbud...</p><div class="news-meta"><i class="fa-regular fa-calendar"></i> 28 Des 2024</div></div></div>
-        <div class="news-card"><div class="news-img"><i class="fa-solid fa-handshake"></i></div><div class="news-body"><div class="news-cat">Kerjasama</div><h3>MoU dengan Universitas Padjadjaran Ditandatangani</h3><p>Kerjasama strategis dalam bidang pendidikan dan penelitian...</p><div class="news-meta"><i class="fa-regular fa-calendar"></i> 20 Des 2024</div></div></div>
-        <div class="news-card"><div class="news-img"><i class="fa-solid fa-building"></i></div><div class="news-body"><div class="news-cat">Fasilitas</div><h3>Laboratorium Sains Baru Diresmikan</h3><p>Fasilitas laboratorium modern dengan peralatan terkini untuk mendukung pembelajaran...</p><div class="news-meta"><i class="fa-regular fa-calendar"></i> 15 Des 2024</div></div></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- PPDB PAGE -->
-<div id="page-ppdb" class="page">
-  <div class="page-hero" style="background:linear-gradient(135deg,#064e3b,#059669)">
-    <div class="container">
-      <div class="breadcrumb">Beranda <span>›</span> <span>PPDB 2025</span></div>
-      <h1>PPDB 2025/2026</h1>
-      <p>Penerimaan Peserta Didik Baru — Tahun Pelajaran 2025/2026</p>
-    </div>
-  </div>
-  <div class="content-section">
-    <div class="container">
-      <div class="section-header"><div class="section-tag">Alur Pendaftaran</div><h2>4 Langkah Mudah Mendaftar</h2></div>
-      <div class="ppdb-steps">
-        <div class="step-card"><div class="step-num">1</div><h4>Daftar Online</h4><p style="font-size:13px;color:var(--gray)">Isi formulir pendaftaran online dengan lengkap dan benar</p></div>
-        <div class="step-card"><div class="step-num">2</div><h4>Upload Dokumen</h4><p style="font-size:13px;color:var(--gray)">Unggah dokumen persyaratan yang telah ditentukan</p></div>
-        <div class="step-card"><div class="step-num">3</div><h4>Seleksi</h4><p style="font-size:13px;color:var(--gray)">Proses seleksi berkas dan wawancara (jika diperlukan)</p></div>
-        <div class="step-card"><div class="step-num">4</div><h4>Pengumuman</h4><p style="font-size:13px;color:var(--gray)">Cek hasil seleksi dan lakukan daftar ulang</p></div>
-      </div>
-      <div class="ppdb-form">
-        <h2 style="font-family:var(--font-serif);font-size:28px;margin-bottom:24px;text-align:center">Form Pendaftaran Online</h2>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">Nama Lengkap *</label><input class="form-input" id="ppdbNama" placeholder="Nama sesuai ijazah"></div>
-          <div class="form-group"><label class="form-label">Tanggal Lahir *</label><input type="date" class="form-input" id="ppdbTanggalLahir"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">Jenis Kelamin *</label><select class="form-input" id="ppdbJenisKelamin"><option value="">Pilih jenis kelamin</option><option>Laki-laki</option><option>Perempuan</option></select></div>
-          <div class="form-group"><label class="form-label">Asal Sekolah *</label><input class="form-input" id="ppdbAsalSekolah" placeholder="Nama SMP/MTs asal"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">Jurusan Pilihan *</label><select class="form-input" id="ppdbJurusan"><option value="">Pilih jurusan</option><option>IPA (Ilmu Pengetahuan Alam)</option><option>IPS (Ilmu Pengetahuan Sosial)</option><option>Bahasa & Budaya</option></select></div>
-          <div class="form-group"><label class="form-label">Jalur Masuk *</label><select class="form-input" id="ppdbJalurMasuk"><option value="">Pilih jalur</option><option>Jalur Prestasi</option><option>Jalur Reguler</option><option>Jalur Afirmasi</option></select></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">No. HP Orang Tua *</label><input class="form-input" id="ppdbNoHpOrtu" placeholder="08xxxxxxxxxx"></div>
-          <div class="form-group"><label class="form-label">Email Aktif *</label><input type="email" class="form-input" id="ppdbEmail" placeholder="email@gmail.com"></div>
-        </div>
-        <div class="form-group"><label class="form-label">Alamat Lengkap *</label><textarea class="form-input" id="ppdbAlamat" placeholder="Alamat lengkap calon siswa..."></textarea></div>
-        <button class="btn btn-success" style="width:100%;justify-content:center;padding:14px;font-size:16px" onclick="submitPPDB()">
-          <i class="fa-solid fa-paper-plane"></i> Kirim Pendaftaran
-        </button>
-        <p style="font-size:12px;color:var(--gray);text-align:center;margin-top:12px">Dengan mendaftar, Anda menyetujui syarat dan ketentuan PPDB yang berlaku.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- KONTAK PAGE -->
-<div id="page-kontak" class="page">
-  <div class="page-hero">
-    <div class="container">
-      <div class="breadcrumb">Beranda <span>›</span> <span>Kontak</span></div>
-      <h1>Hubungi Kami</h1>
-      <p>Kami siap membantu pertanyaan dan kebutuhan Anda</p>
-    </div>
-  </div>
-  <div class="content-section">
-    <div class="container">
-      <div class="contact-grid">
-        <div>
-          <div class="contact-info-card">
-            <h3 style="font-size:18px;font-weight:700;margin-bottom:20px">Informasi Kontak</h3>
-            <div class="contact-item"><div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div><div><h4>Alamat</h4><p>Jl. Pendidikan No. 45, Kel. Merdeka,<br>Kec. Sukamaju, Kota Bandung, Jabar 40123</p></div></div>
-            <div class="contact-item"><div class="contact-icon"><i class="fa-solid fa-phone"></i></div><div><h4>Telepon</h4><p>(022) 1234567<br>Senin–Jumat, 07.00–16.00 WIB</p></div></div>
-            <div class="contact-item"><div class="contact-icon"><i class="fa-solid fa-envelope"></i></div><div><h4>Email</h4><p>info@smanusantara.sch.id</p></div></div>
-            <div class="contact-item"><div class="contact-icon" style="background:#e8f5e9;color:#2e7d32"><i class="fa-brands fa-whatsapp"></i></div><div><h4>WhatsApp</h4><p>+62 812 3456 7890<br>(Pesan dbalas jam 08.00–15.00 WIB)</p></div></div>
-          </div>
-        </div>
-        <div>
-          <div class="map-embed"><i class="fa-solid fa-map-location-dot" style="color:var(--blue);font-size:50px"></i></div>
-          <div class="contact-info-card">
-            <h3 style="font-size:18px;font-weight:700;margin-bottom:20px">Kirim Pesan</h3>
-            <div class="form-row">
-              <div class="form-group"><label class="form-label">Nama</label><input class="form-input" placeholder="Nama Anda"></div>
-              <div class="form-group"><label class="form-label">Email</label><input class="form-input" placeholder="email@gmail.com"></div>
+        <!-- HERO BERANDA -->
+        <div class="admin-table-wrap" style="margin-bottom:20px">
+          <div class="admin-table-header"><span class="admin-table-title"><i class="fa-solid fa-house" style="color:var(--blue);margin-right:6px"></i>Hero Beranda</span></div>
+          <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="form-group">
+              <label>Badge (label kecil di atas judul)</label>
+              <input type="text" id="setPHeroBadge" placeholder="✦ Tahun Pelajaran 2025/2026">
             </div>
-            <div class="form-group"><label class="form-label">Subjek</label><input class="form-input" placeholder="Subjek pesan"></div>
-            <div class="form-group"><label class="form-label">Pesan</label><textarea class="form-input" placeholder="Tulis pesan Anda..."></textarea></div>
-            <button class="btn btn-primary" onclick="showToast('Pesan berhasil terkirim! Kami akan menghubungi Anda segera.','')"><i class="fa-solid fa-paper-plane"></i> Kirim Pesan</button>
+            <div class="form-group">
+              <label>Nama di Hero (teks biru besar)</label>
+              <input type="text" id="setPHeroNama" placeholder="SDN 1 Contoh">
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+              <label>Tagline / Deskripsi Hero</label>
+              <input type="text" id="setPHeroTagline" placeholder="Membentuk generasi cerdas, berkarakter, dan berprestasi...">
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div><!-- /public-site -->
 
-<!-- MODALS -->
-<div class="modal-overlay" id="beritaModal">
-  <div class="modal">
-    <div class="modal-header"><h3 id="beritaModalTitle">Tambah Berita Baru</h3><button class="modal-close" onclick="closeModal('beritaModal')">×</button></div>
+        <!-- STATISTIK -->
+        <div class="admin-table-wrap" style="margin-bottom:20px">
+          <div class="admin-table-header"><span class="admin-table-title"><i class="fa-solid fa-chart-bar" style="color:var(--blue);margin-right:6px"></i>Statistik Beranda (3 angka di bawah hero)</span></div>
+          <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+            <div>
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase">Statistik 1</div>
+              <div class="form-group"><label>Angka</label><input type="text" id="setPStat1Num" placeholder="450+"></div>
+              <div class="form-group"><label>Label</label><input type="text" id="setPStat1Label" placeholder="Siswa Aktif"></div>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase">Statistik 2</div>
+              <div class="form-group"><label>Angka</label><input type="text" id="setPStat2Num" placeholder="28"></div>
+              <div class="form-group"><label>Label</label><input type="text" id="setPStat2Label" placeholder="Guru & Staff"></div>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase">Statistik 3</div>
+              <div class="form-group"><label>Angka</label><input type="text" id="setPStat3Num" placeholder="30+"></div>
+              <div class="form-group"><label>Label</label><input type="text" id="setPStat3Label" placeholder="Tahun Berdiri"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROFIL SEKOLAH -->
+        <div class="admin-table-wrap" style="margin-bottom:20px">
+          <div class="admin-table-header"><span class="admin-table-title"><i class="fa-solid fa-circle-info" style="color:var(--blue);margin-right:6px"></i>Halaman Profil Sekolah</span></div>
+          <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="form-group">
+              <label>NPSN</label>
+              <input type="text" id="setPNPSN" placeholder="12345678">
+            </div>
+            <div class="form-group">
+              <label>Akreditasi</label>
+              <input type="text" id="setPAkreditasi" placeholder="A — Unggul">
+            </div>
+            <div class="form-group">
+              <label>Kepala Sekolah</label>
+              <input type="text" id="setPKepsek" placeholder="Drs. Hendra Kusuma, M.Pd">
+            </div>
+            <div class="form-group">
+              <label>Jam Operasional</label>
+              <input type="text" id="setPJamOps" placeholder="Senin–Jumat: 07.00–14.00 WIB">
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+              <label>Visi Sekolah</label>
+              <textarea id="setPVisi" rows="3" placeholder="Menjadi sekolah dasar unggulan..."></textarea>
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+              <label>Sejarah Singkat</label>
+              <textarea id="setPSejarah" rows="4" placeholder="SDN 1 Contoh berdiri sejak..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:4px">
+          <button class="btn-primary" onclick="simpanPengaturan()"><i class="fa-solid fa-save"></i> Simpan Semua Perubahan</button>
+          <button class="btn-outline" onclick="loadPengaturan()"><i class="fa-solid fa-rotate-right"></i> Reset ke Data Tersimpan</button>
+        </div>
+      </div>
+
+    </div><!-- end admin-main -->
+  </div><!-- end admin-body -->
+</div><!-- end adminPanel -->
+
+<!-- ════════════════════════════════════════
+     MODALS
+════════════════════════════════════════ -->
+
+<!-- Modal: Form Halaman -->
+<div id="modalHalaman" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">Form Halaman</h3>
+      <button class="modal-close" onclick="closeFormHalaman()">&times;</button>
+    </div>
     <div class="modal-body">
-      <div class="form-group"><label class="form-label">Judul Berita *</label><input class="form-input" id="bJudul" placeholder="Masukkan judul berita..."></div>
+      <input type="hidden" id="formHalamanId">
+      <div class="form-group">
+        <label>Judul Halaman <span style="color:red">*</span></label>
+        <input type="text" id="formHalamanJudul" placeholder="contoh: Profil Sekolah">
+      </div>
       <div class="form-row">
-        <div class="form-group"><label class="form-label">Kategori</label>
-          <select class="form-input" id="bKategori">
-            <option>Akademik</option><option>Prestasi</option><option>Kegiatan</option><option>Kerjasama</option><option>Fasilitas</option><option>Umum</option>
+        <div class="form-group">
+          <label>Slug URL</label>
+          <input type="text" id="formHalamanSlug" placeholder="profil-sekolah">
+        </div>
+        <div class="form-group">
+          <label>Urutan</label>
+          <input type="number" id="formHalamanUrutan" placeholder="1">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Isi Halaman</label>
+        <textarea id="formHalamanIsi" rows="6" placeholder="Tulis konten halaman di sini..."></textarea>
+      </div>
+      <div class="form-group" style="display:flex;align-items:center;gap:8px">
+        <input type="checkbox" id="formHalamanAktif" checked style="width:auto">
+        <label for="formHalamanAktif" style="margin:0">Halaman aktif / tampil di menu</label>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn-primary" onclick="simpanHalaman()"><i class="fa-solid fa-save"></i> Simpan</button>
+        <button class="btn-outline" onclick="closeFormHalaman()">Batal</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Form Berita -->
+<div id="modalBerita" class="modal-overlay">
+  <div class="modal-box modal-box-lg">
+    <div class="modal-header">
+      <h3 class="modal-title">Form Berita</h3>
+      <button class="modal-close" onclick="closeFormBerita()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="formBeritaId">
+      <div class="form-group">
+        <label>Judul Berita <span style="color:red">*</span></label>
+        <input type="text" id="formBeritaJudul" placeholder="Masukkan judul berita...">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Kategori</label>
+          <select id="formBeritaKategori">
+            <option value="Pengumuman">Pengumuman</option>
+            <option value="Kegiatan">Kegiatan</option>
+            <option value="Prestasi">Prestasi</option>
+            <option value="PPDB">PPDB</option>
+            <option value="Umum">Umum</option>
           </select>
         </div>
-        <div class="form-group"><label class="form-label">Status</label>
-          <select class="form-input" id="bStatus"><option value="draft">Draft</option><option value="published">Publikasi</option></select>
+        <div class="form-group">
+          <label>Status Publikasi</label>
+          <select id="formBeritaStatus">
+            <option value="draft">Draft — belum tayang</option>
+            <option value="tayang">Tayang — tampil di website</option>
+          </select>
         </div>
       </div>
-      <div class="form-group"><label class="form-label">Konten Berita *</label>
-        <div class="rich-toolbar">
-          <button class="rich-btn" onclick="execCmd('bold')"><b>B</b></button>
-          <button class="rich-btn" onclick="execCmd('italic')"><i>I</i></button>
-          <button class="rich-btn" onclick="execCmd('underline')"><u>U</u></button>
+      <div class="form-group">
+        <label>Isi Berita <span style="color:red">*</span></label>
+        <textarea id="formBeritaIsi" rows="8" placeholder="Tulis isi berita di sini..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Foto Berita (opsional)</label>
+        <input type="file" id="formBeritaFoto" accept="image/*">
+        <img id="beritaFotoPreview" alt="Preview foto">
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="btnSimpanBerita" class="btn-primary" onclick="simpanBerita()"><i class="fa-solid fa-save"></i> Simpan Berita</button>
+        <button class="btn-outline" onclick="closeFormBerita()">Batal</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Upload Galeri -->
+<div id="modalGaleri" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">Upload Foto Galeri</h3>
+      <button class="modal-close" onclick="closeModalGaleri()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Pilih Foto <span style="color:red">*</span> <small style="color:#aaa">(bisa pilih beberapa sekaligus)</small></label>
+        <input type="file" id="galeriFiles" accept="image/*" multiple>
+        <div id="galeriUploadPreview"></div>
+      </div>
+      <div class="form-group">
+        <label>Keterangan Foto</label>
+        <input type="text" id="galeriKeterangan" placeholder="Contoh: Upacara Hari Kemerdekaan 2025">
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="btnUploadGaleri" class="btn-primary" onclick="uploadGaleri()"><i class="fa-solid fa-upload"></i> Upload Foto</button>
+        <button class="btn-outline" onclick="closeModalGaleri()">Batal</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Detail Pesan -->
+<div id="modalDetailPesan" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">Detail Pesan</h3>
+      <button class="modal-close" onclick="closeDetailPesan()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="detail-field">
+          <div class="detail-label">Nama</div>
+          <div class="detail-value" id="detailPesanNama"></div>
         </div>
-        <div class="rich-area" id="bIsi" contenteditable="true" placeholder="Tulis konten berita di sini..."></div>
-      </div>
-    </div>
-    <div class="modal-footer"><button class="btn btn-outline btn-sm" onclick="closeModal('beritaModal')">Batal</button><button class="btn btn-primary btn-sm" onclick="saveBerita()"><i class="fa-solid fa-save"></i> Simpan</button></div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="pengumumanModal">
-  <div class="modal">
-    <div class="modal-header"><h3 id="pengumumanModalTitle">Tambah Pengumuman</h3><button class="modal-close" onclick="closeModal('pengumumanModal')">×</button></div>
-    <div class="modal-body">
-      <div class="form-group"><label class="form-label">Judul Pengumuman *</label><input class="form-input" id="pJudul" placeholder="Judul pengumuman..."></div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Prioritas</label>
-          <select class="form-input" id="pPrioritas"><option>Normal</option><option>Penting</option><option>Mendesak</option></select>
-        </div>
-        <div class="form-group"><label class="form-label">Status</label>
-          <select class="form-input" id="pStatus"><option value="aktif">Aktif</option><option value="nonaktif">Nonaktif</option></select>
+        <div class="detail-field">
+          <div class="detail-label">Tanggal</div>
+          <div class="detail-value" id="detailPesanTanggal"></div>
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label class="form-label">Tanggal Mulai</label><input type="date" class="form-input" id="pTanggalMulai"></div>
-        <div class="form-group"><label class="form-label">Tanggal Selesai</label><input type="date" class="form-input" id="pTanggalSelesai"></div>
-      </div>
-      <div class="form-group"><label class="form-label">Isi Pengumuman</label><textarea class="form-input" id="pIsi" placeholder="Tulis isi pengumuman..."></textarea></div>
-    </div>
-    <div class="modal-footer"><button class="btn btn-outline btn-sm" onclick="closeModal('pengumumanModal')">Batal</button><button class="btn btn-primary btn-sm" onclick="savePengumuman()"><i class="fa-solid fa-save"></i> Simpan</button></div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="agendaModal">
-  <div class="modal">
-    <div class="modal-header"><h3 id="agendaModalTitle">Tambah Agenda Kegiatan</h3><button class="modal-close" onclick="closeModal('agendaModal')">×</button></div>
-    <div class="modal-body">
-      <div class="form-group"><label class="form-label">Nama Kegiatan *</label><input class="form-input" id="aNama" placeholder="Nama kegiatan..."></div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Tanggal Mulai *</label><input type="date" class="form-input" id="aTanggalMulai"></div>
-        <div class="form-group"><label class="form-label">Tanggal Selesai</label><input type="date" class="form-input" id="aTanggalSelesai"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Lokasi</label><input class="form-input" id="aLokasi" placeholder="Lokasi kegiatan"></div>
-        <div class="form-group"><label class="form-label">Penanggung Jawab</label><input class="form-input" id="aPJ" placeholder="Nama PJ"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Status</label>
-          <select class="form-input" id="aStatus"><option value="mendatang">Mendatang</option><option value="aktif">Aktif / Berlangsung</option><option value="selesai">Selesai</option></select>
+        <div class="detail-field">
+          <div class="detail-label">Email</div>
+          <div class="detail-value" id="detailPesanEmail"></div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-label">Telepon</div>
+          <div class="detail-value" id="detailPesanTelp"></div>
         </div>
       </div>
-      <div class="form-group"><label class="form-label">Keterangan</label><textarea class="form-input" id="aKeterangan" placeholder="Keterangan tambahan..."></textarea></div>
+      <div class="detail-field">
+        <div class="detail-label">Subjek</div>
+        <div class="detail-value" id="detailPesanSubjek"></div>
+      </div>
+      <div class="detail-field">
+        <div class="detail-label">Pesan</div>
+        <div class="detail-pesan-text" id="detailPesanIsi"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:20px">
+        <a id="btnBalasPesan" class="btn-primary" href="#"><i class="fa-solid fa-reply"></i> Balas via Email</a>
+        <button class="btn-outline" onclick="closeDetailPesan()">Tutup</button>
+      </div>
     </div>
-    <div class="modal-footer"><button class="btn btn-outline btn-sm" onclick="closeModal('agendaModal')">Batal</button><button class="btn btn-primary btn-sm" onclick="saveAgenda()"><i class="fa-solid fa-save"></i> Simpan</button></div>
   </div>
 </div>
 
-<div class="modal-overlay" id="guruModal">
-  <div class="modal">
-    <div class="modal-header"><h3>Tambah Data Guru</h3><button class="modal-close" onclick="closeModal('guruModal')">×</button></div>
-    <div class="modal-body">
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Nama Lengkap *</label><input class="form-input" placeholder="Nama beserta gelar"></div>
-        <div class="form-group"><label class="form-label">NIP</label><input class="form-input" placeholder="Nomor Induk Pegawai"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Mata Pelajaran</label><input class="form-input" placeholder="Bidang studi"></div>
-        <div class="form-group"><label class="form-label">Jabatan</label><select class="form-input"><option>Guru Kelas</option><option>Guru BK</option><option>Wali Kelas</option><option>Wakasek</option></select></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Status Kepegawaian</label><select class="form-input"><option>PNS</option><option>PPPK</option><option>GTT</option></select></div>
-        <div class="form-group"><label class="form-label">No. HP</label><input class="form-input" placeholder="08xxxxxxxxxx"></div>
-      </div>
-    </div>
-    <div class="modal-footer"><button class="btn btn-outline btn-sm" onclick="closeModal('guruModal')">Batal</button><button class="btn btn-primary btn-sm" onclick="saveItem('guruModal','Data guru berhasil ditambahkan')"><i class="fa-solid fa-save"></i> Simpan</button></div>
-  </div>
-</div>
+<!-- ════════════════════════════════════════
+     FIREBASE SDK (compat v9)
+════════════════════════════════════════ -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-<div class="modal-overlay" id="videoModal">
-  <div class="modal">
-    <div class="modal-header"><h3>Tambah Video YouTube</h3><button class="modal-close" onclick="closeModal('videoModal')">×</button></div>
-    <div class="modal-body">
-      <div class="form-group"><label class="form-label">Judul Video *</label><input class="form-input" placeholder="Judul video..."></div>
-      <div class="form-group"><label class="form-label">URL YouTube *</label><input class="form-input" placeholder="https://youtube.com/watch?v=..."></div>
-      <div class="form-group"><label class="form-label">Keterangan</label><textarea class="form-input" placeholder="Deskripsi video..."></textarea></div>
-    </div>
-    <div class="modal-footer"><button class="btn btn-outline btn-sm" onclick="closeModal('videoModal')">Batal</button><button class="btn btn-primary btn-sm" onclick="saveItem('videoModal','Video berhasil ditambahkan')"><i class="fa-solid fa-save"></i> Simpan</button></div>
-  </div>
-</div>
+<!-- APP SCRIPTS -->
+<script src="config.js?v=1778220864"></script>
+<script src="auth.js?v=1778220864"></script>
+<script src="admin.js?v=1778220864"></script>
 
-<div class="modal-overlay" id="fasilitasModal">
-  <div class="modal">
-    <div class="modal-header"><h3>Tambah Fasilitas</h3><button class="modal-close" onclick="closeModal('fasilitasModal')">×</button></div>
-    <div class="modal-body">
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Nama Fasilitas *</label><input class="form-input" placeholder="Lab Biologi, Aula, dll"></div>
-        <div class="form-group"><label class="form-label">Jumlah</label><input type="number" class="form-input" value="1"></div>
-      </div>
-      <div class="form-group"><label class="form-label">Kondisi</label><select class="form-input"><option>Baik</option><option>Sedang</option><option>Perlu Perbaikan</option></select></div>
-      <div class="form-group"><label class="form-label">Keterangan</label><textarea class="form-input" placeholder="Keterangan tambahan..."></textarea></div>
-    </div>
-    <div class="modal-footer"><button class="btn btn-outline btn-sm" onclick="closeModal('fasilitasModal')">Batal</button><button class="btn btn-primary btn-sm" onclick="saveItem('fasilitasModal','Fasilitas berhasil ditambahkan')"><i class="fa-solid fa-save"></i> Simpan</button></div>
-  </div>
-</div>
-
-<script src="./config.js" onerror="this.onerror=null;this.src='/website/config.js'"></script>
-<script src="./auth.js" onerror="this.onerror=null;this.src='/website/auth.js'"></script>
-<script src="./admin.js" onerror="this.onerror=null;this.src='/website/admin.js'"></script>
 <script>
-// ─── NAVIGATION (unchanged) ──────────────────────────────────
-function showPage(page,el){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+page).classList.add('active');
-  if(el){document.querySelectorAll('.nav-menu a').forEach(a=>a.classList.remove('active'));el.classList.add('active')}
-  window.scrollTo(0,0);
+// ── NAVIGASI HALAMAN PUBLIK ──
+function showPage(page, el) {
+  document.querySelectorAll('.pub-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+  const target = document.getElementById('page-' + page);
+  if (target) target.classList.add('active');
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+
+  // Load data dinamis saat buka halaman
+  if (page === 'home') loadPublicBerita(6);
+  if (page === 'berita') loadPublicBeritaFull();
+  if (page === 'galeri') loadPublicGaleri();
 }
 
-function switchAdmin(view,el){
-  document.querySelectorAll('[id^=view-]').forEach(v=>{v.style.display='none'});
-  const vEl=document.getElementById('view-'+view);
-  if(vEl){vEl.style.display='block'}
-  if(el){document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));el.classList.add('active')}
-  const titles={dashboard:'Dashboard',berita:'Kelola Berita',pengumuman:'Kelola Pengumuman',agenda:'Kelola Agenda',galeri:'Galeri Media',profil:'Profil Sekolah',guru:'Data Guru & Staff',ppdb:'Manajemen PPDB',media:'Media Manager',pengaturan:'Pengaturan Website'};
-  document.getElementById('adminTitle').textContent=titles[view]||view;
-  initTables(); // dari admin.js
-  initChart();
+// Load berita untuk halaman berita publik (full)
+async function loadPublicBeritaFull() {
+  const container = document.getElementById('publicBeritaListFull');
+  if (!container) return;
+  try {
+    const rawSnap = await _db.collection('berita')
+      .where('status', '==', 'tayang')
+      .get();
+    const snap = { docs: rawSnap.docs.sort((a,b) => (b.data().createdAt?.seconds||0) - (a.data().createdAt?.seconds||0)) };
+    if (snap.docs.length === 0) {
+      container.innerHTML = '<p style="text-align:center;color:#aaa;grid-column:1/-1">Belum ada berita.</p>';
+      return;
+    }
+    container.innerHTML = snap.docs.map(doc => {
+      const d = doc.data();
+      const tanggal = formatDate(d.createdAt);
+      return `<div class="berita-card" onclick="lihatBeritaPublik('${doc.id}')">
+        ${d.foto ? `<img src="${d.foto}" alt="${d.judul}" class="berita-img">` : '<div class="berita-no-img"><i class="fa-solid fa-newspaper"></i></div>'}
+        <div class="berita-body">
+          <span class="berita-kategori">${d.kategori || 'Umum'}</span>
+          <h3 class="berita-judul">${d.judul}</h3>
+          <p class="berita-tanggal"><i class="fa-regular fa-calendar"></i> ${tanggal}</p>
+          <p class="berita-preview">${(d.isi || '').substring(0, 100)}...</p>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(err) { console.error(err); }
 }
 
-function switchTab(section,tab,el){
-  document.querySelectorAll('#view-'+section+' .tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('#view-'+section+' .tab-content').forEach(t=>t.classList.remove('active'));
+// Load galeri publik
+async function loadPublicGaleri() {
+  const grid = document.getElementById('publicGaleriGrid');
+  if (!grid) return;
+  try {
+    const rawGaleri = await _db.collection('galeri').get();
+    const snap = { docs: rawGaleri.docs.sort((a,b) => (b.data().createdAt?.seconds||0) - (a.data().createdAt?.seconds||0)) };
+    if (snap.docs.length === 0) {
+      grid.innerHTML = '<p style="text-align:center;color:#aaa;grid-column:1/-1">Belum ada foto.</p>';
+      return;
+    }
+    grid.innerHTML = snap.docs.map(doc => {
+      const d = doc.data();
+      return `<div class="galeri-pub-item" title="${d.keterangan || ''}">
+        <img src="${d.url}" alt="${d.keterangan || 'Foto kegiatan'}" loading="lazy">
+      </div>`;
+    }).join('');
+  } catch(err) { console.error(err); }
+}
+
+// Helper filter button
+function setFilter(el) {
+  el.closest('.filter-bar').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById(section+'-'+tab).classList.add('active');
 }
 
-// ─── MODALS ──────────────────────────────────────────────────
-function openModal(id){document.getElementById(id).classList.add('open')}
-function closeModal(id){document.getElementById(id).classList.remove('open')}
-document.querySelectorAll('.modal-overlay').forEach(o=>{
-  o.addEventListener('click',function(e){if(e.target===this)closeModal(this.id)})
+// Load konten publik saat halaman dimuat
+document.addEventListener('DOMContentLoaded', () => {
+  loadPublicBerita(6);
+  loadAndApplySettings();
 });
-
-// ─── TOAST ───────────────────────────────────────────────────
-function showToast(msg,type){
-  const c=document.getElementById('toastContainer');
-  const t=document.createElement('div');
-  t.className='toast'+(type==='error'?' error':type==='warn'?' warn':'');
-  const icon=type==='error'?'fa-circle-xmark':type==='warn'?'fa-triangle-exclamation':'fa-circle-check';
-  t.innerHTML=`<i class="fa-solid ${icon}"></i><span class="toast-msg">${msg}</span><button class="toast-close" onclick="this.parentElement.remove()">×</button>`;
-  c.appendChild(t);
-  setTimeout(()=>{if(t.parentElement)t.remove()},4000);
-}
-
-// ─── MISC ────────────────────────────────────────────────────
-function execCmd(cmd){document.execCommand(cmd,false,null)}
-function toggleMobileMenu(){showToast('Menu mobile aktif','warn')}
-async function submitPPDB(){
-  const payload = {
-    nama_lengkap: document.getElementById('ppdbNama')?.value.trim(),
-    tanggal_lahir: document.getElementById('ppdbTanggalLahir')?.value,
-    jenis_kelamin: document.getElementById('ppdbJenisKelamin')?.value,
-    asal_sekolah: document.getElementById('ppdbAsalSekolah')?.value.trim(),
-    jurusan: document.getElementById('ppdbJurusan')?.value,
-    jalur_masuk: document.getElementById('ppdbJalurMasuk')?.value,
-    no_hp_ortu: document.getElementById('ppdbNoHpOrtu')?.value.trim(),
-    email: document.getElementById('ppdbEmail')?.value.trim(),
-    alamat: document.getElementById('ppdbAlamat')?.value.trim(),
-  };
-  if (Object.values(payload).some(v => !v)) return showToast('Lengkapi semua data PPDB terlebih dahulu.','error');
-  const { error } = await _sb.from('ppdb_pendaftar').insert(payload);
-  if (error) return showToast('Gagal kirim pendaftaran: ' + error.message,'error');
-  showToast('Pendaftaran berhasil dikirim! Cek email untuk konfirmasi.','');
-}
-function saveItem(modal,msg){closeModal(modal);showToast(msg,'')}
-async function saveProfilSekolah(){
-  const payload = {
-    nama_sekolah: document.getElementById('profilNamaSekolah')?.value.trim(),
-    npsn: document.getElementById('profilNpsn')?.value.trim(),
-    kepala_sekolah: document.getElementById('profilKepalaSekolah')?.value.trim(),
-    akreditasi: document.getElementById('profilAkreditasi')?.value,
-    alamat: document.getElementById('profilAlamat')?.value.trim(),
-    telepon: document.getElementById('profilTelepon')?.value.trim(),
-    email: document.getElementById('profilEmail')?.value.trim(),
-    visi: document.getElementById('profilVisi')?.value.trim(),
-    misi: document.getElementById('profilMisi')?.value.trim(),
-    sambutan_nama: document.getElementById('profilSambutanNama')?.value.trim(),
-    sambutan_jabatan: document.getElementById('profilSambutanJabatan')?.value.trim(),
-    sambutan_teks: document.getElementById('profilSambutanTeks')?.innerText.trim(),
-  };
-  const { data: row } = await _sb.from('profil_sekolah').select('id').order('updated_at',{ascending:false}).limit(1).maybeSingle();
-  const { error } = row ? await _sb.from('profil_sekolah').update(payload).eq('id', row.id) : await _sb.from('profil_sekolah').insert(payload);
-  if (error) return showToast('Gagal simpan profil: ' + error.message,'error');
-  showToast('Profil sekolah berhasil disimpan','');
-  await loadPublicProfile();
-}
-
-function initChart(){
-  const c=document.getElementById('visitChart');
-  if(!c)return;
-  const vals=[340,280,520,460,610,380,290];
-  const max=Math.max(...vals);
-  c.innerHTML=vals.map(v=>`<div class="bar" style="height:${(v/max)*100}%" title="${v} pengunjung"></div>`).join('');
-}
-setTimeout(initChart,200);
-async function loadPublicContent(){
-  const newsEl = document.getElementById('publicNewsList');
-  const annEl = document.getElementById('publicAnnouncementList');
-  const [news, ann] = await Promise.all([
-    _sb.from('berita').select('*').eq('status','published').order('created_at',{ascending:false}).limit(3),
-    _sb.from('pengumuman').select('*').eq('status','aktif').order('created_at',{ascending:false}).limit(3),
-  ]);
-  if (newsEl && news.data?.length) newsEl.innerHTML = news.data.map(b => `<div class="news-card"><div class="news-img"><i class="fa-solid fa-newspaper"></i></div><div class="news-body"><div class="news-cat">${b.kategori}</div><h3>${b.judul}</h3><p>${(b.isi||'').slice(0,100)}...</p><div class="news-meta"><i class="fa-regular fa-calendar"></i> ${new Date(b.created_at).toLocaleDateString('id-ID')}</div></div></div>`).join('');
-  if (annEl && ann.data?.length) annEl.innerHTML = ann.data.map(p => `<div class="announce-item"><div class="announce-icon ${p.prioritas==='Mendesak'?'warn':''}"><i class="fa-solid fa-bullhorn"></i></div><div class="announce-content"><h4>${p.judul}</h4><p>${p.isi||''}</p><div class="announce-date">📅 ${p.tanggal_mulai ? new Date(p.tanggal_mulai).toLocaleDateString('id-ID') : '-'}</div></div></div>`).join('');
-}
-document.addEventListener('DOMContentLoaded', loadPublicContent);
 </script>
+
 </body>
 </html>
