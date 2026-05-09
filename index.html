@@ -9,327 +9,460 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:wght@600&display=swap" rel="stylesheet">
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
-    /* ─────────────────────────────────────────
+    /* ═══════════════════════════════════════════
        RESET & BASE
-    ───────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --blue:       #185FA5;
-      --blue-dark:  #0C447C;
-      --blue-light: #E6F1FB;
-      --blue-mid:   #B5D4F4;
-      --green:      #3B6D11;
-      --green-bg:   #EAF3DE;
-      --amber:      #854F0B;
-      --amber-bg:   #FAEEDA;
-      --gray:       #5F5E5A;
-      --gray-bg:    #F1EFE8;
-      --red:        #A32D2D;
-      --red-bg:     #FCEBEB;
-      --text:       #1a1a1a;
-      --text-muted: #6b7280;
-      --border:     #e5e7eb;
-      --bg:         #f8fafc;
-      --white:      #ffffff;
-      --radius:     10px;
-      --radius-sm:  6px;
-      --shadow:     0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md:  0 4px 12px rgba(0,0,0,0.1);
+      --blue:        #1a4fa0;
+      --blue-dark:   #0d3478;
+      --blue-mid:    #3b6fd4;
+      --blue-light:  #e8f0fc;
+      --blue-glass:  rgba(26,79,160,0.08);
+      --yellow:      #f5b40a;
+      --yellow-light:#fef9e7;
+      --green:       #1a7c4f;
+      --green-bg:    #e6f6ee;
+      --amber:       #b05b00;
+      --amber-bg:    #fef3e2;
+      --red:         #b02a2a;
+      --red-bg:      #fdeaea;
+      --gray:        #5e6b80;
+      --gray-bg:     #f2f4f8;
+      --text:        #0f1827;
+      --text-muted:  #6b7a94;
+      --border:      #e3e8f0;
+      --bg:          #f5f7fc;
+      --white:       #ffffff;
+      --radius:      16px;
+      --radius-sm:   10px;
+      --radius-lg:   28px;
+      --shadow:      0 2px 8px rgba(15,24,39,0.06), 0 1px 3px rgba(15,24,39,0.04);
+      --shadow-md:   0 8px 28px rgba(15,24,39,0.1);
+      --shadow-lg:   0 20px 60px rgba(15,24,39,0.15);
     }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); background: var(--white); line-height: 1.6; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: 'Poppins', sans-serif; color: var(--text); background: var(--white); line-height: 1.6; font-size: 16px; }
     img  { max-width: 100%; display: block; }
     a    { text-decoration: none; color: inherit; }
     button { cursor: pointer; font-family: inherit; }
 
-    /* ─────────────────────────────────────────
+    /* ═══════════════════════════════════════════
        UTILITIES
-    ───────────────────────────────────────── */
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    ═══════════════════════════════════════════ */
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
     .hidden { display: none !important; }
 
-    /* ─────────────────────────────────────────
+    /* ═══════════════════════════════════════════
        TOAST
-    ───────────────────────────────────────── */
-    #toastContainer { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
-    .toast { background: var(--text); color: white; padding: 12px 18px; border-radius: var(--radius-sm); font-size: 14px; display: flex; align-items: center; gap: 8px; opacity: 0; transform: translateY(8px); transition: all 0.25s; max-width: 340px; box-shadow: var(--shadow-md); }
+    ═══════════════════════════════════════════ */
+    #toastContainer { position: fixed; bottom: 28px; right: 28px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+    .toast { background: var(--text); color: white; padding: 14px 20px; border-radius: var(--radius-sm); font-size: 14px; display: flex; align-items: center; gap: 10px; opacity: 0; transform: translateY(10px); transition: all 0.28s cubic-bezier(.34,1.56,.64,1); max-width: 360px; box-shadow: var(--shadow-md); font-weight: 500; }
     .toast.show { opacity: 1; transform: translateY(0); }
-    .toast-success { background: #166534; }
+    .toast-success { background: #116135; }
     .toast-error   { background: var(--red); }
     .toast-warn    { background: var(--amber); }
     .toast-info    { background: var(--blue); }
 
-    /* ─────────────────────────────────────────
+    /* ═══════════════════════════════════════════
        BADGE & BUTTON COMMONS
-    ───────────────────────────────────────── */
-    .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-    .badge-green { background: var(--green-bg); color: var(--green); }
-    .badge-amber { background: var(--amber-bg); color: var(--amber); }
-    .badge-gray  { background: var(--gray-bg);  color: var(--gray); }
+    ═══════════════════════════════════════════ */
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .badge-green { background: var(--green-bg);  color: var(--green); }
+    .badge-amber { background: var(--amber-bg);  color: var(--amber); }
+    .badge-gray  { background: var(--gray-bg);   color: var(--gray); }
     .badge-blue  { background: var(--blue-light); color: var(--blue-dark); }
-    .badge-red   { background: var(--red-bg);   color: var(--red); }
+    .badge-red   { background: var(--red-bg);    color: var(--red); }
 
-    .btn-primary   { display: inline-flex; align-items: center; gap: 8px; background: var(--blue); color: white; border: none; padding: 10px 20px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; transition: background 0.2s; }
-    .btn-primary:hover { background: var(--blue-dark); }
-    .btn-outline   { display: inline-flex; align-items: center; gap: 8px; background: white; color: var(--blue); border: 1px solid var(--blue-mid); padding: 10px 20px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; transition: all 0.2s; }
-    .btn-outline:hover { background: var(--blue-light); }
-    .btn-sm        { padding: 6px 14px; font-size: 13px; }
-    .btn-icon      { background: none; border: 1px solid var(--border); color: var(--text-muted); padding: 5px 8px; border-radius: var(--radius-sm); font-size: 13px; transition: all 0.15s; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--blue); color: white; border: none; padding: 12px 24px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; transition: all 0.2s; }
+    .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,79,160,0.3); }
+    .btn-outline { display: inline-flex; align-items: center; gap: 8px; background: white; color: var(--blue); border: 2px solid var(--blue); padding: 10px 22px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; transition: all 0.2s; }
+    .btn-outline:hover { background: var(--blue); color: white; transform: translateY(-1px); }
+    .btn-sm { padding: 7px 16px; font-size: 13px; }
+    .btn-icon { background: none; border: 1px solid var(--border); color: var(--text-muted); padding: 6px 10px; border-radius: var(--radius-sm); font-size: 13px; transition: all 0.15s; }
     .btn-icon:hover { border-color: var(--blue); color: var(--blue); }
     .btn-danger-icon:hover { border-color: var(--red); color: var(--red); }
-    .btn-icon-white { background: rgba(255,255,255,0.9); border: none; color: var(--red); padding: 5px 8px; border-radius: var(--radius-sm); font-size: 13px; }
+    .btn-icon-white { background: rgba(255,255,255,0.9); border: none; color: var(--red); padding: 6px 10px; border-radius: var(--radius-sm); font-size: 13px; }
 
-    /* ─────────────────────────────────────────
-       PUBLIC SITE — NAVBAR
-    ───────────────────────────────────────── */
+    /* ═══════════════════════════════════════════
+       TOPBAR INFO
+    ═══════════════════════════════════════════ */
+    .topbar-info { background: var(--blue-dark); color: rgba(255,255,255,0.85); font-size: 14px; padding: 10px 0; }
+    .topbar-info .container { display: flex; align-items: center; justify-content: space-between; }
+    .topbar-info-left { display: flex; gap: 28px; }
+    .topbar-info-item { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+    .topbar-info-item i { font-size: 13px; opacity: 0.7; }
+    .ppdb-btn { background: var(--yellow); color: #1a0a00; font-size: 13px; font-weight: 700; padding: 7px 20px; border-radius: 20px; border: none; cursor: pointer; transition: transform 0.2s; letter-spacing: 0.5px; }
+    .ppdb-btn:hover { transform: scale(1.05); }
+
+    /* ═══════════════════════════════════════════
+       NAVBAR
+    ═══════════════════════════════════════════ */
     #publicSite { display: block; }
-    .navbar { background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
-    .navbar .container { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-    .navbar-brand { display: flex; align-items: center; gap: 12px; }
-    .brand-logo { width: 40px; height: 40px; background: var(--blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
-    .brand-name { font-size: 15px; font-weight: 700; color: var(--blue-dark); }
-    .brand-sub  { font-size: 11px; color: var(--text-muted); }
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      background: rgba(255,255,255,0.82);
+      border-bottom: 1px solid rgba(227,232,240,0.7);
+    }
+    .navbar .container { display: flex; align-items: center; justify-content: space-between; height: 76px; }
+    .navbar-brand { display: flex; align-items: center; gap: 16px; }
+    .brand-logo { width: 52px; height: 52px; background: linear-gradient(135deg, var(--blue), var(--blue-mid)); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; box-shadow: 0 4px 14px rgba(26,79,160,0.3); }
+    .brand-name { font-size: 18px; font-weight: 800; color: var(--blue-dark); }
+    .brand-sub  { font-size: 13px; color: var(--text-muted); font-weight: 400; }
     .navbar-links { display: flex; gap: 4px; }
-    .nav-link { padding: 8px 14px; border-radius: var(--radius-sm); font-size: 14px; color: var(--text-muted); transition: all 0.15s; font-weight: 500; }
-    .nav-link:hover, .nav-link.active { color: var(--blue); background: var(--blue-light); }
-    .navbar-actions { display: flex; gap: 8px; }
+    .nav-link { padding: 10px 18px; border-radius: var(--radius-sm); font-size: 15px; color: var(--text-muted); transition: all 0.18s; font-weight: 500; }
+    .nav-link:hover { color: var(--blue); background: var(--blue-light); }
+    .nav-link.active { color: var(--blue); background: var(--blue-light); font-weight: 700; }
+    .navbar-actions { display: flex; gap: 10px; align-items: center; }
+    .hamburger { display: none; background: none; border: none; color: var(--text); font-size: 24px; padding: 4px; }
 
-    /* ─────────────────────────────────────────
+    /* MOBILE MENU */
+    #mobileMenu { display: none; position: absolute; top: 70px; left: 0; right: 0; background: white; border-bottom: 1px solid var(--border); padding: 16px 24px 24px; box-shadow: var(--shadow-md); }
+    #mobileMenu.open { display: block; }
+    #mobileMenu .nav-link { display: block; padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 4px; }
+
+    /* ═══════════════════════════════════════════
        PUBLIC PAGES
-    ───────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     .pub-page { display: none; }
     .pub-page.active { display: block; }
 
-    /* HERO */
-    .hero { background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 60%, #f0fdf4 100%); padding: 72px 0; text-align: center; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23185FA5' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
-    .hero-badge { display: inline-block; background: white; color: var(--blue); font-size: 12px; font-weight: 600; padding: 6px 16px; border-radius: 20px; margin-bottom: 20px; box-shadow: var(--shadow); }
-    .hero h1 { font-family: 'Lora', serif; font-size: 42px; color: var(--blue-dark); line-height: 1.2; margin-bottom: 16px; }
-    .hero h1 span { color: var(--blue); }
-    .hero p { font-size: 16px; color: var(--text-muted); max-width: 480px; margin: 0 auto 32px; }
-    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .hero-stats { display: flex; gap: 40px; justify-content: center; margin-top: 56px; }
-    .hero-stat-num { font-size: 28px; font-weight: 700; color: var(--blue-dark); }
-    .hero-stat-label { font-size: 13px; color: var(--text-muted); }
-
-    /* SECTION */
-    .section { padding: 64px 0; }
-    .section-alt { background: var(--bg); }
-    .section-header { text-align: center; margin-bottom: 48px; }
-    .section-label { font-size: 12px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-    .section-title { font-family: 'Lora', serif; font-size: 30px; color: var(--text); margin-bottom: 12px; }
-    .section-desc { color: var(--text-muted); max-width: 520px; margin: 0 auto; }
-
-    /* FITUR GRID */
-    .fitur-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .fitur-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; transition: box-shadow 0.2s, transform 0.2s; }
-    .fitur-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
-    .fitur-icon { width: 48px; height: 48px; background: var(--blue-light); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--blue); margin-bottom: 16px; }
-    .fitur-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-    .fitur-card p  { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
-
-    /* BERITA PUBLIK */
-    #publicBeritaList { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .berita-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: box-shadow 0.2s, transform 0.2s; }
-    .berita-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
-    .berita-img { width: 100%; height: 160px; object-fit: cover; }
-    .berita-no-img { width: 100%; height: 160px; background: var(--blue-light); display: flex; align-items: center; justify-content: center; color: var(--blue); font-size: 36px; }
-    .berita-body { padding: 16px; }
-    .berita-kategori { font-size: 11px; font-weight: 600; color: var(--blue); text-transform: uppercase; letter-spacing: 0.5px; }
-    .berita-judul { font-size: 15px; font-weight: 600; margin: 6px 0 4px; line-height: 1.4; }
-    .berita-tanggal { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
-    .berita-preview { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
-
-    /* DETAIL BERITA PUBLIK */
-    .berita-detail-header { max-width: 760px; margin: 48px auto 0; padding: 0 20px; }
-    .berita-detail-img { width: 100%; max-height: 400px; object-fit: cover; border-radius: var(--radius); margin: 24px 0; }
-    .berita-detail-body { max-width: 760px; margin: 0 auto 64px; padding: 0 20px; font-size: 16px; line-height: 1.8; color: #374151; }
-
-    /* GALERI PUBLIK */
-    .galeri-pub-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-    .galeri-pub-item { border-radius: var(--radius-sm); overflow: hidden; aspect-ratio: 4/3; }
-    .galeri-pub-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
-    .galeri-pub-item:hover img { transform: scale(1.05); }
-
-    /* KONTAK */
-    .kontak-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-    .kontak-info h3 { font-size: 20px; font-weight: 600; margin-bottom: 24px; }
-    .kontak-item { display: flex; gap: 16px; margin-bottom: 20px; }
-    .kontak-item-icon { width: 40px; height: 40px; background: var(--blue-light); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--blue); font-size: 16px; flex-shrink: 0; }
-    .kontak-item-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
-    .kontak-item-text span { font-size: 13px; color: var(--text-muted); }
-    .kontak-form { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; }
-    .kontak-form h3 { font-size: 18px; font-weight: 600; margin-bottom: 24px; }
-    .form-group { margin-bottom: 16px; }
-    .form-group label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);
-      font-size: 14px; font-family: inherit; transition: border-color 0.15s; color: var(--text);
+    /* ═══════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════ */
+    .hero {
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      background:
+        linear-gradient(to right, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.80) 55%, rgba(232,240,252,0.85) 100%),
+        url('https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1800&auto=format&fit=crop') center/cover no-repeat;
     }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--blue); }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; padding: 80px 0; }
+    .hero-content { }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--blue-light); color: var(--blue); font-size: 15px; font-weight: 600; padding: 10px 22px; border-radius: 20px; margin-bottom: 28px; border: 1px solid rgba(26,79,160,0.15); }
+    .hero h1 { font-family: 'Poppins', sans-serif; font-size: 72px; font-weight: 800; color: var(--blue-dark); line-height: 1.08; margin-bottom: 24px; letter-spacing: -1px; }
+    .hero h1 .accent { color: var(--yellow); display: block; }
+    .hero p { font-size: 18px; color: var(--text-muted); max-width: 480px; margin-bottom: 40px; line-height: 1.75; font-weight: 400; }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .hero-btns .btn-primary { padding: 16px 32px; border-radius: 16px; font-size: 16px; font-weight: 700; }
+    .hero-btns .btn-outline { padding: 16px 32px; border-radius: 16px; font-size: 16px; font-weight: 700; }
 
-    /* PROFIL */
-    .profil-content { max-width: 860px; margin: 0 auto; }
-    .profil-section { margin-bottom: 48px; }
-    .profil-section h2 { font-family: 'Lora', serif; font-size: 22px; color: var(--blue-dark); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid var(--blue-light); }
-    .profil-section p  { font-size: 15px; color: #374151; line-height: 1.8; margin-bottom: 12px; }
+    .hero-visual { position: relative; }
+    .hero-img { width: 100%; border-radius: 40px; box-shadow: var(--shadow-lg); aspect-ratio: 4/3; object-fit: cover; }
+    .hero-acred-card { position: absolute; bottom: -24px; left: -24px; background: white; border-radius: 20px; padding: 20px 26px; box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 16px; }
+    .hero-acred-letter { font-size: 40px; font-weight: 800; color: var(--blue); line-height: 1; }
+    .hero-acred-text { font-size: 15px; font-weight: 700; color: var(--text); }
+    .hero-acred-sub { font-size: 13px; color: var(--text-muted); }
+
+    /* STATS BAR */
+    .stats-bar { background: var(--blue-dark); padding: 36px 0; }
+    .stats-bar .container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+    .stat-item { text-align: center; padding: 0 20px; border-right: 1px solid rgba(255,255,255,0.12); }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-size: 48px; font-weight: 800; color: white; line-height: 1; margin-bottom: 8px; }
+    .stat-label { font-size: 15px; color: rgba(255,255,255,0.65); font-weight: 400; }
+
+    /* ═══════════════════════════════════════════
+       SECTIONS
+    ═══════════════════════════════════════════ */
+    .section { padding: 88px 0; }
+    .section-alt { background: var(--bg); }
+    .section-header { text-align: center; margin-bottom: 56px; }
+    .section-label { font-size: 14px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px; }
+    .section-title { font-family: 'Poppins', sans-serif; font-size: 42px; font-weight: 800; color: var(--text); margin-bottom: 16px; line-height: 1.15; letter-spacing: -0.5px; }
+    .section-desc { color: var(--text-muted); max-width: 520px; margin: 0 auto; font-size: 17px; }
+
+    /* REVEAL ANIMATION */
+    .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+
+    /* ═══════════════════════════════════════════
+       FITUR / KEUNGGULAN GRID
+    ═══════════════════════════════════════════ */
+    .fitur-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .fitur-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; transition: all 0.25s; position: relative; overflow: hidden; }
+    .fitur-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--blue-glass), transparent); opacity: 0; transition: opacity 0.25s; border-radius: var(--radius-lg); }
+    .fitur-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); border-color: rgba(26,79,160,0.2); }
+    .fitur-card:hover::before { opacity: 1; }
+    .fitur-icon { width: 64px; height: 64px; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 22px; }
+    .fitur-icon-blue   { background: var(--blue-light); color: var(--blue); }
+    .fitur-icon-yellow { background: var(--yellow-light); color: #a07a00; }
+    .fitur-icon-green  { background: var(--green-bg);  color: var(--green); }
+    .fitur-icon-red    { background: var(--red-bg);    color: var(--red); }
+    .fitur-icon-amber  { background: var(--amber-bg);  color: var(--amber); }
+    .fitur-icon-gray   { background: var(--gray-bg);   color: var(--gray); }
+    .fitur-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+    .fitur-card p  { font-size: 15px; color: var(--text-muted); line-height: 1.75; }
+
+    /* ═══════════════════════════════════════════
+       BERITA PUBLIK
+    ═══════════════════════════════════════════ */
+    #publicBeritaList { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .berita-card { background: white; border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; transition: all 0.25s; box-shadow: var(--shadow); border: 1px solid var(--border); }
+    .berita-card:hover { box-shadow: var(--shadow-md); transform: translateY(-5px); }
+    .berita-img { width: 100%; height: 200px; object-fit: cover; }
+    .berita-no-img { width: 100%; height: 200px; background: var(--blue-light); display: flex; align-items: center; justify-content: center; color: var(--blue); font-size: 40px; }
+    .berita-body { padding: 20px; }
+    .berita-kategori { font-size: 12px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1px; }
+    .berita-judul { font-size: 18px; font-weight: 700; margin: 10px 0 8px; line-height: 1.4; color: var(--text); }
+    .berita-tanggal { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; }
+    .berita-preview { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+
+    /* DETAIL BERITA */
+    .berita-detail-header { max-width: 780px; margin: 56px auto 0; padding: 0 24px; }
+    .berita-detail-img { width: 100%; max-height: 420px; object-fit: cover; border-radius: var(--radius-lg); margin: 28px 0; }
+    .berita-detail-body { max-width: 780px; margin: 0 auto 80px; padding: 0 24px; font-size: 17px; line-height: 1.85; color: #374151; }
+
+    /* ═══════════════════════════════════════════
+       ABOUT SECTION (split layout)
+    ═══════════════════════════════════════════ */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+    .about-img-wrap { position: relative; }
+    .about-img { width: 100%; border-radius: 40px; box-shadow: var(--shadow-lg); }
+    .about-check { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+    .about-check-icon { width: 28px; height: 28px; background: var(--blue-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--blue); font-size: 12px; flex-shrink: 0; margin-top: 2px; }
+    .about-check p { font-size: 16px; color: var(--text); font-weight: 500; }
+
+    /* ═══════════════════════════════════════════
+       GALERI PUBLIK — MASONRY
+    ═══════════════════════════════════════════ */
+    #publicGaleriGrid { column-count: 3; column-gap: 18px; }
+    .galeri-pub-item { break-inside: avoid; margin-bottom: 18px; border-radius: var(--radius); overflow: hidden; position: relative; }
+    .galeri-pub-item img { width: 100%; display: block; transition: transform 0.35s; }
+    .galeri-pub-item:hover img { transform: scale(1.04); }
+    /* Legacy grid fallback class */
+    .galeri-pub-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+    /* ═══════════════════════════════════════════
+       CTA BANNER
+    ═══════════════════════════════════════════ */
+    .cta-section { background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 100%); padding: 80px 0; text-align: center; color: white; position: relative; overflow: hidden; }
+    .cta-section::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M50 50v-8h-4v8h-8v4h8v8h4v-8h8v-4h-8zm0-40V2h-4v8h-8v4h8v8h4V14h8v-4h-8zM10 50v-8H6v8H0v4h6v8h4v-8h8v-4h-8zM10 10V2H6v8H0v4h6v8h4v-8h8v-4h-8z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+    .cta-section h2 { font-family: 'Poppins', sans-serif; font-size: 44px; font-weight: 800; margin-bottom: 18px; position: relative; letter-spacing: -0.5px; }
+    .cta-section p { opacity: 0.85; margin-bottom: 40px; max-width: 520px; margin-left: auto; margin-right: auto; font-size: 18px; position: relative; }
+    .cta-section .btn-white { background: white; color: var(--blue-dark); border: none; padding: 14px 32px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: all 0.2s; font-family: inherit; }
+    .cta-section .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+
+    /* ═══════════════════════════════════════════
+       PAGE HEADER (profil / berita / galeri / kontak)
+    ═══════════════════════════════════════════ */
+    .page-header { background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid)); padding: 64px 0 52px; color: white; }
+    .page-header .section-label { color: rgba(255,255,255,0.65); }
+    .page-header h1 { font-family: 'Poppins', sans-serif; font-size: 48px; font-weight: 800; color: white; margin-top: 10px; letter-spacing: -0.5px; }
+
+    /* ═══════════════════════════════════════════
+       KONTAK
+    ═══════════════════════════════════════════ */
+    .kontak-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+    .kontak-info h3 { font-size: 24px; font-weight: 700; margin-bottom: 28px; color: var(--text); }
+    .kontak-item { display: flex; gap: 18px; margin-bottom: 24px; }
+    .kontak-item-icon { width: 48px; height: 48px; background: var(--blue-light); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--blue); font-size: 18px; flex-shrink: 0; }
+    .kontak-item-text strong { display: block; font-size: 15px; margin-bottom: 4px; color: var(--text); }
+    .kontak-item-text span { font-size: 14px; color: var(--text-muted); }
+    .kontak-form { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow); }
+    .kontak-form h3 { font-size: 22px; font-weight: 700; margin-bottom: 28px; color: var(--text); }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+      font-size: 15px; font-family: inherit; transition: border-color 0.15s; color: var(--text); background: white;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,79,160,0.1); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    /* ═══════════════════════════════════════════
+       PROFIL
+    ═══════════════════════════════════════════ */
+    .profil-content { max-width: 880px; margin: 0 auto; }
+    .profil-section { margin-bottom: 52px; }
+    .profil-section h2 { font-family: 'Poppins', sans-serif; font-size: 28px; font-weight: 800; color: var(--blue-dark); margin-bottom: 20px; padding-bottom: 14px; border-bottom: 2px solid var(--blue-light); }
+    .profil-section p  { font-size: 16px; color: #374151; line-height: 1.85; margin-bottom: 14px; }
     .visi-misi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .visi-card, .misi-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
-    .visi-card { border-top: 3px solid var(--blue); }
-    .misi-card { border-top: 3px solid #3B6D11; }
-    .visi-card h3, .misi-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+    .visi-card, .misi-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; }
+    .visi-card { border-top: 4px solid var(--blue); }
+    .misi-card { border-top: 4px solid var(--green); }
+    .visi-card h3, .misi-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 14px; }
     .misi-list { list-style: none; }
-    .misi-list li { padding: 6px 0; font-size: 14px; color: #374151; display: flex; gap: 10px; }
+    .misi-list li { padding: 8px 0; font-size: 15px; color: #374151; display: flex; gap: 12px; }
     .misi-list li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
 
-    /* FOOTER */
-    .footer { background: var(--blue-dark); color: rgba(255,255,255,0.8); padding: 48px 0 24px; }
-    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-    .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-    .footer-brand-icon { width: 36px; height: 36px; background: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--blue-dark); font-size: 16px; }
-    .footer-brand-name { font-size: 15px; font-weight: 700; color: white; }
-    .footer-desc { font-size: 13px; line-height: 1.7; }
-    .footer-col h4 { color: white; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+    /* ═══════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════ */
+    .footer { background: var(--blue-dark); color: rgba(255,255,255,0.75); padding: 64px 0 28px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    .footer-brand { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+    .footer-brand-icon { width: 44px; height: 44px; background: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--blue-dark); font-size: 20px; }
+    .footer-brand-name { font-size: 18px; font-weight: 800; color: white; }
+    .footer-desc { font-size: 15px; line-height: 1.8; }
+    .footer-col h4 { color: white; font-size: 16px; font-weight: 700; margin-bottom: 18px; }
     .footer-links { list-style: none; }
-    .footer-links li { margin-bottom: 8px; }
-    .footer-links a { font-size: 13px; color: rgba(255,255,255,0.65); transition: color 0.15s; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a { font-size: 15px; color: rgba(255,255,255,0.6); transition: color 0.15s; cursor: pointer; }
     .footer-links a:hover { color: white; }
-    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.5); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 28px; text-align: center; font-size: 14px; color: rgba(255,255,255,0.4); }
 
-    /* ─────────────────────────────────────────
+    /* FLOATING WA */
+    .wa-float { position: fixed; bottom: 28px; right: 28px; background: #25D366; width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 24px rgba(37,211,102,0.4); z-index: 200; transition: transform 0.2s; font-size: 26px; color: white; }
+    .wa-float:hover { transform: scale(1.1); }
+
+    /* ═══════════════════════════════════════════
        LOGIN PAGE
-    ───────────────────────────────────────── */
-    #loginPage { display: none; position: fixed; inset: 0; background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 100%); z-index: 500; align-items: center; justify-content: center; }
+    ═══════════════════════════════════════════ */
+    #loginPage { display: none; position: fixed; inset: 0; background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 100%); z-index: 500; align-items: center; justify-content: center; }
     #loginPage.active { display: flex; }
-    .login-box { background: white; border-radius: 16px; padding: 40px; width: 100%; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.25); }
-    .login-logo { text-align: center; margin-bottom: 28px; }
-    .login-icon { width: 60px; height: 60px; background: var(--blue-light); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 24px; color: var(--blue); }
-    .login-logo h2 { font-size: 20px; font-weight: 700; color: var(--blue-dark); }
-    .login-logo p { font-size: 13px; color: var(--text-muted); }
+    .login-box { background: white; border-radius: 24px; padding: 44px; width: 100%; max-width: 420px; box-shadow: var(--shadow-lg); }
+    .login-logo { text-align: center; margin-bottom: 32px; }
+    .login-icon { width: 68px; height: 68px; background: var(--blue-light); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 28px; color: var(--blue); }
+    .login-logo h2 { font-size: 22px; font-weight: 700; color: var(--blue-dark); }
+    .login-logo p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
     .pw-wrapper { position: relative; }
-    .pw-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); font-size: 14px; padding: 4px; }
-    .btn-login { width: 100%; padding: 12px; background: var(--blue); color: white; border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; margin-top: 8px; transition: background 0.2s; }
+    .pw-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); font-size: 15px; padding: 4px; }
+    .btn-login { width: 100%; padding: 14px; background: var(--blue); color: white; border: none; border-radius: var(--radius-sm); font-size: 16px; font-weight: 700; margin-top: 10px; transition: background 0.2s; font-family: inherit; }
     .btn-login:hover { background: var(--blue-dark); }
 
-    /* ─────────────────────────────────────────
+    /* ═══════════════════════════════════════════
        ADMIN PANEL
-    ───────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     #adminPanel { display: none; position: fixed; inset: 0; z-index: 400; background: var(--bg); }
     #adminPanel.active { display: flex; flex-direction: column; }
-    .admin-topbar { background: white; border-bottom: 1px solid var(--border); height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; flex-shrink: 0; }
+    .admin-topbar { background: white; border-bottom: 1px solid var(--border); height: 58px; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; flex-shrink: 0; }
     .topbar-brand { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; color: var(--blue-dark); }
-    .topbar-brand-icon { width: 32px; height: 32px; background: var(--blue); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; }
+    .topbar-brand-icon { width: 34px; height: 34px; background: var(--blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 15px; }
     .topbar-right { display: flex; align-items: center; gap: 12px; }
-    .topbar-avatar { width: 34px; height: 34px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 700; }
+    .topbar-avatar { width: 36px; height: 36px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 13px; font-weight: 700; }
     .admin-body { display: flex; flex: 1; overflow: hidden; }
-    .admin-sidebar { width: 220px; background: var(--blue-dark); flex-shrink: 0; overflow-y: auto; padding: 16px 0; }
-    .sidebar-section-label { font-size: 10px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 1px; padding: 12px 16px 4px; }
-    .sidebar-item { display: flex; align-items: center; gap: 10px; padding: 10px 16px; font-size: 13px; color: rgba(255,255,255,0.65); cursor: pointer; transition: all 0.15s; border-left: 3px solid transparent; }
+    .admin-sidebar { width: 230px; background: var(--blue-dark); flex-shrink: 0; overflow-y: auto; padding: 18px 0; }
+    .sidebar-section-label { font-size: 10px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 1.5px; padding: 14px 18px 5px; }
+    .sidebar-item { display: flex; align-items: center; gap: 11px; padding: 11px 18px; font-size: 13px; color: rgba(255,255,255,0.65); cursor: pointer; transition: all 0.15s; border-left: 3px solid transparent; font-weight: 500; }
     .sidebar-item:hover { background: rgba(255,255,255,0.08); color: white; }
-    .sidebar-item.active { background: rgba(255,255,255,0.12); color: white; border-left-color: white; }
-    .sidebar-item i { font-size: 15px; width: 18px; text-align: center; }
-    .admin-main { flex: 1; overflow-y: auto; padding: 28px; }
+    .sidebar-item.active { background: rgba(255,255,255,0.12); color: white; border-left-color: var(--yellow); }
+    .sidebar-item i { font-size: 15px; width: 20px; text-align: center; }
+    .admin-main { flex: 1; overflow-y: auto; padding: 32px; }
 
-    /* ADMIN SECTIONS */
     .admin-section { display: none; }
     .admin-section.active { display: block; }
-    .admin-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
-    .admin-section-title { font-size: 20px; font-weight: 700; color: var(--text); }
+    .admin-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+    .admin-section-title { font-size: 21px; font-weight: 700; color: var(--text); }
     .admin-section-title small { display: block; font-size: 13px; font-weight: 400; color: var(--text-muted); margin-top: 2px; }
 
-    /* STAT CARDS */
-    .admin-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
-    .stat-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; }
-    .stat-card-label { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-bottom: 6px; }
-    .stat-card-num { font-size: 28px; font-weight: 700; color: var(--text); }
-    .stat-card-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+    .admin-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 28px; }
+    .stat-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 26px; }
+    .stat-card-label { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-card-num { font-size: 30px; font-weight: 800; color: var(--text); }
+    .stat-card-sub { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
 
-    /* TABLE */
-    .admin-table-wrap { background: white; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 20px; }
-    .admin-table-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); }
-    .admin-table-title { font-size: 14px; font-weight: 600; }
+    .admin-table-wrap { background: white; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 22px; }
+    .admin-table-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; border-bottom: 1px solid var(--border); }
+    .admin-table-title { font-size: 14px; font-weight: 700; }
     .admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .admin-table th { text-align: left; padding: 10px 16px; color: var(--text-muted); font-weight: 500; font-size: 12px; border-bottom: 1px solid var(--border); background: var(--bg); }
-    .admin-table td { padding: 11px 16px; border-bottom: 1px solid #f5f5f5; color: var(--text); }
+    .admin-table th { text-align: left; padding: 11px 18px; color: var(--text-muted); font-weight: 600; font-size: 12px; border-bottom: 1px solid var(--border); background: var(--bg); text-transform: uppercase; letter-spacing: 0.5px; }
+    .admin-table td { padding: 12px 18px; border-bottom: 1px solid #f4f6fa; color: var(--text); }
     .admin-table tr:last-child td { border-bottom: none; }
-    .admin-table tr:hover td { background: #fafafa; }
-    .loading-cell { text-align: center; color: var(--text-muted); padding: 32px !important; }
-    .pesan-baru td { font-weight: 500; }
+    .admin-table tr:hover td { background: #f9fbfe; }
+    .loading-cell { text-align: center; color: var(--text-muted); padding: 36px !important; }
+    .pesan-baru td { font-weight: 600; }
 
-    /* FILTER BAR */
-    .filter-bar { display: flex; gap: 6px; }
-    .filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: white; font-size: 12px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+    .filter-bar { display: flex; gap: 8px; }
+    .filter-btn { padding: 7px 16px; border-radius: 20px; border: 1.5px solid var(--border); background: white; font-size: 12px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
     .filter-btn.active, .filter-btn:hover { background: var(--blue); color: white; border-color: var(--blue); }
 
-    /* GALERI ADMIN GRID */
-    #galeriGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    #galeriGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
     .galeri-item { border-radius: var(--radius-sm); overflow: hidden; aspect-ratio: 4/3; position: relative; cursor: pointer; }
     .galeri-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
-    .galeri-item:hover img { transform: scale(1.05); }
+    .galeri-item:hover img { transform: scale(1.06); }
     .galeri-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.55); opacity: 0; transition: opacity 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 10px; }
     .galeri-item:hover .galeri-overlay { opacity: 1; }
     .galeri-overlay p { color: white; font-size: 12px; text-align: center; }
-    .loading-center { text-align: center; padding: 48px; color: var(--text-muted); grid-column: 1 / -1; }
-
-    /* UPLOAD PREVIEW */
+    .loading-center { text-align: center; padding: 56px; color: var(--text-muted); grid-column: 1 / -1; }
     #galeriUploadPreview { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    #beritaFotoPreview { width: 100%; max-height: 190px; object-fit: cover; border-radius: var(--radius-sm); margin-top: 8px; display: none; }
 
-    /* ─────────────────────────────────────────
-       MODALS
-    ───────────────────────────────────────── */
-    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 600; align-items: center; justify-content: center; padding: 20px; }
+    /* MODALS */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 600; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
     .modal-overlay.active { display: flex; }
-    .modal-box { background: white; border-radius: 14px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
-    .modal-box-lg { max-width: 700px; }
-    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px 0; margin-bottom: 20px; }
-    .modal-title { font-size: 17px; font-weight: 700; }
-    .modal-close { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 4px; line-height: 1; }
+    .modal-box { background: white; border-radius: 20px; width: 100%; max-width: 580px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); }
+    .modal-box-lg { max-width: 720px; }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 22px 28px 0; margin-bottom: 22px; }
+    .modal-title { font-size: 18px; font-weight: 700; }
+    .modal-close { background: none; border: none; font-size: 22px; color: var(--text-muted); padding: 4px; line-height: 1; }
     .modal-close:hover { color: var(--text); }
-    .modal-body { padding: 0 24px 24px; }
+    .modal-body { padding: 0 28px 28px; }
 
-    /* DETAIL PESAN */
-    .detail-field { margin-bottom: 14px; }
-    .detail-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .detail-field { margin-bottom: 16px; }
+    .detail-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 5px; }
     .detail-value { font-size: 14px; color: var(--text); }
-    .detail-pesan-text { background: var(--bg); border-radius: var(--radius-sm); padding: 14px; font-size: 14px; line-height: 1.7; white-space: pre-wrap; margin-top: 4px; }
+    .detail-pesan-text { background: var(--bg); border-radius: var(--radius-sm); padding: 16px; font-size: 14px; line-height: 1.75; white-space: pre-wrap; margin-top: 4px; }
 
-    /* PHOTO PREVIEW */
-    #beritaFotoPreview { width: 100%; max-height: 180px; object-fit: cover; border-radius: var(--radius-sm); margin-top: 8px; display: none; }
-
-    /* ─────────────────────────────────────────
+    /* ═══════════════════════════════════════════
        RESPONSIVE
-    ───────────────────────────────────────── */
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 28px; }
-      .fitur-grid { grid-template-columns: 1fr; }
-      #publicBeritaList { grid-template-columns: 1fr; }
-      .galeri-pub-grid { grid-template-columns: repeat(2, 1fr); }
+    ═══════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero-visual { display: none; }
+      .hero h1 { font-size: 40px; }
+      .stats-bar .container { grid-template-columns: repeat(3,1fr); }
+      .fitur-grid { grid-template-columns: 1fr 1fr; }
+      #publicBeritaList { grid-template-columns: 1fr 1fr; }
+      #publicGaleriGrid { column-count: 2; }
+      .about-grid { grid-template-columns: 1fr; }
       .kontak-grid { grid-template-columns: 1fr; }
       .visi-misi-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
       .navbar-links { display: none; }
-      .admin-sidebar { width: 180px; }
+      .hamburger { display: block; }
+      .topbar-info-left { display: none; }
+    }
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 30px; }
+      .fitur-grid { grid-template-columns: 1fr; }
+      #publicBeritaList { grid-template-columns: 1fr; }
+      #publicGaleriGrid { column-count: 1; }
+      .galeri-pub-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr; }
+      .stats-bar .container { grid-template-columns: 1fr; gap: 20px; }
+      .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 20px; }
+      .stat-item:last-child { border-bottom: none; }
+      .admin-sidebar { width: 190px; }
       .admin-stats { grid-template-columns: 1fr 1fr; }
       #galeriGrid { grid-template-columns: repeat(2, 1fr); }
+      .form-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-<!-- ════════════════════════════════════════
-     TOAST CONTAINER
-════════════════════════════════════════ -->
+<!-- TOAST -->
 <div id="toastContainer"></div>
 
-<!-- ════════════════════════════════════════
+<!-- ════════════════════════════════════════════
      PUBLIC SITE
-════════════════════════════════════════ -->
+════════════════════════════════════════════ -->
 <div id="publicSite">
+
+  <!-- TOPBAR INFO -->
+  <div class="topbar-info">
+    <div class="container">
+      <div class="topbar-info-left">
+        <div class="topbar-info-item">
+          <i class="fa-solid fa-clock"></i>
+          <span id="sitKontakJam2">Senin – Jumat: 07.00–14.00 WIB</span>
+        </div>
+        <div class="topbar-info-item">
+          <i class="fa-solid fa-phone"></i>
+          <span id="sitKontakTelp2">(021) 555-0100</span>
+        </div>
+      </div>
+      <button class="ppdb-btn" onclick="showPage('kontak')">PPDB 2026</button>
+    </div>
+  </div>
 
   <!-- NAVBAR -->
   <nav class="navbar">
@@ -349,72 +482,117 @@
         <a class="nav-link" onclick="showPage('kontak', this)">Kontak</a>
       </div>
       <div class="navbar-actions">
+        <button class="hamburger" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars"></i></button>
         <button class="btn-outline btn-sm" onclick="showLogin()">
           <i class="fa-solid fa-lock"></i> Admin
         </button>
       </div>
     </div>
+    <div id="mobileMenu">
+      <a class="nav-link active" onclick="showPage('home', this);closeMobileMenu()">Beranda</a>
+      <a class="nav-link" onclick="showPage('profil', this);closeMobileMenu()">Profil</a>
+      <a class="nav-link" onclick="showPage('berita', this);closeMobileMenu()">Berita</a>
+      <a class="nav-link" onclick="showPage('galeri', this);closeMobileMenu()">Galeri</a>
+      <a class="nav-link" onclick="showPage('kontak', this);closeMobileMenu()">Kontak</a>
+    </div>
   </nav>
 
-  <!-- ── PAGE: BERANDA ── -->
+  <!-- ══ PAGE: BERANDA ══ -->
   <div id="page-home" class="pub-page active">
+
+    <!-- HERO -->
     <section class="hero">
-      <div class="container" style="position:relative;z-index:1">
-        <div class="hero-badge" id="sitHeroBadge">✦ Tahun Pelajaran 2025/2026</div>
-        <h1 id="sitHeroJudul">Selamat Datang di<br><span id="sitHeroNama">SDN 1 Contoh</span></h1>
-        <p id="sitHeroTagline">Membentuk generasi cerdas, berkarakter, dan berprestasi untuk masa depan Indonesia</p>
-        <div class="hero-btns">
-          <button class="btn-primary" onclick="showPage('profil')">
-            <i class="fa-solid fa-school"></i> Profil Sekolah
-          </button>
-          <button class="btn-outline" onclick="showPage('kontak')">
-            <i class="fa-solid fa-phone"></i> Hubungi Kami
-          </button>
-        </div>
-        <div class="hero-stats">
-          <div><div class="hero-stat-num" id="sitStat1Num">450+</div><div class="hero-stat-label" id="sitStat1Label">Siswa Aktif</div></div>
-          <div><div class="hero-stat-num" id="sitStat2Num">28</div><div class="hero-stat-label" id="sitStat2Label">Guru & Staff</div></div>
-          <div><div class="hero-stat-num" id="sitStat3Num">30+</div><div class="hero-stat-label" id="sitStat3Label">Tahun Berdiri</div></div>
+      <div class="container">
+        <div class="hero-inner">
+          <div class="hero-content reveal">
+            <div class="hero-badge">
+              <i class="fa-solid fa-star" style="font-size:11px"></i>
+              <span id="sitHeroBadge">Tahun Pelajaran 2025/2026</span>
+            </div>
+            <h1>
+              Selamat Datang di<br>
+              <span id="sitHeroNama" class="accent">SDN 1 Contoh</span>
+            </h1>
+            <p id="sitHeroTagline">Membentuk generasi cerdas, berkarakter, dan berprestasi untuk masa depan Indonesia yang gemilang.</p>
+            <div class="hero-btns">
+              <button class="btn-primary" onclick="showPage('profil')">
+                <i class="fa-solid fa-school"></i> Profil Sekolah
+              </button>
+              <button class="btn-outline" onclick="showPage('kontak')">
+                <i class="fa-solid fa-phone"></i> Hubungi Kami
+              </button>
+            </div>
+          </div>
+          <div class="hero-visual reveal" style="transition-delay:0.15s">
+            <img
+              src="https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1200&auto=format&fit=crop"
+              alt="Siswa belajar" class="hero-img">
+            <div class="hero-acred-card">
+              <div class="hero-acred-letter" id="sitAcredLetter">A</div>
+              <div>
+                <div class="hero-acred-text">Akreditasi</div>
+                <div class="hero-acred-sub" id="sitProfilAkred2">Nasional — Unggul</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Fitur -->
-    <section class="section">
+    <!-- STATS BAR -->
+    <div class="stats-bar">
       <div class="container">
-        <div class="section-header">
+        <div class="stat-item reveal">
+          <div class="stat-num" id="sitStat1Num">450+</div>
+          <div class="stat-label" id="sitStat1Label">Siswa Aktif</div>
+        </div>
+        <div class="stat-item reveal" style="transition-delay:0.1s">
+          <div class="stat-num" id="sitStat2Num">28</div>
+          <div class="stat-label" id="sitStat2Label">Guru & Staff</div>
+        </div>
+        <div class="stat-item reveal" style="transition-delay:0.2s">
+          <div class="stat-num" id="sitStat3Num">30+</div>
+          <div class="stat-label" id="sitStat3Label">Tahun Berdiri</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KEUNGGULAN -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header reveal">
           <div class="section-label">Layanan Kami</div>
           <h2 class="section-title">Fasilitas & Keunggulan Sekolah</h2>
           <p class="section-desc">Kami berkomitmen memberikan pendidikan terbaik dengan fasilitas lengkap dan tenaga pengajar berpengalaman.</p>
         </div>
         <div class="fitur-grid">
-          <div class="fitur-card">
-            <div class="fitur-icon"><i class="fa-solid fa-book-open"></i></div>
+          <div class="fitur-card reveal">
+            <div class="fitur-icon fitur-icon-blue"><i class="fa-solid fa-book-open"></i></div>
             <h3>Kurikulum Merdeka</h3>
             <p>Penerapan Kurikulum Merdeka yang berfokus pada pengembangan kompetensi dan karakter siswa secara menyeluruh.</p>
           </div>
-          <div class="fitur-card">
-            <div class="fitur-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+          <div class="fitur-card reveal" style="transition-delay:0.08s">
+            <div class="fitur-icon fitur-icon-yellow"><i class="fa-solid fa-chalkboard-user"></i></div>
             <h3>Guru Berpengalaman</h3>
             <p>Tenaga pendidik profesional dan berpengalaman yang berdedikasi tinggi terhadap perkembangan peserta didik.</p>
           </div>
-          <div class="fitur-card">
-            <div class="fitur-icon"><i class="fa-solid fa-star"></i></div>
+          <div class="fitur-card reveal" style="transition-delay:0.16s">
+            <div class="fitur-icon fitur-icon-green"><i class="fa-solid fa-star"></i></div>
             <h3>Prestasi Akademik</h3>
             <p>Sekolah kami aktif mengikuti dan meraih prestasi dalam berbagai olimpiade dan kompetisi tingkat kecamatan hingga provinsi.</p>
           </div>
-          <div class="fitur-card">
-            <div class="fitur-icon"><i class="fa-solid fa-computer"></i></div>
+          <div class="fitur-card reveal" style="transition-delay:0.04s">
+            <div class="fitur-icon fitur-icon-amber"><i class="fa-solid fa-computer"></i></div>
             <h3>Lab Komputer</h3>
             <p>Laboratorium komputer modern untuk mempersiapkan siswa menghadapi era digital dengan literasi teknologi yang baik.</p>
           </div>
-          <div class="fitur-card">
-            <div class="fitur-icon"><i class="fa-solid fa-futbol"></i></div>
+          <div class="fitur-card reveal" style="transition-delay:0.12s">
+            <div class="fitur-icon fitur-icon-red"><i class="fa-solid fa-futbol"></i></div>
             <h3>Ekstrakurikuler</h3>
             <p>Berbagai kegiatan ekstrakurikuler pilihan mulai dari pramuka, seni tari, olahraga, dan paduan suara.</p>
           </div>
-          <div class="fitur-card">
-            <div class="fitur-icon"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="fitur-card reveal" style="transition-delay:0.2s">
+            <div class="fitur-icon fitur-icon-gray"><i class="fa-solid fa-shield-halved"></i></div>
             <h3>Lingkungan Aman</h3>
             <p>Lingkungan sekolah yang aman, nyaman, dan kondusif untuk mendukung proses belajar mengajar yang optimal.</p>
           </div>
@@ -422,35 +600,69 @@
       </div>
     </section>
 
-    <!-- Berita Terbaru -->
+    <!-- TENTANG (about split) -->
+    <section class="section">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-img-wrap reveal">
+            <img
+              src="https://images.unsplash.com/photo-1588072432904-843af37f03ed?q=80&w=1200&auto=format&fit=crop"
+              alt="Kegiatan sekolah" class="about-img">
+          </div>
+          <div class="reveal" style="transition-delay:0.12s">
+            <div class="section-label" style="text-align:left">Tentang Kami</div>
+            <h2 class="section-title" style="text-align:left;font-size:40px">Pendidikan Berkualitas<br>Untuk Masa Depan</h2>
+            <p style="color:var(--text-muted);font-size:16px;margin-bottom:28px;line-height:1.8" id="sitProfilSejarah1About">SDN 1 Contoh berkomitmen menghadirkan pendidikan modern yang menyeimbangkan ilmu, karakter, kreativitas, dan teknologi bagi setiap siswa.</p>
+            <div class="about-check">
+              <div class="about-check-icon"><i class="fa-solid fa-check"></i></div>
+              <p>Tenaga pendidik profesional & bersertifikasi</p>
+            </div>
+            <div class="about-check">
+              <div class="about-check-icon"><i class="fa-solid fa-check"></i></div>
+              <p>Fasilitas modern & ruang belajar nyaman</p>
+            </div>
+            <div class="about-check">
+              <div class="about-check-icon"><i class="fa-solid fa-check"></i></div>
+              <p>Program unggulan berbasis karakter Pancasila</p>
+            </div>
+            <div style="margin-top:32px">
+              <button class="btn-primary" onclick="showPage('profil')">
+                <i class="fa-solid fa-arrow-right"></i> Selengkapnya
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BERITA TERBARU -->
     <section class="section section-alt">
       <div class="container">
-        <div class="section-header">
-          <div class="section-label">Informasi</div>
-          <h2 class="section-title">Berita & Pengumuman</h2>
-          <p class="section-desc">Update terbaru kegiatan dan informasi penting dari sekolah kami.</p>
+        <div class="section-header reveal" style="display:flex;align-items:flex-end;justify-content:space-between;text-align:left;margin-bottom:40px">
+          <div>
+            <div class="section-label">Informasi</div>
+            <h2 class="section-title" style="margin-bottom:0">Berita & Pengumuman</h2>
+          </div>
+          <button class="btn-outline btn-sm" onclick="showPage('berita')" style="flex-shrink:0">Lihat Semua <i class="fa-solid fa-arrow-right"></i></button>
         </div>
         <div id="publicBeritaList">
-          <div style="text-align:center;padding:40px;color:#aaa;grid-column:1/-1"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
-        </div>
-        <div style="text-align:center;margin-top:32px">
-          <button class="btn-outline" onclick="showPage('berita')">Lihat Semua Berita <i class="fa-solid fa-arrow-right"></i></button>
+          <div style="text-align:center;padding:48px;color:#aaa;grid-column:1/-1"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
         </div>
       </div>
     </section>
 
     <!-- CTA -->
-    <section class="section" style="background: linear-gradient(135deg, var(--blue-dark), var(--blue)); color: white; text-align: center;">
-      <div class="container">
-        <h2 style="font-family:'Lora',serif;font-size:32px;margin-bottom:12px">Bergabunglah Bersama Kami</h2>
-        <p style="opacity:0.85;margin-bottom:32px;max-width:480px;margin-left:auto;margin-right:auto">Pendaftaran Peserta Didik Baru (PPDB) kini dibuka. Daftarkan putra-putri Anda sekarang!</p>
-        <button class="btn-primary" style="background:white;color:var(--blue-dark)" onclick="showPage('kontak')">
+    <section class="cta-section reveal">
+      <div class="container" style="position:relative;z-index:1">
+        <h2>Bergabunglah Bersama Kami</h2>
+        <p>Pendaftaran Peserta Didik Baru (PPDB) kini dibuka. Daftarkan putra-putri Anda sekarang!</p>
+        <button class="btn-white" onclick="showPage('kontak')">
           <i class="fa-solid fa-envelope"></i> Hubungi Kami
         </button>
       </div>
     </section>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer class="footer">
       <div class="container">
         <div class="footer-grid">
@@ -475,8 +687,8 @@
             <h4>Kontak</h4>
             <ul class="footer-links">
               <li><a><i class="fa-solid fa-map-marker-alt"></i> Jl. Contoh No.1, Jakarta</a></li>
-              <li><a><i class="fa-solid fa-phone"></i> (021) 555-0100</a></li>
-              <li><a><i class="fa-solid fa-envelope"></i> info@sdn1contoh.sch.id</a></li>
+              <li><a><i class="fa-solid fa-phone"></i> <span id="sitFooterTelp">(021) 555-0100</span></a></li>
+              <li><a><i class="fa-solid fa-envelope"></i> <span id="sitFooterEmail">info@sdn1contoh.sch.id</span></a></li>
             </ul>
           </div>
         </div>
@@ -487,15 +699,15 @@
     </footer>
   </div><!-- end page-home -->
 
-  <!-- ── PAGE: PROFIL ── -->
+  <!-- ══ PAGE: PROFIL ══ -->
   <div id="page-profil" class="pub-page">
-    <div style="background:var(--blue-light);padding:48px 0 32px;margin-bottom:48px">
+    <div class="page-header">
       <div class="container">
         <div class="section-label">Tentang Kami</div>
-        <h1 style="font-family:'Lora',serif;font-size:34px;color:var(--blue-dark);margin-top:8px">Profil Sekolah</h1>
+        <h1>Profil Sekolah</h1>
       </div>
     </div>
-    <div class="container" style="margin-bottom:64px">
+    <div class="container" style="margin-bottom:80px;padding-top:56px">
       <div class="profil-content" id="profilContent">
         <div class="profil-section">
           <h2>Sejarah Singkat</h2>
@@ -524,12 +736,12 @@
         <div class="profil-section">
           <h2>Identitas Sekolah</h2>
           <table style="width:100%;font-size:14px;border-collapse:collapse">
-            <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text-muted);width:200px">Nama Sekolah</td><td style="padding:10px 0;font-weight:500" id="sitProfilNama">SDN 1 Contoh</td></tr>
-            <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text-muted)">NPSN</td><td style="padding:10px 0" id="sitProfilNPSN">12345678</td></tr>
-            <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text-muted)">Akreditasi</td><td style="padding:10px 0"><span class="badge badge-green" id="sitProfilAkred">A — Unggul</span></td></tr>
-            <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text-muted)">Status</td><td style="padding:10px 0">Negeri</td></tr>
-            <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text-muted)">Kepala Sekolah</td><td style="padding:10px 0;font-weight:500" id="sitProfilKepsek">Drs. Hendra Kusuma, M.Pd</td></tr>
-            <tr><td style="padding:10px 0;color:var(--text-muted)">Alamat</td><td style="padding:10px 0" id="sitProfilAlamat">Jl. Contoh No.1, Kebon Jeruk, Jakarta Barat 11530</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 0;color:var(--text-muted);width:200px">Nama Sekolah</td><td style="padding:12px 0;font-weight:600" id="sitProfilNama">SDN 1 Contoh</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 0;color:var(--text-muted)">NPSN</td><td style="padding:12px 0" id="sitProfilNPSN">12345678</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 0;color:var(--text-muted)">Akreditasi</td><td style="padding:12px 0"><span class="badge badge-green" id="sitProfilAkred">A — Unggul</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 0;color:var(--text-muted)">Status</td><td style="padding:12px 0">Negeri</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 0;color:var(--text-muted)">Kepala Sekolah</td><td style="padding:12px 0;font-weight:600" id="sitProfilKepsek">Drs. Hendra Kusuma, M.Pd</td></tr>
+            <tr><td style="padding:12px 0;color:var(--text-muted)">Alamat</td><td style="padding:12px 0" id="sitProfilAlamat">Jl. Contoh No.1, Kebon Jeruk, Jakarta Barat 11530</td></tr>
           </table>
         </div>
       </div>
@@ -537,64 +749,64 @@
     <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
   </div>
 
-  <!-- ── PAGE: BERITA ── -->
+  <!-- ══ PAGE: BERITA ══ -->
   <div id="page-berita" class="pub-page">
-    <div style="background:var(--blue-light);padding:48px 0 32px;margin-bottom:48px">
+    <div class="page-header">
       <div class="container">
         <div class="section-label">Informasi Sekolah</div>
-        <h1 style="font-family:'Lora',serif;font-size:34px;color:var(--blue-dark);margin-top:8px">Berita & Pengumuman</h1>
+        <h1>Berita & Pengumuman</h1>
       </div>
     </div>
-    <div class="container" style="margin-bottom:64px">
-      <div id="publicBeritaListFull" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
-        <div style="text-align:center;padding:40px;color:#aaa;grid-column:1/-1"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
+    <div class="container" style="margin-bottom:80px;padding-top:56px">
+      <div id="publicBeritaListFull" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+        <div style="text-align:center;padding:48px;color:#aaa;grid-column:1/-1"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
       </div>
     </div>
     <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
   </div>
 
-  <!-- ── PAGE: BERITA DETAIL ── -->
+  <!-- ══ PAGE: BERITA DETAIL ══ -->
   <div id="page-berita-detail" class="pub-page">
     <div class="container">
-      <div style="padding:24px 0">
+      <div style="padding:28px 0">
         <button class="btn-outline btn-sm" onclick="showPage('berita')"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
       </div>
       <div class="berita-detail-header">
         <span id="detailBeritaKategori" class="badge badge-blue"></span>
-        <h1 id="detailBeritaJudul" style="font-family:'Lora',serif;font-size:30px;margin:16px 0 8px;line-height:1.3"></h1>
+        <h1 id="detailBeritaJudul" style="font-family:'Poppins',sans-serif;font-size:40px;font-weight:800;margin:18px 0 10px;line-height:1.2;color:var(--blue-dark);letter-spacing:-0.5px"></h1>
         <p id="detailBeritaTanggal" style="color:var(--text-muted);font-size:14px"><i class="fa-regular fa-calendar"></i></p>
         <img id="detailBeritaFoto" class="berita-detail-img" src="" alt="">
       </div>
-      <div class="berita-detail-body" id="detailBeritaIsi"></div>
+      <div class="berita-detail-body" id="detailBeritaIsi" style="font-size:17px;line-height:1.9"></div>
     </div>
     <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
   </div>
 
-  <!-- ── PAGE: GALERI ── -->
+  <!-- ══ PAGE: GALERI ══ -->
   <div id="page-galeri" class="pub-page">
-    <div style="background:var(--blue-light);padding:48px 0 32px;margin-bottom:48px">
+    <div class="page-header">
       <div class="container">
         <div class="section-label">Dokumentasi Kegiatan</div>
-        <h1 style="font-family:'Lora',serif;font-size:34px;color:var(--blue-dark);margin-top:8px">Galeri Foto</h1>
+        <h1>Galeri Foto</h1>
       </div>
     </div>
-    <div class="container" style="margin-bottom:64px">
-      <div id="publicGaleriGrid" class="galeri-pub-grid">
-        <div style="text-align:center;padding:40px;color:#aaa;grid-column:1/-1"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
+    <div class="container" style="margin-bottom:80px;padding-top:56px">
+      <div id="publicGaleriGrid">
+        <div style="text-align:center;padding:48px;color:#aaa"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
       </div>
     </div>
     <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
   </div>
 
-  <!-- ── PAGE: KONTAK ── -->
+  <!-- ══ PAGE: KONTAK ══ -->
   <div id="page-kontak" class="pub-page">
-    <div style="background:var(--blue-light);padding:48px 0 32px;margin-bottom:48px">
+    <div class="page-header">
       <div class="container">
         <div class="section-label">Hubungi Kami</div>
-        <h1 style="font-family:'Lora',serif;font-size:34px;color:var(--blue-dark);margin-top:8px">Kontak & Pesan</h1>
+        <h1>Kontak & Pesan</h1>
       </div>
     </div>
-    <div class="container" style="margin-bottom:64px">
+    <div class="container" style="margin-bottom:80px;padding-top:56px">
       <div class="kontak-grid">
         <div class="kontak-info">
           <h3>Informasi Kontak</h3>
@@ -626,8 +838,8 @@
               <span id="sitKontakJam">Senin–Jumat: 07.00–14.00 WIB</span>
             </div>
           </div>
-          <div style="margin-top:24px;background:var(--bg);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.7945959!3d-6.2087634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMTInMzEuNiJTIDEwNsKwNDcnNDAuNiJF!5e0!3m2!1sid!2sid!4v1620000000000!5m2!1sid!2sid" width="100%" height="220" style="border:0;display:block" allowfullscreen="" loading="lazy"></iframe>
+          <div style="margin-top:24px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.7945959!3d-6.2087634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMTInMzEuNiJTIDEwNsKwNDcnNDAuNiJF!5e0!3m2!1sid!2sid!4v1620000000000!5m2!1sid!2sid" width="100%" height="240" style="border:0;display:block" allowfullscreen="" loading="lazy"></iframe>
           </div>
         </div>
         <div class="kontak-form">
@@ -665,11 +877,14 @@
     <footer class="footer"><div class="container"><div class="footer-bottom">&copy; 2025 SDN 1 Contoh.</div></div></footer>
   </div>
 
+  <!-- FLOATING WA -->
+  <a href="#" class="wa-float" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+
 </div><!-- end publicSite -->
 
-<!-- ════════════════════════════════════════
+<!-- ════════════════════════════════════════════
      LOGIN PAGE
-════════════════════════════════════════ -->
+════════════════════════════════════════════ -->
 <div id="loginPage">
   <div class="login-box">
     <div class="login-logo">
@@ -693,7 +908,7 @@
     <button class="btn-login" onclick="doLogin()">
       <i class="fa-solid fa-right-to-bracket"></i> Masuk ke Admin Panel
     </button>
-    <div style="text-align:center;margin-top:16px">
+    <div style="text-align:center;margin-top:18px">
       <button style="background:none;border:none;color:var(--text-muted);font-size:13px;cursor:pointer" onclick="showPublic()">
         ← Kembali ke website
       </button>
@@ -701,9 +916,9 @@
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
+<!-- ════════════════════════════════════════════
      ADMIN PANEL
-════════════════════════════════════════ -->
+════════════════════════════════════════════ -->
 <div id="adminPanel">
 
   <!-- TOPBAR -->
@@ -721,7 +936,6 @@
     </div>
   </div>
 
-  <!-- BODY -->
   <div class="admin-body">
 
     <!-- SIDEBAR -->
@@ -753,7 +967,7 @@
     <!-- MAIN CONTENT -->
     <div class="admin-main">
 
-      <!-- ── DASHBOARD ── -->
+      <!-- DASHBOARD -->
       <div id="section-dashboard" class="admin-section active">
         <div class="admin-section-header">
           <div class="admin-section-title">Dashboard <small>Ringkasan aktivitas website</small></div>
@@ -797,7 +1011,7 @@
         </div>
       </div>
 
-      <!-- ── HALAMAN ── -->
+      <!-- HALAMAN -->
       <div id="section-halaman" class="admin-section">
         <div class="admin-section-header">
           <div class="admin-section-title">Kelola Halaman <small>Kelola konten halaman statis website</small></div>
@@ -811,13 +1025,13 @@
         </div>
       </div>
 
-      <!-- ── BERITA ── -->
+      <!-- BERITA -->
       <div id="section-berita" class="admin-section">
         <div class="admin-section-header">
           <div class="admin-section-title">Kelola Berita <small>Tambah, edit, dan publish berita sekolah</small></div>
           <button class="btn-primary" onclick="showFormBerita()"><i class="fa-solid fa-plus"></i> Tulis Berita</button>
         </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
           <div class="filter-bar">
             <button class="filter-btn active" onclick="loadBerita('semua');setFilter(this)">Semua</button>
             <button class="filter-btn" onclick="loadBerita('tayang');setFilter(this)">Tayang</button>
@@ -832,7 +1046,7 @@
         </div>
       </div>
 
-      <!-- ── GALERI ── -->
+      <!-- GALERI -->
       <div id="section-galeri" class="admin-section">
         <div class="admin-section-header">
           <div class="admin-section-title">Kelola Galeri <small>Upload dan kelola foto kegiatan sekolah</small></div>
@@ -843,12 +1057,12 @@
         </div>
       </div>
 
-      <!-- ── PESAN ── -->
+      <!-- PESAN -->
       <div id="section-pesan" class="admin-section">
         <div class="admin-section-header">
           <div class="admin-section-title">Pesan Masuk <small>Pesan dari orang tua dan masyarakat</small></div>
         </div>
-        <div style="display:flex;margin-bottom:16px">
+        <div style="display:flex;margin-bottom:18px">
           <div class="filter-bar">
             <button class="filter-btn active" onclick="loadPesan('semua');setFilter(this)">Semua</button>
             <button class="filter-btn" onclick="loadPesan('baru');setFilter(this)">Belum Dibaca</button>
@@ -863,114 +1077,67 @@
         </div>
       </div>
 
-
-      <!-- ── PENGATURAN WEBSITE ── -->
+      <!-- PENGATURAN -->
       <div id="section-pengaturan" class="admin-section">
         <div class="admin-section-header">
           <div class="admin-section-title">Pengaturan Website <small>Edit teks dan informasi utama halaman beranda</small></div>
           <button class="btn-primary" onclick="simpanPengaturan()"><i class="fa-solid fa-save"></i> Simpan Perubahan</button>
         </div>
 
-        <!-- IDENTITAS SEKOLAH -->
-        <div class="admin-table-wrap" style="margin-bottom:20px">
+        <div class="admin-table-wrap" style="margin-bottom:22px">
           <div class="admin-table-header"><span class="admin-table-title"><i class="fa-solid fa-school" style="color:var(--blue);margin-right:6px"></i>Identitas Sekolah</span></div>
-          <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
-            <div class="form-group">
-              <label>Nama Sekolah</label>
-              <input type="text" id="setPNamaSekolah" placeholder="SDN 1 Contoh">
-            </div>
-            <div class="form-group">
-              <label>Alamat Singkat (navbar)</label>
-              <input type="text" id="setPAlamatSingkat" placeholder="Kec. Kebon Jeruk, Jakarta">
-            </div>
-            <div class="form-group">
-              <label>Telepon</label>
-              <input type="text" id="setpTelepon" placeholder="(021) 555-0100">
-            </div>
-            <div class="form-group">
-              <label>Email</label>
-              <input type="text" id="setpEmail" placeholder="info@sdn1contoh.sch.id">
-            </div>
-            <div class="form-group" style="grid-column:1/-1">
-              <label>Alamat Lengkap</label>
-              <input type="text" id="setpAlamatLengkap" placeholder="Jl. Contoh No.1, Kebon Jeruk, Jakarta Barat 11530">
-            </div>
+          <div style="padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="form-group"><label>Nama Sekolah</label><input type="text" id="setPNamaSekolah" placeholder="SDN 1 Contoh"></div>
+            <div class="form-group"><label>Alamat Singkat (navbar)</label><input type="text" id="setPAlamatSingkat" placeholder="Kec. Kebon Jeruk, Jakarta"></div>
+            <div class="form-group"><label>Telepon</label><input type="text" id="setpTelepon" placeholder="(021) 555-0100"></div>
+            <div class="form-group"><label>Email</label><input type="text" id="setpEmail" placeholder="info@sdn1contoh.sch.id"></div>
+            <div class="form-group" style="grid-column:1/-1"><label>Alamat Lengkap</label><input type="text" id="setpAlamatLengkap" placeholder="Jl. Contoh No.1, Kebon Jeruk, Jakarta Barat 11530"></div>
           </div>
         </div>
 
-        <!-- HERO BERANDA -->
-        <div class="admin-table-wrap" style="margin-bottom:20px">
+        <div class="admin-table-wrap" style="margin-bottom:22px">
           <div class="admin-table-header"><span class="admin-table-title"><i class="fa-solid fa-house" style="color:var(--blue);margin-right:6px"></i>Hero Beranda</span></div>
-          <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
-            <div class="form-group">
-              <label>Badge (label kecil di atas judul)</label>
-              <input type="text" id="setPHeroBadge" placeholder="✦ Tahun Pelajaran 2025/2026">
-            </div>
-            <div class="form-group">
-              <label>Nama di Hero (teks biru besar)</label>
-              <input type="text" id="setPHeroNama" placeholder="SDN 1 Contoh">
-            </div>
-            <div class="form-group" style="grid-column:1/-1">
-              <label>Tagline / Deskripsi Hero</label>
-              <input type="text" id="setPHeroTagline" placeholder="Membentuk generasi cerdas, berkarakter, dan berprestasi...">
-            </div>
+          <div style="padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="form-group"><label>Badge (label kecil di atas judul)</label><input type="text" id="setPHeroBadge" placeholder="✦ Tahun Pelajaran 2025/2026"></div>
+            <div class="form-group"><label>Nama di Hero (teks aksen)</label><input type="text" id="setPHeroNama" placeholder="SDN 1 Contoh"></div>
+            <div class="form-group" style="grid-column:1/-1"><label>Tagline / Deskripsi Hero</label><input type="text" id="setPHeroTagline" placeholder="Membentuk generasi cerdas, berkarakter, dan berprestasi..."></div>
           </div>
         </div>
 
-        <!-- STATISTIK -->
-        <div class="admin-table-wrap" style="margin-bottom:20px">
-          <div class="admin-table-header"><span class="admin-table-title"><i class="fa-solid fa-chart-bar" style="color:var(--blue);margin-right:6px"></i>Statistik Beranda (3 angka di bawah hero)</span></div>
-          <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+        <div class="admin-table-wrap" style="margin-bottom:22px">
+          <div class="admin-table-header"><span class="admin-table-title"><i class="fa-solid fa-chart-bar" style="color:var(--blue);margin-right:6px"></i>Statistik Beranda</span></div>
+          <div style="padding:22px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
             <div>
-              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase">Statistik 1</div>
+              <div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase">Statistik 1</div>
               <div class="form-group"><label>Angka</label><input type="text" id="setPStat1Num" placeholder="450+"></div>
               <div class="form-group"><label>Label</label><input type="text" id="setPStat1Label" placeholder="Siswa Aktif"></div>
             </div>
             <div>
-              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase">Statistik 2</div>
+              <div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase">Statistik 2</div>
               <div class="form-group"><label>Angka</label><input type="text" id="setPStat2Num" placeholder="28"></div>
               <div class="form-group"><label>Label</label><input type="text" id="setPStat2Label" placeholder="Guru & Staff"></div>
             </div>
             <div>
-              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase">Statistik 3</div>
+              <div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase">Statistik 3</div>
               <div class="form-group"><label>Angka</label><input type="text" id="setPStat3Num" placeholder="30+"></div>
               <div class="form-group"><label>Label</label><input type="text" id="setPStat3Label" placeholder="Tahun Berdiri"></div>
             </div>
           </div>
         </div>
 
-        <!-- PROFIL SEKOLAH -->
-        <div class="admin-table-wrap" style="margin-bottom:20px">
+        <div class="admin-table-wrap" style="margin-bottom:22px">
           <div class="admin-table-header"><span class="admin-table-title"><i class="fa-solid fa-circle-info" style="color:var(--blue);margin-right:6px"></i>Halaman Profil Sekolah</span></div>
-          <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
-            <div class="form-group">
-              <label>NPSN</label>
-              <input type="text" id="setPNPSN" placeholder="12345678">
-            </div>
-            <div class="form-group">
-              <label>Akreditasi</label>
-              <input type="text" id="setPAkreditasi" placeholder="A — Unggul">
-            </div>
-            <div class="form-group">
-              <label>Kepala Sekolah</label>
-              <input type="text" id="setPKepsek" placeholder="Drs. Hendra Kusuma, M.Pd">
-            </div>
-            <div class="form-group">
-              <label>Jam Operasional</label>
-              <input type="text" id="setPJamOps" placeholder="Senin–Jumat: 07.00–14.00 WIB">
-            </div>
-            <div class="form-group" style="grid-column:1/-1">
-              <label>Visi Sekolah</label>
-              <textarea id="setPVisi" rows="3" placeholder="Menjadi sekolah dasar unggulan..."></textarea>
-            </div>
-            <div class="form-group" style="grid-column:1/-1">
-              <label>Sejarah Singkat</label>
-              <textarea id="setPSejarah" rows="4" placeholder="SDN 1 Contoh berdiri sejak..."></textarea>
-            </div>
+          <div style="padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="form-group"><label>NPSN</label><input type="text" id="setPNPSN" placeholder="12345678"></div>
+            <div class="form-group"><label>Akreditasi</label><input type="text" id="setPAkreditasi" placeholder="A — Unggul"></div>
+            <div class="form-group"><label>Kepala Sekolah</label><input type="text" id="setPKepsek" placeholder="Drs. Hendra Kusuma, M.Pd"></div>
+            <div class="form-group"><label>Jam Operasional</label><input type="text" id="setPJamOps" placeholder="Senin–Jumat: 07.00–14.00 WIB"></div>
+            <div class="form-group" style="grid-column:1/-1"><label>Visi Sekolah</label><textarea id="setPVisi" rows="3" placeholder="Menjadi sekolah dasar unggulan..."></textarea></div>
+            <div class="form-group" style="grid-column:1/-1"><label>Sejarah Singkat</label><textarea id="setPSejarah" rows="4" placeholder="SDN 1 Contoh berdiri sejak..."></textarea></div>
           </div>
         </div>
 
-        <div style="display:flex;gap:10px;margin-top:4px">
+        <div style="display:flex;gap:12px;margin-top:4px">
           <button class="btn-primary" onclick="simpanPengaturan()"><i class="fa-solid fa-save"></i> Simpan Semua Perubahan</button>
           <button class="btn-outline" onclick="loadPengaturan()"><i class="fa-solid fa-rotate-right"></i> Reset ke Data Tersimpan</button>
         </div>
@@ -980,9 +1147,9 @@
   </div><!-- end admin-body -->
 </div><!-- end adminPanel -->
 
-<!-- ════════════════════════════════════════
+<!-- ════════════════════════════════════════════
      MODALS
-════════════════════════════════════════ -->
+════════════════════════════════════════════ -->
 
 <!-- Modal: Form Halaman -->
 <div id="modalHalaman" class="modal-overlay">
@@ -993,29 +1160,17 @@
     </div>
     <div class="modal-body">
       <input type="hidden" id="formHalamanId">
-      <div class="form-group">
-        <label>Judul Halaman <span style="color:red">*</span></label>
-        <input type="text" id="formHalamanJudul" placeholder="contoh: Profil Sekolah">
-      </div>
+      <div class="form-group"><label>Judul Halaman <span style="color:red">*</span></label><input type="text" id="formHalamanJudul" placeholder="contoh: Profil Sekolah"></div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Slug URL</label>
-          <input type="text" id="formHalamanSlug" placeholder="profil-sekolah">
-        </div>
-        <div class="form-group">
-          <label>Urutan</label>
-          <input type="number" id="formHalamanUrutan" placeholder="1">
-        </div>
+        <div class="form-group"><label>Slug URL</label><input type="text" id="formHalamanSlug" placeholder="profil-sekolah"></div>
+        <div class="form-group"><label>Urutan</label><input type="number" id="formHalamanUrutan" placeholder="1"></div>
       </div>
-      <div class="form-group">
-        <label>Isi Halaman</label>
-        <textarea id="formHalamanIsi" rows="6" placeholder="Tulis konten halaman di sini..."></textarea>
-      </div>
-      <div class="form-group" style="display:flex;align-items:center;gap:8px">
-        <input type="checkbox" id="formHalamanAktif" checked style="width:auto">
+      <div class="form-group"><label>Isi Halaman</label><textarea id="formHalamanIsi" rows="6" placeholder="Tulis konten halaman di sini..."></textarea></div>
+      <div class="form-group" style="display:flex;align-items:center;gap:10px">
+        <input type="checkbox" id="formHalamanAktif" checked style="width:auto;accent-color:var(--blue)">
         <label for="formHalamanAktif" style="margin:0">Halaman aktif / tampil di menu</label>
       </div>
-      <div style="display:flex;gap:8px;margin-top:8px">
+      <div style="display:flex;gap:10px;margin-top:10px">
         <button class="btn-primary" onclick="simpanHalaman()"><i class="fa-solid fa-save"></i> Simpan</button>
         <button class="btn-outline" onclick="closeFormHalaman()">Batal</button>
       </div>
@@ -1032,10 +1187,7 @@
     </div>
     <div class="modal-body">
       <input type="hidden" id="formBeritaId">
-      <div class="form-group">
-        <label>Judul Berita <span style="color:red">*</span></label>
-        <input type="text" id="formBeritaJudul" placeholder="Masukkan judul berita...">
-      </div>
+      <div class="form-group"><label>Judul Berita <span style="color:red">*</span></label><input type="text" id="formBeritaJudul" placeholder="Masukkan judul berita..."></div>
       <div class="form-row">
         <div class="form-group">
           <label>Kategori</label>
@@ -1055,16 +1207,13 @@
           </select>
         </div>
       </div>
-      <div class="form-group">
-        <label>Isi Berita <span style="color:red">*</span></label>
-        <textarea id="formBeritaIsi" rows="8" placeholder="Tulis isi berita di sini..."></textarea>
-      </div>
+      <div class="form-group"><label>Isi Berita <span style="color:red">*</span></label><textarea id="formBeritaIsi" rows="8" placeholder="Tulis isi berita di sini..."></textarea></div>
       <div class="form-group">
         <label>Foto Berita (opsional)</label>
         <input type="file" id="formBeritaFoto" accept="image/*">
         <img id="beritaFotoPreview" alt="Preview foto">
       </div>
-      <div style="display:flex;gap:8px;margin-top:8px">
+      <div style="display:flex;gap:10px;margin-top:10px">
         <button id="btnSimpanBerita" class="btn-primary" onclick="simpanBerita()"><i class="fa-solid fa-save"></i> Simpan Berita</button>
         <button class="btn-outline" onclick="closeFormBerita()">Batal</button>
       </div>
@@ -1085,11 +1234,8 @@
         <input type="file" id="galeriFiles" accept="image/*" multiple>
         <div id="galeriUploadPreview"></div>
       </div>
-      <div class="form-group">
-        <label>Keterangan Foto</label>
-        <input type="text" id="galeriKeterangan" placeholder="Contoh: Upacara Hari Kemerdekaan 2025">
-      </div>
-      <div style="display:flex;gap:8px;margin-top:8px">
+      <div class="form-group"><label>Keterangan Foto</label><input type="text" id="galeriKeterangan" placeholder="Contoh: Upacara Hari Kemerdekaan 2025"></div>
+      <div style="display:flex;gap:10px;margin-top:10px">
         <button id="btnUploadGaleri" class="btn-primary" onclick="uploadGaleri()"><i class="fa-solid fa-upload"></i> Upload Foto</button>
         <button class="btn-outline" onclick="closeModalGaleri()">Batal</button>
       </div>
@@ -1106,34 +1252,16 @@
     </div>
     <div class="modal-body">
       <div class="form-row">
-        <div class="detail-field">
-          <div class="detail-label">Nama</div>
-          <div class="detail-value" id="detailPesanNama"></div>
-        </div>
-        <div class="detail-field">
-          <div class="detail-label">Tanggal</div>
-          <div class="detail-value" id="detailPesanTanggal"></div>
-        </div>
+        <div class="detail-field"><div class="detail-label">Nama</div><div class="detail-value" id="detailPesanNama"></div></div>
+        <div class="detail-field"><div class="detail-label">Tanggal</div><div class="detail-value" id="detailPesanTanggal"></div></div>
       </div>
       <div class="form-row">
-        <div class="detail-field">
-          <div class="detail-label">Email</div>
-          <div class="detail-value" id="detailPesanEmail"></div>
-        </div>
-        <div class="detail-field">
-          <div class="detail-label">Telepon</div>
-          <div class="detail-value" id="detailPesanTelp"></div>
-        </div>
+        <div class="detail-field"><div class="detail-label">Email</div><div class="detail-value" id="detailPesanEmail"></div></div>
+        <div class="detail-field"><div class="detail-label">Telepon</div><div class="detail-value" id="detailPesanTelp"></div></div>
       </div>
-      <div class="detail-field">
-        <div class="detail-label">Subjek</div>
-        <div class="detail-value" id="detailPesanSubjek"></div>
-      </div>
-      <div class="detail-field">
-        <div class="detail-label">Pesan</div>
-        <div class="detail-pesan-text" id="detailPesanIsi"></div>
-      </div>
-      <div style="display:flex;gap:8px;margin-top:20px">
+      <div class="detail-field"><div class="detail-label">Subjek</div><div class="detail-value" id="detailPesanSubjek"></div></div>
+      <div class="detail-field"><div class="detail-label">Pesan</div><div class="detail-pesan-text" id="detailPesanIsi"></div></div>
+      <div style="display:flex;gap:10px;margin-top:22px">
         <a id="btnBalasPesan" class="btn-primary" href="#"><i class="fa-solid fa-reply"></i> Balas via Email</a>
         <button class="btn-outline" onclick="closeDetailPesan()">Tutup</button>
       </div>
@@ -1141,9 +1269,9 @@
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
+<!-- ════════════════════════════════════════════
      FIREBASE SDK (compat v9)
-════════════════════════════════════════ -->
+════════════════════════════════════════════ -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -1154,7 +1282,7 @@
 <script src="admin.js?v=1778220864"></script>
 
 <script>
-// ── NAVIGASI HALAMAN PUBLIK ──
+// ══ NAVIGASI HALAMAN PUBLIK ══
 function showPage(page, el) {
   document.querySelectorAll('.pub-page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
@@ -1162,21 +1290,65 @@ function showPage(page, el) {
   if (target) target.classList.add('active');
   if (el) el.classList.add('active');
   window.scrollTo(0, 0);
-
-  // Load data dinamis saat buka halaman
   if (page === 'home') loadPublicBerita(6);
   if (page === 'berita') loadPublicBeritaFull();
   if (page === 'galeri') loadPublicGaleri();
 }
 
-// Load berita untuk halaman berita publik (full)
+// ══ MOBILE MENU ══
+function toggleMobileMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+// ══ SCROLL REVEAL ══
+function revealOnScroll() {
+  document.querySelectorAll('.reveal').forEach(el => {
+    if (el.getBoundingClientRect().top < window.innerHeight - 90) {
+      el.classList.add('active');
+    }
+  });
+}
+window.addEventListener('scroll', revealOnScroll);
+window.addEventListener('DOMContentLoaded', () => { revealOnScroll(); });
+
+// ══ LOAD BERITA PUBLIK (beranda) ══
+async function loadPublicBerita(limit) {
+  const container = document.getElementById('publicBeritaList');
+  if (!container) return;
+  try {
+    const rawSnap = await _db.collection('berita').where('status', '==', 'tayang').get();
+    const docs = rawSnap.docs
+      .sort((a,b) => (b.data().createdAt?.seconds||0) - (a.data().createdAt?.seconds||0))
+      .slice(0, limit || 6);
+    if (docs.length === 0) {
+      container.innerHTML = '<p style="text-align:center;color:#aaa;grid-column:1/-1;padding:40px">Belum ada berita.</p>';
+      return;
+    }
+    container.innerHTML = docs.map(doc => {
+      const d = doc.data();
+      const tanggal = formatDate(d.createdAt);
+      return `<div class="berita-card" onclick="lihatBeritaPublik('${doc.id}')">
+        ${d.foto ? `<img src="${d.foto}" alt="${d.judul}" class="berita-img">` : '<div class="berita-no-img"><i class="fa-solid fa-newspaper"></i></div>'}
+        <div class="berita-body">
+          <span class="berita-kategori">${d.kategori || 'Umum'}</span>
+          <h3 class="berita-judul">${d.judul}</h3>
+          <p class="berita-tanggal"><i class="fa-regular fa-calendar"></i> ${tanggal}</p>
+          <p class="berita-preview">${(d.isi || '').substring(0, 110)}...</p>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(err) { console.error(err); }
+}
+
+// ══ LOAD BERITA PENUH ══
 async function loadPublicBeritaFull() {
   const container = document.getElementById('publicBeritaListFull');
   if (!container) return;
   try {
-    const rawSnap = await _db.collection('berita')
-      .where('status', '==', 'tayang')
-      .get();
+    const rawSnap = await _db.collection('berita').where('status', '==', 'tayang').get();
     const snap = { docs: rawSnap.docs.sort((a,b) => (b.data().createdAt?.seconds||0) - (a.data().createdAt?.seconds||0)) };
     if (snap.docs.length === 0) {
       container.innerHTML = '<p style="text-align:center;color:#aaa;grid-column:1/-1">Belum ada berita.</p>';
@@ -1198,7 +1370,7 @@ async function loadPublicBeritaFull() {
   } catch(err) { console.error(err); }
 }
 
-// Load galeri publik
+// ══ LOAD GALERI PUBLIK — MASONRY ══
 async function loadPublicGaleri() {
   const grid = document.getElementById('publicGaleriGrid');
   if (!grid) return;
@@ -1206,7 +1378,7 @@ async function loadPublicGaleri() {
     const rawGaleri = await _db.collection('galeri').get();
     const snap = { docs: rawGaleri.docs.sort((a,b) => (b.data().createdAt?.seconds||0) - (a.data().createdAt?.seconds||0)) };
     if (snap.docs.length === 0) {
-      grid.innerHTML = '<p style="text-align:center;color:#aaa;grid-column:1/-1">Belum ada foto.</p>';
+      grid.innerHTML = '<p style="text-align:center;color:#aaa">Belum ada foto.</p>';
       return;
     }
     grid.innerHTML = snap.docs.map(doc => {
@@ -1218,16 +1390,17 @@ async function loadPublicGaleri() {
   } catch(err) { console.error(err); }
 }
 
-// Helper filter button
+// ══ FILTER BUTTON ══
 function setFilter(el) {
   el.closest('.filter-bar').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
 }
 
-// Load konten publik saat halaman dimuat
+// ══ INIT ══
 document.addEventListener('DOMContentLoaded', () => {
   loadPublicBerita(6);
-  loadAndApplySettings();
+  if (typeof loadAndApplySettings === 'function') loadAndApplySettings();
+  revealOnScroll();
 });
 </script>
 
