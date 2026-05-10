@@ -667,7 +667,6 @@ const SETTINGS_DEFAULT = {
   email:          'info@sdn1contoh.sch.id',
   jamOps:         'Senin–Jumat: 07.00–14.00 WIB',
   heroBadge:      '✦ Tahun Pelajaran 2025/2026',
-  heroNama:       'SDN 1 Contoh',
   heroTagline:    'Membentuk generasi cerdas, berkarakter, dan berprestasi untuk masa depan Indonesia',
   stat1Num:       '450+',
   stat1Label:     'Siswa Aktif',
@@ -699,10 +698,27 @@ function applySettings(s) {
   set('sitAdminTopbar',   s.namaSekolah);
   set('sitLoginNama',     s.namaSekolah);
 
-  // Hero teks
-  set('sitHeroBadge',   s.heroBadge);
-  set('sitHeroNama',    s.heroNama || s.namaSekolah); // nama aksen kuning di hero
-  set('sitHeroTagline', s.heroTagline);
+  // Hero teks — nama hero langsung dari namaSekolah (tidak ada field terpisah)
+  set('sitHeroBadge',  s.heroBadge);
+  set('sitHeroNama',   s.namaSekolah);   // ← selalu sinkron dengan nama sekolah
+  set('sitHeroTagline',s.heroTagline);
+
+  // Logo navbar
+  const brandLogoImg  = document.getElementById('brandLogoImg');
+  const brandLogoIcon = document.getElementById('brandLogoIcon');
+  const brandLogoWrap = document.getElementById('brandLogoWrap');
+  if (brandLogoImg && brandLogoIcon && brandLogoWrap) {
+    if (s.logoBase64) {
+      brandLogoImg.src          = s.logoBase64;
+      brandLogoImg.style.display = 'block';
+      brandLogoIcon.style.display = 'none';
+      brandLogoWrap.classList.add('has-logo');
+    } else {
+      brandLogoImg.style.display  = 'none';
+      brandLogoIcon.style.display = '';
+      brandLogoWrap.classList.remove('has-logo');
+    }
+  }
 
   // Stats
   set('sitStat1Num',   s.stat1Num);
@@ -815,7 +831,6 @@ async function loadPengaturan() {
     fill('setpEmail',        'email');
     fill('setPJamOps',       'jamOps');
     fill('setPHeroBadge',    'heroBadge');
-    fill('setPHeroNama',     'heroNama');
     fill('setPHeroTagline',  'heroTagline');
     fill('setPStat1Num',     'stat1Num');
     fill('setPStat1Label',   'stat1Label');
@@ -835,6 +850,7 @@ async function loadPengaturan() {
     fill('setPAboutPoin3',    'aboutPoin3');
 
     // Tampilkan preview foto hero kalau sudah ada
+    _showLogoPreview(data.logoBase64 || null);
     _showHeroFotoPreview(data.heroFotoBase64 || null);
     _showHeroBgPreview(data.heroBgBase64 || null);
     _showAboutFotoPreview(data.aboutFotoBase64 || null);
@@ -857,7 +873,6 @@ async function simpanPengaturan() {
     email:         get('setpEmail'),
     jamOps:        get('setPJamOps'),
     heroBadge:     get('setPHeroBadge'),
-    heroNama:      get('setPHeroNama'),
     heroTagline:   get('setPHeroTagline'),
     stat1Num:      get('setPStat1Num'),
     stat1Label:    get('setPStat1Label'),
@@ -881,6 +896,7 @@ async function simpanPengaturan() {
   if (!payload.namaSekolah) { showToast('Nama sekolah tidak boleh kosong', 'error'); return; }
 
   // Proses foto hero jika ada file baru
+  const logoFile  = document.getElementById('setPLogoFile')?.files[0];
   const fotoFile  = document.getElementById('setPHeroFotoFile')?.files[0];
   const bgFile    = document.getElementById('setPHeroBgFile')?.files[0];
   const aboutFile = document.getElementById('setPAboutFotoFile')?.files[0];
@@ -889,6 +905,14 @@ async function simpanPengaturan() {
   if (btnSave) { btnSave.disabled = true; btnSave.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...'; }
 
   try {
+    // Kompresi & encode logo sekolah (maks 256px, kualitas tinggi untuk PNG)
+    if (logoFile) {
+      const statusEl = document.getElementById('setPLogoStatus');
+      if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengompres logo...';
+      payload.logoBase64 = await imageToBase64WebP(logoFile, 256, 0.92);
+      if (statusEl) statusEl.innerHTML = `<span style="color:var(--green)"><i class="fa-solid fa-check"></i> Selesai (${Math.round(payload.logoBase64.length / 1024)} KB)</span>`;
+    }
+
     // Kompresi & encode foto hero (maks 1200px wide)
     if (fotoFile) {
       const statusEl = document.getElementById('setPHeroFotoStatus');
@@ -917,6 +941,7 @@ async function simpanPengaturan() {
     showToast('✅ Pengaturan berhasil disimpan!', 'success');
 
     // Reset file input
+    if (document.getElementById('setPLogoFile'))     document.getElementById('setPLogoFile').value = '';
     if (document.getElementById('setPHeroFotoFile')) document.getElementById('setPHeroFotoFile').value = '';
     if (document.getElementById('setPHeroBgFile'))   document.getElementById('setPHeroBgFile').value = '';
     if (document.getElementById('setPAboutFotoFile')) document.getElementById('setPAboutFotoFile').value = '';
@@ -1071,5 +1096,66 @@ async function hapusAboutFoto() {
     showToast('Foto Tentang Kami berhasil dihapus', 'success');
   } catch(e) {
     showToast('Gagal menghapus foto: ' + e.message, 'error');
+  }
+}
+
+// ──────────────────────────────────────────
+// HELPER: LOGO SEKOLAH
+// ──────────────────────────────────────────
+
+function _showLogoPreview(src) {
+  const img   = document.getElementById('setPLogoPreview');
+  const empty = document.getElementById('setPLogoEmpty');
+  const hapus = document.getElementById('btnHapusLogo');
+  if (!img) return;
+  if (src) {
+    img.src = src; img.style.display = 'block';
+    if (empty) empty.style.display = 'none';
+    if (hapus) hapus.style.display = 'inline-flex';
+  } else {
+    img.style.display = 'none';
+    if (empty) empty.style.display = '';
+    if (hapus) hapus.style.display = 'none';
+  }
+}
+
+async function previewLogo(input) {
+  if (!input.files[0]) return;
+  const statusEl = document.getElementById('setPLogoStatus');
+  if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Membaca file...';
+  try {
+    const b64 = await imageToBase64WebP(input.files[0], 256, 0.92);
+    _showLogoPreview(b64);
+    // Live preview langsung di navbar
+    const brandLogoImg  = document.getElementById('brandLogoImg');
+    const brandLogoIcon = document.getElementById('brandLogoIcon');
+    const brandLogoWrap = document.getElementById('brandLogoWrap');
+    if (brandLogoImg) {
+      brandLogoImg.src = b64;
+      brandLogoImg.style.display = 'block';
+      if (brandLogoIcon) brandLogoIcon.style.display = 'none';
+      if (brandLogoWrap) brandLogoWrap.classList.add('has-logo');
+    }
+    if (statusEl) statusEl.innerHTML = `<span style="color:var(--green)"><i class="fa-solid fa-check"></i> Siap diunggah (${Math.round(b64.length / 1024)} KB)</span>`;
+  } catch(e) {
+    if (statusEl) statusEl.innerHTML = '<span style="color:var(--red)">Gagal membaca gambar</span>';
+  }
+}
+
+async function hapusLogo() {
+  if (!confirm('Hapus logo? Navbar akan kembali menggunakan ikon sekolah default.')) return;
+  try {
+    await _db.collection('settings').doc('main').update({ logoBase64: firebase.firestore.FieldValue.delete() });
+    _showLogoPreview(null);
+    // Kembalikan navbar ke ikon default
+    const brandLogoImg  = document.getElementById('brandLogoImg');
+    const brandLogoIcon = document.getElementById('brandLogoIcon');
+    const brandLogoWrap = document.getElementById('brandLogoWrap');
+    if (brandLogoImg)  brandLogoImg.style.display  = 'none';
+    if (brandLogoIcon) brandLogoIcon.style.display = '';
+    if (brandLogoWrap) brandLogoWrap.classList.remove('has-logo');
+    showToast('Logo berhasil dihapus', 'success');
+  } catch(e) {
+    showToast('Gagal menghapus logo: ' + e.message, 'error');
   }
 }
