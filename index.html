@@ -54,7 +54,7 @@
     /* ═══════════════════════════════════════════
        UTILITIES
     ═══════════════════════════════════════════ */
-    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 clamp(14px, 4vw, 24px); }
     .hidden { display: none !important; }
 
     /* ═══════════════════════════════════════════
@@ -145,22 +145,68 @@
         linear-gradient(to right, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.80) 55%, rgba(232,240,252,0.85) 100%),
         url('https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1800&auto=format&fit=crop') center/cover no-repeat;
     }
-    .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; padding: 80px 0; }
-    .hero-content { }
-    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--blue-light); color: var(--blue); font-size: 15px; font-weight: 600; padding: 10px 22px; border-radius: 20px; margin-bottom: 28px; border: 1px solid rgba(26,79,160,0.15); }
-    .hero h1 { font-family: 'Poppins', sans-serif; font-size: 72px; font-weight: 800; color: var(--blue-dark); line-height: 1.08; margin-bottom: 24px; letter-spacing: -1px; }
+    /* Dua kolom selalu berdampingan — gap & padding fluid */
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(16px, 4vw, 60px);
+      align-items: center;
+      padding: clamp(28px, 5vw, 80px) 0 clamp(52px, 7vw, 100px);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--blue-light); color: var(--blue);
+      font-size: clamp(11px, 1.3vw, 15px); font-weight: 600;
+      padding: clamp(6px, 0.9vw, 10px) clamp(12px, 1.8vw, 22px);
+      border-radius: 20px; margin-bottom: clamp(14px, 2vw, 28px);
+      border: 1px solid rgba(26,79,160,0.15);
+    }
+    .hero h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(22px, 5vw, 72px);
+      font-weight: 800; color: var(--blue-dark);
+      line-height: 1.08; letter-spacing: -0.03em;
+      margin-bottom: clamp(12px, 1.8vw, 24px);
+    }
     .hero h1 .accent { color: var(--yellow); display: block; }
-    .hero p { font-size: 18px; color: var(--text-muted); max-width: 480px; margin-bottom: 40px; line-height: 1.75; font-weight: 400; }
-    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
-    .hero-btns .btn-primary { padding: 16px 32px; border-radius: 16px; font-size: 16px; font-weight: 700; }
-    .hero-btns .btn-outline { padding: 16px 32px; border-radius: 16px; font-size: 16px; font-weight: 700; }
+    .hero p {
+      font-size: clamp(12px, 1.5vw, 18px);
+      color: var(--text-muted);
+      margin-bottom: clamp(20px, 3vw, 40px);
+      line-height: 1.75; font-weight: 400;
+    }
+    .hero-btns { display: flex; gap: clamp(8px, 1.2vw, 16px); flex-wrap: wrap; }
+    .hero-btns .btn-primary,
+    .hero-btns .btn-outline {
+      padding: clamp(9px, 1.2vw, 16px) clamp(14px, 2.2vw, 32px);
+      border-radius: clamp(9px, 1.4vw, 16px);
+      font-size: clamp(11px, 1.3vw, 16px); font-weight: 700;
+    }
 
-    .hero-visual { position: relative; }
-    .hero-img { width: 100%; border-radius: 40px; box-shadow: var(--shadow-lg); aspect-ratio: 4/3; object-fit: cover; }
-    .hero-acred-card { position: absolute; bottom: -24px; left: -24px; background: white; border-radius: 20px; padding: 20px 26px; box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 16px; }
-    .hero-acred-letter { font-size: 40px; font-weight: 800; color: var(--blue); line-height: 1; }
-    .hero-acred-text { font-size: 15px; font-weight: 700; color: var(--text); }
-    .hero-acred-sub { font-size: 13px; color: var(--text-muted); }
+    /* Kolom gambar — padding untuk ruang kartu akred di kiri bawah */
+    .hero-visual {
+      position: relative;
+      padding: 0 0 clamp(24px, 3.5vw, 44px) clamp(14px, 2.5vw, 32px);
+    }
+    .hero-img {
+      width: 100%;
+      border-radius: clamp(16px, 3vw, 40px);
+      box-shadow: var(--shadow-lg);
+      aspect-ratio: 4/3;
+      object-fit: cover;
+    }
+    .hero-acred-card {
+      position: absolute; bottom: 0; left: 0;
+      background: white;
+      border-radius: clamp(10px, 1.8vw, 20px);
+      padding: clamp(8px, 1.2vw, 20px) clamp(10px, 1.8vw, 26px);
+      box-shadow: var(--shadow-md);
+      display: flex; align-items: center;
+      gap: clamp(8px, 1.2vw, 16px);
+    }
+    .hero-acred-letter { font-size: clamp(20px, 3vw, 40px); font-weight: 800; color: var(--blue); line-height: 1; }
+    .hero-acred-text   { font-size: clamp(10px, 1.2vw, 15px); font-weight: 700; color: var(--text); }
+    .hero-acred-sub    { font-size: clamp(9px,  1vw,  13px);  color: var(--text-muted); }
 
     /* STATS BAR */
     .stats-bar { background: var(--blue-dark); padding: 36px 0; }
@@ -406,47 +452,6 @@
        RESPONSIVE
     ═══════════════════════════════════════════ */
     @media (max-width: 900px) {
-      /* Hero: satu kolom, teks atas, gambar bawah dengan margin bawah */
-      .hero { min-height: auto; }
-      .hero-inner {
-        grid-template-columns: 1fr;
-        padding: 48px 0 72px; /* beri ruang bawah untuk kartu akred yang mengambang */
-        gap: 48px;
-      }
-
-      /* Gambar tetap tampil dengan frame rounded + shadow persis seperti desktop */
-      .hero-visual {
-        display: block;
-        position: relative;
-        max-width: 520px;
-        margin: 0 auto;
-        /* beri padding bawah & kiri supaya kartu akred tidak terpotong */
-        padding: 0 0 44px 32px;
-      }
-      .hero-img {
-        width: 100%;
-        border-radius: 32px;   /* sedikit lebih kecil dari 40px agar proporsional */
-        box-shadow: var(--shadow-lg);
-        aspect-ratio: 4/3;
-        object-fit: cover;
-      }
-
-      /* Kartu akreditasi tetap tampil, ukuran dikecilkan sedikit */
-      .hero-acred-card {
-        display: flex;
-        bottom: 0;
-        left: 0;
-        padding: 14px 18px;
-        gap: 12px;
-      }
-      .hero-acred-letter { font-size: 30px; }
-      .hero-acred-text   { font-size: 13px; }
-      .hero-acred-sub    { font-size: 11px; }
-
-      .hero h1 { font-size: 40px; }
-      .hero p  { font-size: 16px; }
-      .hero-badge { font-size: 13px; padding: 8px 16px; }
-
       .stats-bar .container { grid-template-columns: repeat(3,1fr); }
       .fitur-grid { grid-template-columns: 1fr 1fr; }
       #publicBeritaList { grid-template-columns: 1fr 1fr; }
@@ -460,14 +465,6 @@
       .topbar-info-left { display: none; }
     }
     @media (max-width: 600px) {
-      .hero-inner { padding: 36px 0 64px; gap: 36px; }
-      .hero-visual { padding: 0 0 40px 24px; }
-      .hero-img { border-radius: 24px; }
-      .hero-acred-card { padding: 12px 16px; gap: 10px; }
-      .hero-acred-letter { font-size: 26px; }
-      .hero h1 { font-size: 32px; letter-spacing: -0.5px; }
-      .hero p  { font-size: 15px; }
-      .hero-btns .btn-primary, .hero-btns .btn-outline { padding: 12px 20px; font-size: 14px; border-radius: 12px; }
       .fitur-grid { grid-template-columns: 1fr; }
       #publicBeritaList { grid-template-columns: 1fr; }
       #publicGaleriGrid { column-count: 1; }
