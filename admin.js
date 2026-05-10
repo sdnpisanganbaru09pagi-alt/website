@@ -684,8 +684,7 @@ const SETTINGS_DEFAULT = {
 
 // Terapkan settings ke semua elemen di halaman publik
 function applySettings(s) {
-  const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
-  const setHtml = (id, val) => { const el = document.getElementById(id); if (el && val) el.innerHTML = val; };
+  const set = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined && val !== null) el.textContent = val; };
 
   // Navbar & header
   set('sitNamaSekolah',   s.namaSekolah);
@@ -695,9 +694,9 @@ function applySettings(s) {
   set('sitAdminTopbar',   s.namaSekolah);
   set('sitLoginNama',     s.namaSekolah);
 
-  // Hero
+  // Hero teks
   set('sitHeroBadge',   s.heroBadge);
-  set('sitHeroNama',    s.heroNama);
+  set('sitHeroNama',    s.heroNama || s.namaSekolah); // nama aksen kuning di hero
   set('sitHeroTagline', s.heroTagline);
 
   // Stats
@@ -708,7 +707,7 @@ function applySettings(s) {
   set('sitStat3Num',   s.stat3Num);
   set('sitStat3Label', s.stat3Label);
 
-  // Kontak di halaman kontak
+  // Kontak
   const kontakTelp = document.getElementById('sitKontakTelepon');
   if (kontakTelp) kontakTelp.textContent = s.telepon || SETTINGS_DEFAULT.telepon;
   const kontakEmail = document.getElementById('sitKontakEmail');
@@ -718,6 +717,18 @@ function applySettings(s) {
   const kontakJam = document.getElementById('sitKontakJam');
   if (kontakJam) kontakJam.textContent = s.jamOps || SETTINGS_DEFAULT.jamOps;
 
+  // Topbar info
+  const topbarJam = document.getElementById('sitKontakJam2');
+  if (topbarJam) topbarJam.textContent = s.jamOps || SETTINGS_DEFAULT.jamOps;
+  const topbarTelp = document.getElementById('sitKontakTelp2');
+  if (topbarTelp) topbarTelp.textContent = s.telepon || SETTINGS_DEFAULT.telepon;
+
+  // Footer kontak
+  const footerTelp = document.getElementById('sitFooterTelp');
+  if (footerTelp) footerTelp.textContent = s.telepon || SETTINGS_DEFAULT.telepon;
+  const footerEmail = document.getElementById('sitFooterEmail');
+  if (footerEmail) footerEmail.textContent = s.email || SETTINGS_DEFAULT.email;
+
   // Profil sekolah
   const profilNama    = document.getElementById('sitProfilNama');    if (profilNama) profilNama.textContent = s.namaSekolah;
   const profilNPSN    = document.getElementById('sitProfilNPSN');    if (profilNPSN) profilNPSN.textContent = s.npsn || SETTINGS_DEFAULT.npsn;
@@ -726,6 +737,34 @@ function applySettings(s) {
   const profilAlamat  = document.getElementById('sitProfilAlamat');  if (profilAlamat) profilAlamat.textContent = s.alamatLengkap || SETTINGS_DEFAULT.alamatLengkap;
   const profilVisi    = document.getElementById('sitProfilVisi');    if (profilVisi) profilVisi.textContent = s.visi || SETTINGS_DEFAULT.visi;
   const profilSejarah1 = document.getElementById('sitProfilSejarah1'); if (profilSejarah1) profilSejarah1.textContent = s.sejarah || SETTINGS_DEFAULT.sejarah;
+  const profilSejarah1About = document.getElementById('sitProfilSejarah1About'); if (profilSejarah1About) profilSejarah1About.textContent = s.sejarah || SETTINGS_DEFAULT.sejarah;
+
+  // Akreditasi di hero card
+  if (s.akreditasi) {
+    const letter = document.getElementById('sitAcredLetter');
+    if (letter) letter.textContent = (s.akreditasi || 'A')[0].toUpperCase();
+    const sub = document.getElementById('sitProfilAkred2');
+    if (sub) sub.textContent = s.akreditasi;
+  }
+
+  // Foto Hero (gambar kanan)
+  const heroFotoImg = document.getElementById('heroFotoImg');
+  if (heroFotoImg) {
+    if (s.heroFotoBase64) {
+      heroFotoImg.src = s.heroFotoBase64;
+    }
+    // else biarkan default URL
+  }
+
+  // Background Hero
+  const heroSection = document.getElementById('heroSection');
+  if (heroSection) {
+    if (s.heroBgBase64) {
+      heroSection.style.background =
+        `linear-gradient(to right, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.80) 55%, rgba(232,240,252,0.85) 100%), url('${s.heroBgBase64}') center/cover no-repeat`;
+    }
+    // else biarkan default CSS
+  }
 
   // Title halaman browser
   document.title = (s.namaSekolah || 'SDN 1 Contoh') + ' — Website Resmi';
@@ -746,7 +785,6 @@ async function loadAndApplySettings() {
 
 // Isi form pengaturan dengan data dari Firestore
 async function loadPengaturan() {
-  const btn = document.getElementById('section-pengaturan');
   try {
     const doc  = await _db.collection('settings').doc('main').get();
     const data = doc.exists ? { ...SETTINGS_DEFAULT, ...doc.data() } : SETTINGS_DEFAULT;
@@ -772,6 +810,11 @@ async function loadPengaturan() {
     fill('setPKepsek',       'kepsek');
     fill('setPVisi',         'visi');
     fill('setPSejarah',      'sejarah');
+
+    // Tampilkan preview foto hero kalau sudah ada
+    _showHeroFotoPreview(data.heroFotoBase64 || null);
+    _showHeroBgPreview(data.heroBgBase64 || null);
+
     showToast('Data pengaturan dimuat', 'info');
   } catch (err) {
     showToast('Gagal memuat pengaturan: ' + err.message, 'error');
@@ -808,12 +851,137 @@ async function simpanPengaturan() {
 
   if (!payload.namaSekolah) { showToast('Nama sekolah tidak boleh kosong', 'error'); return; }
 
+  // Proses foto hero jika ada file baru
+  const fotoFile = document.getElementById('setPHeroFotoFile')?.files[0];
+  const bgFile   = document.getElementById('setPHeroBgFile')?.files[0];
+
+  const btnSave = document.querySelector('#section-pengaturan .btn-primary');
+  if (btnSave) { btnSave.disabled = true; btnSave.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...'; }
+
   try {
+    // Kompresi & encode foto hero (maks 1200px wide)
+    if (fotoFile) {
+      const statusEl = document.getElementById('setPHeroFotoStatus');
+      if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengompres foto hero...';
+      payload.heroFotoBase64 = await imageToBase64WebP(fotoFile, 1200, 0.78);
+      if (statusEl) statusEl.innerHTML = `<span style="color:var(--green)"><i class="fa-solid fa-check"></i> Selesai (${Math.round(payload.heroFotoBase64.length / 1024)} KB)</span>`;
+    }
+
+    // Kompresi & encode background hero (maks 1800px wide, kualitas lebih rendah)
+    if (bgFile) {
+      const statusEl = document.getElementById('setPHeroBgStatus');
+      if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengompres background hero...';
+      payload.heroBgBase64 = await imageToBase64WebP(bgFile, 1800, 0.65);
+      if (statusEl) statusEl.innerHTML = `<span style="color:var(--green)"><i class="fa-solid fa-check"></i> Selesai (${Math.round(payload.heroBgBase64.length / 1024)} KB)</span>`;
+    }
+
     await _db.collection('settings').doc('main').set(payload, { merge: true });
     showToast('✅ Pengaturan berhasil disimpan!', 'success');
+
+    // Reset file input
+    if (document.getElementById('setPHeroFotoFile')) document.getElementById('setPHeroFotoFile').value = '';
+    if (document.getElementById('setPHeroBgFile'))   document.getElementById('setPHeroBgFile').value = '';
+
     // Langsung terapkan ke halaman tanpa reload
-    applySettings({ ...SETTINGS_DEFAULT, ...payload });
+    // Ambil data lengkap (termasuk foto lama yang tidak diubah)
+    const existingDoc = await _db.collection('settings').doc('main').get();
+    const finalData = { ...SETTINGS_DEFAULT, ...existingDoc.data() };
+    applySettings(finalData);
+
   } catch (err) {
     showToast('Gagal menyimpan: ' + err.message, 'error');
+    console.error(err);
+  } finally {
+    if (btnSave) { btnSave.disabled = false; btnSave.innerHTML = '<i class="fa-solid fa-save"></i> Simpan Semua Perubahan'; }
+  }
+}
+// ──────────────────────────────────────────
+// HELPER: PREVIEW & HAPUS FOTO HERO / BG
+// ──────────────────────────────────────────
+
+function _showHeroFotoPreview(src) {
+  const img   = document.getElementById('setPHeroFotoPreview');
+  const empty = document.getElementById('setPHeroFotoEmpty');
+  const hapus = document.getElementById('btnHapusHeroFoto');
+  if (!img) return;
+  if (src) {
+    img.src = src; img.style.display = 'block';
+    if (empty) empty.style.display = 'none';
+    if (hapus) hapus.style.display = 'inline-flex';
+  } else {
+    img.style.display = 'none';
+    if (empty) empty.style.display = 'flex';
+    if (hapus) hapus.style.display = 'none';
+  }
+}
+
+function _showHeroBgPreview(src) {
+  const img   = document.getElementById('setPHeroBgPreview');
+  const empty = document.getElementById('setPHeroBgEmpty');
+  const hapus = document.getElementById('btnHapusHeroBg');
+  if (!img) return;
+  if (src) {
+    img.src = src; img.style.display = 'block';
+    if (empty) empty.style.display = 'none';
+    if (hapus) hapus.style.display = 'inline-flex';
+  } else {
+    img.style.display = 'none';
+    if (empty) empty.style.display = 'flex';
+    if (hapus) hapus.style.display = 'none';
+  }
+}
+
+async function previewHeroFoto(input) {
+  if (!input.files[0]) return;
+  const statusEl = document.getElementById('setPHeroFotoStatus');
+  if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Membaca file...';
+  try {
+    const b64 = await imageToBase64WebP(input.files[0], 1200, 0.78);
+    _showHeroFotoPreview(b64);
+    if (statusEl) statusEl.innerHTML = `<span style="color:var(--green)"><i class="fa-solid fa-check"></i> Siap diunggah (${Math.round(b64.length / 1024)} KB setelah kompresi)</span>`;
+  } catch(e) {
+    if (statusEl) statusEl.innerHTML = '<span style="color:var(--red)">Gagal membaca gambar</span>';
+  }
+}
+
+async function previewHeroBg(input) {
+  if (!input.files[0]) return;
+  const statusEl = document.getElementById('setPHeroBgStatus');
+  if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Membaca file...';
+  try {
+    const b64 = await imageToBase64WebP(input.files[0], 1800, 0.65);
+    _showHeroBgPreview(b64);
+    if (statusEl) statusEl.innerHTML = `<span style="color:var(--green)"><i class="fa-solid fa-check"></i> Siap diunggah (${Math.round(b64.length / 1024)} KB setelah kompresi)</span>`;
+  } catch(e) {
+    if (statusEl) statusEl.innerHTML = '<span style="color:var(--red)">Gagal membaca gambar</span>';
+  }
+}
+
+async function hapusHeroFoto() {
+  if (!confirm('Hapus foto hero? Tampilan akan kembali ke foto default.')) return;
+  try {
+    await _db.collection('settings').doc('main').update({ heroFotoBase64: firebase.firestore.FieldValue.delete() });
+    _showHeroFotoPreview(null);
+    const heroFotoImg = document.getElementById('heroFotoImg');
+    if (heroFotoImg) heroFotoImg.src = 'https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1200&auto=format&fit=crop';
+    showToast('Foto hero berhasil dihapus', 'success');
+  } catch(e) {
+    showToast('Gagal menghapus foto: ' + e.message, 'error');
+  }
+}
+
+async function hapusHeroBg() {
+  if (!confirm('Hapus background hero? Tampilan akan kembali ke background default.')) return;
+  try {
+    await _db.collection('settings').doc('main').update({ heroBgBase64: firebase.firestore.FieldValue.delete() });
+    _showHeroBgPreview(null);
+    const heroSection = document.getElementById('heroSection');
+    if (heroSection) {
+      heroSection.style.background =
+        "linear-gradient(to right, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.80) 55%, rgba(232,240,252,0.85) 100%), url('https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1800&auto=format&fit=crop') center/cover no-repeat";
+    }
+    showToast('Background hero berhasil dihapus', 'success');
+  } catch(e) {
+    showToast('Gagal menghapus background: ' + e.message, 'error');
   }
 }

@@ -501,7 +501,7 @@
   <div id="page-home" class="pub-page active">
 
     <!-- HERO -->
-    <section class="hero">
+    <section class="hero" id="heroSection">
       <div class="container">
         <div class="hero-inner">
           <div class="hero-content reveal">
@@ -525,6 +525,7 @@
           </div>
           <div class="hero-visual reveal" style="transition-delay:0.15s">
             <img
+              id="heroFotoImg"
               src="https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1200&auto=format&fit=crop"
               alt="Siswa belajar" class="hero-img">
             <div class="hero-acred-card">
@@ -1099,8 +1100,52 @@
           <div class="admin-table-header"><span class="admin-table-title"><i class="fa-solid fa-house" style="color:var(--blue);margin-right:6px"></i>Hero Beranda</span></div>
           <div style="padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
             <div class="form-group"><label>Badge (label kecil di atas judul)</label><input type="text" id="setPHeroBadge" placeholder="✦ Tahun Pelajaran 2025/2026"></div>
-            <div class="form-group"><label>Nama di Hero (teks aksen)</label><input type="text" id="setPHeroNama" placeholder="SDN 1 Contoh"></div>
+            <div class="form-group"><label>Nama di Hero (teks aksen kuning)</label><input type="text" id="setPHeroNama" placeholder="SDN 1 Contoh"></div>
             <div class="form-group" style="grid-column:1/-1"><label>Tagline / Deskripsi Hero</label><input type="text" id="setPHeroTagline" placeholder="Membentuk generasi cerdas, berkarakter, dan berprestasi..."></div>
+
+            <!-- FOTO HERO (kanan) -->
+            <div class="form-group" style="grid-column:1/-1">
+              <label><i class="fa-solid fa-image" style="color:var(--blue);margin-right:6px"></i>Foto Hero (gambar kanan, rasio 4:3 disarankan)</label>
+              <div style="display:flex;gap:14px;align-items:flex-start;margin-top:8px">
+                <div style="flex:1">
+                  <input type="file" id="setPHeroFotoFile" accept="image/*" onchange="previewHeroFoto(this)">
+                  <p style="font-size:12px;color:var(--text-muted);margin-top:6px"><i class="fa-solid fa-circle-info"></i> Foto akan dikompres otomatis (maks 1200px, WebP). Kosongkan jika tidak ingin mengubah foto.</p>
+                  <div id="setPHeroFotoStatus" style="margin-top:8px;font-size:13px;color:var(--text-muted)"></div>
+                </div>
+                <div style="flex-shrink:0;text-align:center">
+                  <img id="setPHeroFotoPreview" src="" alt="Preview foto hero" style="width:200px;height:150px;object-fit:cover;border-radius:12px;border:2px solid var(--border);display:none">
+                  <div id="setPHeroFotoEmpty" style="width:200px;height:150px;background:var(--bg);border-radius:12px;border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:13px;flex-direction:column;gap:6px">
+                    <i class="fa-solid fa-image fa-2x" style="opacity:0.3"></i>
+                    <span>Belum ada foto</span>
+                  </div>
+                  <button id="btnHapusHeroFoto" class="btn-outline btn-sm" style="margin-top:8px;display:none;color:var(--red);border-color:var(--red)" onclick="hapusHeroFoto()">
+                    <i class="fa-solid fa-trash"></i> Hapus Foto
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- BACKGROUND HERO -->
+            <div class="form-group" style="grid-column:1/-1">
+              <label><i class="fa-solid fa-panorama" style="color:var(--blue);margin-right:6px"></i>Background Hero (latar belakang, akan ditimpa overlay putih)</label>
+              <div style="display:flex;gap:14px;align-items:flex-start;margin-top:8px">
+                <div style="flex:1">
+                  <input type="file" id="setPHeroBgFile" accept="image/*" onchange="previewHeroBg(this)">
+                  <p style="font-size:12px;color:var(--text-muted);margin-top:6px"><i class="fa-solid fa-circle-info"></i> Dikompres maks 1800px. Foto landscape/wide sangat disarankan.</p>
+                  <div id="setPHeroBgStatus" style="margin-top:8px;font-size:13px;color:var(--text-muted)"></div>
+                </div>
+                <div style="flex-shrink:0;text-align:center">
+                  <img id="setPHeroBgPreview" src="" alt="Preview background hero" style="width:200px;height:150px;object-fit:cover;border-radius:12px;border:2px solid var(--border);display:none">
+                  <div id="setPHeroBgEmpty" style="width:200px;height:150px;background:var(--bg);border-radius:12px;border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:13px;flex-direction:column;gap:6px">
+                    <i class="fa-solid fa-panorama fa-2x" style="opacity:0.3"></i>
+                    <span>Belum ada background</span>
+                  </div>
+                  <button id="btnHapusHeroBg" class="btn-outline btn-sm" style="margin-top:8px;display:none;color:var(--red);border-color:var(--red)" onclick="hapusHeroBg()">
+                    <i class="fa-solid fa-trash"></i> Hapus BG
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
