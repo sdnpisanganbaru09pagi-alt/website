@@ -869,11 +869,10 @@ async function loadAndApplySettings() {
       _db.collection('settings').doc('img_hero_bg').get(),
       _db.collection('settings').doc('img_about').get(),
     ]);
-    let img;
-    if ((img = _getImagePayload(logoDoc)))     { _applyLogoToPage(img); _cacheSet(_CACHE_IMG_LOGO, img); }
-    if ((img = _getImagePayload(heroFotoDoc))) { const el = document.getElementById('heroFotoImg'); if (el) el.src = img; _cacheSet(_CACHE_IMG_HFOTO, img); }
-    if ((img = _getImagePayload(heroBgDoc)))   { _applyHeroBg(img); _cacheSet(_CACHE_IMG_HBG, img); }
-    if ((img = _getImagePayload(aboutDoc)))    { const el = document.getElementById('sitAboutImg'); if (el) el.src = img; _cacheSet(_CACHE_IMG_ABOUT, img); }
+    if (logoDoc.exists    && logoDoc.data().data)    { _applyLogoToPage(logoDoc.data().data);   _cacheSet(_CACHE_IMG_LOGO,  logoDoc.data().data); }
+    if (heroFotoDoc.exists && heroFotoDoc.data().data){ const el = document.getElementById('heroFotoImg'); if(el) el.src = heroFotoDoc.data().data; _cacheSet(_CACHE_IMG_HFOTO, heroFotoDoc.data().data); }
+    if (heroBgDoc.exists  && heroBgDoc.data().data)  { _applyHeroBg(heroBgDoc.data().data);     _cacheSet(_CACHE_IMG_HBG,   heroBgDoc.data().data); }
+    if (aboutDoc.exists   && aboutDoc.data().data)   { const el = document.getElementById('sitAboutImg'); if(el) el.src = aboutDoc.data().data;  _cacheSet(_CACHE_IMG_ABOUT, aboutDoc.data().data); }
 
   } catch (err) {
     applySettings(SETTINGS_DEFAULT);
@@ -907,11 +906,10 @@ async function _refreshSettingsCache() {
       applySettings(d);
       _cacheSet(_CACHE_SETTINGS, JSON.stringify(_stripTimestamps(d)));
     }
-    let img;
-    if ((img = _getImagePayload(logoDoc)))     { _applyLogoToPage(img); _cacheSet(_CACHE_IMG_LOGO, img); }
-    if ((img = _getImagePayload(heroFotoDoc))) { const el = document.getElementById('heroFotoImg'); if (el) el.src = img; _cacheSet(_CACHE_IMG_HFOTO, img); }
-    if ((img = _getImagePayload(heroBgDoc)))   { _applyHeroBg(img); _cacheSet(_CACHE_IMG_HBG, img); }
-    if ((img = _getImagePayload(aboutDoc)))    { const el = document.getElementById('sitAboutImg'); if (el) el.src = img; _cacheSet(_CACHE_IMG_ABOUT, img); }
+    if (logoDoc.exists    && logoDoc.data().data)    { _applyLogoToPage(logoDoc.data().data);   _cacheSet(_CACHE_IMG_LOGO,  logoDoc.data().data); }
+    if (heroFotoDoc.exists && heroFotoDoc.data().data){ const el = document.getElementById('heroFotoImg'); if(el) el.src = heroFotoDoc.data().data; _cacheSet(_CACHE_IMG_HFOTO, heroFotoDoc.data().data); }
+    if (heroBgDoc.exists  && heroBgDoc.data().data)  { _applyHeroBg(heroBgDoc.data().data);     _cacheSet(_CACHE_IMG_HBG,   heroBgDoc.data().data); }
+    if (aboutDoc.exists   && aboutDoc.data().data)   { const el = document.getElementById('sitAboutImg'); if(el) el.src = aboutDoc.data().data;  _cacheSet(_CACHE_IMG_ABOUT, aboutDoc.data().data); }
   } catch(e) { /* silent */ }
 }
 
@@ -919,13 +917,6 @@ async function _refreshSettingsCache() {
 function _invalidateSettingsCache() {
   [_CACHE_SETTINGS, _CACHE_IMG_LOGO, _CACHE_IMG_HFOTO, _CACHE_IMG_HBG, _CACHE_IMG_ABOUT]
     .forEach(k => _cacheDel(k));
-}
-
-
-function _getImagePayload(docSnap) {
-  if (!docSnap || !docSnap.exists) return null;
-  const d = docSnap.data() || {};
-  return d.data || d.url || d.image || d.base64 || null;
 }
 
 // Helper: terapkan logo ke navbar
@@ -986,10 +977,10 @@ async function loadPengaturan() {
     fill('setPAboutPoin3',    'aboutPoin3');
 
     // Preview gambar dari dokumen terpisah
-    _showLogoPreview(_getImagePayload(logoDoc));
-    _showHeroFotoPreview(_getImagePayload(heroFotoDoc));
-    _showHeroBgPreview(_getImagePayload(heroBgDoc));
-    _showAboutFotoPreview(_getImagePayload(aboutDoc));
+    _showLogoPreview(logoDoc.exists ? logoDoc.data().data : null);
+    _showHeroFotoPreview(heroFotoDoc.exists ? heroFotoDoc.data().data : null);
+    _showHeroBgPreview(heroBgDoc.exists ? heroBgDoc.data().data : null);
+    _showAboutFotoPreview(aboutDoc.exists ? aboutDoc.data().data : null);
 
     showToast('Data pengaturan dimuat', 'info');
   } catch (err) {

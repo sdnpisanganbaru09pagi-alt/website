@@ -1537,12 +1537,6 @@ function revealOnScroll() {
 window.addEventListener('scroll', revealOnScroll);
 window.addEventListener('DOMContentLoaded', () => { revealOnScroll(); });
 
-
-function getDocImage(d) {
-  if (!d || typeof d !== 'object') return '';
-  return d.foto || d.url || d.gambar || d.image || d.base64 || '';
-}
-
 // ══ LOAD BERITA PUBLIK (beranda) ══
 async function loadPublicBerita(limit) {
   const container = document.getElementById('publicBeritaList');
@@ -1560,7 +1554,7 @@ async function loadPublicBerita(limit) {
       const d = doc.data();
       const tanggal = formatDate(d.createdAt);
       return `<div class="berita-card" onclick="lihatBeritaPublik('${doc.id}')">
-        ${getDocImage(d) ? `<img src="${getDocImage(d)}" alt="${d.judul}" class="berita-img">` : '<div class="berita-no-img"><i class="fa-solid fa-newspaper"></i></div>'}
+        ${d.foto ? `<img src="${d.foto}" alt="${d.judul}" class="berita-img">` : '<div class="berita-no-img"><i class="fa-solid fa-newspaper"></i></div>'}
         <div class="berita-body">
           <span class="berita-kategori">${d.kategori || 'Umum'}</span>
           <h3 class="berita-judul">${d.judul}</h3>
@@ -1587,7 +1581,7 @@ async function loadPublicBeritaFull() {
       const d = doc.data();
       const tanggal = formatDate(d.createdAt);
       return `<div class="berita-card" onclick="lihatBeritaPublik('${doc.id}')">
-        ${getDocImage(d) ? `<img src="${getDocImage(d)}" alt="${d.judul}" class="berita-img">` : '<div class="berita-no-img"><i class="fa-solid fa-newspaper"></i></div>'}
+        ${d.foto ? `<img src="${d.foto}" alt="${d.judul}" class="berita-img">` : '<div class="berita-no-img"><i class="fa-solid fa-newspaper"></i></div>'}
         <div class="berita-body">
           <span class="berita-kategori">${d.kategori || 'Umum'}</span>
           <h3 class="berita-judul">${d.judul}</h3>
@@ -1613,7 +1607,7 @@ async function loadPublicGaleri() {
     grid.innerHTML = snap.docs.map(doc => {
       const d = doc.data();
       return `<div class="galeri-pub-item" title="${d.keterangan || ''}">
-        <img src="${getDocImage(d)}" alt="${d.keterangan || 'Foto kegiatan'}" loading="lazy">
+        <img src="${d.url}" alt="${d.keterangan || 'Foto kegiatan'}" loading="lazy">
       </div>`;
     }).join('');
   } catch(err) { console.error(err); }
