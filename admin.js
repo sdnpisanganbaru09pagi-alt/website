@@ -675,6 +675,11 @@ const SETTINGS_DEFAULT = {
   stat2Label:     'Guru & Staff',
   stat3Num:       '30+',
   stat3Label:     'Tahun Berdiri',
+  aboutJudul:     'Pendidikan Berkualitas Untuk Masa Depan',
+  aboutDeskripsi: 'SDN 1 Contoh berkomitmen menghadirkan pendidikan modern yang menyeimbangkan ilmu, karakter, kreativitas, dan teknologi bagi setiap siswa.',
+  aboutPoin1:     'Tenaga pendidik profesional & bersertifikasi',
+  aboutPoin2:     'Fasilitas modern & ruang belajar nyaman',
+  aboutPoin3:     'Program unggulan berbasis karakter Pancasila',
   npsn:           '12345678',
   akreditasi:     'A — Unggul',
   kepsek:         'Drs. Hendra Kusuma, M.Pd',
@@ -738,6 +743,19 @@ function applySettings(s) {
   const profilVisi    = document.getElementById('sitProfilVisi');    if (profilVisi) profilVisi.textContent = s.visi || SETTINGS_DEFAULT.visi;
   const profilSejarah1 = document.getElementById('sitProfilSejarah1'); if (profilSejarah1) profilSejarah1.textContent = s.sejarah || SETTINGS_DEFAULT.sejarah;
   const profilSejarah1About = document.getElementById('sitProfilSejarah1About'); if (profilSejarah1About) profilSejarah1About.textContent = s.sejarah || SETTINGS_DEFAULT.sejarah;
+
+  // Seksi Tentang Kami
+  set('sitAboutJudul',    s.aboutJudul);
+  set('sitAboutDeskripsi',s.aboutDeskripsi);
+  set('sitAboutPoin1',    s.aboutPoin1);
+  set('sitAboutPoin2',    s.aboutPoin2);
+  set('sitAboutPoin3',    s.aboutPoin3);
+
+  // Foto Tentang Kami
+  const aboutImg = document.getElementById('sitAboutImg');
+  if (aboutImg && s.aboutFotoBase64) {
+    aboutImg.src = s.aboutFotoBase64;
+  }
 
   // Akreditasi di hero card
   if (s.akreditasi) {
@@ -810,10 +828,16 @@ async function loadPengaturan() {
     fill('setPKepsek',       'kepsek');
     fill('setPVisi',         'visi');
     fill('setPSejarah',      'sejarah');
+    fill('setPAboutJudul',    'aboutJudul');
+    fill('setPAboutDeskripsi','aboutDeskripsi');
+    fill('setPAboutPoin1',    'aboutPoin1');
+    fill('setPAboutPoin2',    'aboutPoin2');
+    fill('setPAboutPoin3',    'aboutPoin3');
 
     // Tampilkan preview foto hero kalau sudah ada
     _showHeroFotoPreview(data.heroFotoBase64 || null);
     _showHeroBgPreview(data.heroBgBase64 || null);
+    _showAboutFotoPreview(data.aboutFotoBase64 || null);
 
     showToast('Data pengaturan dimuat', 'info');
   } catch (err) {
@@ -846,14 +870,20 @@ async function simpanPengaturan() {
     kepsek:        get('setPKepsek'),
     visi:          get('setPVisi'),
     sejarah:       get('setPSejarah'),
+    aboutJudul:    get('setPAboutJudul'),
+    aboutDeskripsi:get('setPAboutDeskripsi'),
+    aboutPoin1:    get('setPAboutPoin1'),
+    aboutPoin2:    get('setPAboutPoin2'),
+    aboutPoin3:    get('setPAboutPoin3'),
     updatedAt:     firebase.firestore.FieldValue.serverTimestamp(),
   };
 
   if (!payload.namaSekolah) { showToast('Nama sekolah tidak boleh kosong', 'error'); return; }
 
   // Proses foto hero jika ada file baru
-  const fotoFile = document.getElementById('setPHeroFotoFile')?.files[0];
-  const bgFile   = document.getElementById('setPHeroBgFile')?.files[0];
+  const fotoFile  = document.getElementById('setPHeroFotoFile')?.files[0];
+  const bgFile    = document.getElementById('setPHeroBgFile')?.files[0];
+  const aboutFile = document.getElementById('setPAboutFotoFile')?.files[0];
 
   const btnSave = document.querySelector('#section-pengaturan .btn-primary');
   if (btnSave) { btnSave.disabled = true; btnSave.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...'; }
@@ -875,12 +905,21 @@ async function simpanPengaturan() {
       if (statusEl) statusEl.innerHTML = `<span style="color:var(--green)"><i class="fa-solid fa-check"></i> Selesai (${Math.round(payload.heroBgBase64.length / 1024)} KB)</span>`;
     }
 
+    // Kompresi & encode foto tentang kami (maks 1200px wide)
+    if (aboutFile) {
+      const statusEl = document.getElementById('setPAboutFotoStatus');
+      if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengompres foto tentang kami...';
+      payload.aboutFotoBase64 = await imageToBase64WebP(aboutFile, 1200, 0.78);
+      if (statusEl) statusEl.innerHTML = `<span style="color:var(--green)"><i class="fa-solid fa-check"></i> Selesai (${Math.round(payload.aboutFotoBase64.length / 1024)} KB)</span>`;
+    }
+
     await _db.collection('settings').doc('main').set(payload, { merge: true });
     showToast('✅ Pengaturan berhasil disimpan!', 'success');
 
     // Reset file input
     if (document.getElementById('setPHeroFotoFile')) document.getElementById('setPHeroFotoFile').value = '';
     if (document.getElementById('setPHeroBgFile'))   document.getElementById('setPHeroBgFile').value = '';
+    if (document.getElementById('setPAboutFotoFile')) document.getElementById('setPAboutFotoFile').value = '';
 
     // Langsung terapkan ke halaman tanpa reload
     // Ambil data lengkap (termasuk foto lama yang tidak diubah)
@@ -983,5 +1022,54 @@ async function hapusHeroBg() {
     showToast('Background hero berhasil dihapus', 'success');
   } catch(e) {
     showToast('Gagal menghapus background: ' + e.message, 'error');
+  }
+}
+
+// ──────────────────────────────────────────
+// HELPER: PREVIEW & HAPUS FOTO TENTANG KAMI
+// ──────────────────────────────────────────
+
+function _showAboutFotoPreview(src) {
+  const img   = document.getElementById('setPAboutFotoPreview');
+  const empty = document.getElementById('setPAboutFotoEmpty');
+  const hapus = document.getElementById('btnHapusAboutFoto');
+  if (!img) return;
+  if (src) {
+    img.src = src; img.style.display = 'block';
+    if (empty) empty.style.display = 'none';
+    if (hapus) hapus.style.display = 'inline-flex';
+  } else {
+    img.style.display = 'none';
+    if (empty) empty.style.display = 'flex';
+    if (hapus) hapus.style.display = 'none';
+  }
+}
+
+async function previewAboutFoto(input) {
+  if (!input.files[0]) return;
+  const statusEl = document.getElementById('setPAboutFotoStatus');
+  if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Membaca file...';
+  try {
+    const b64 = await imageToBase64WebP(input.files[0], 1200, 0.78);
+    _showAboutFotoPreview(b64);
+    // Langsung terapkan ke halaman publik sebagai live preview
+    const aboutImg = document.getElementById('sitAboutImg');
+    if (aboutImg) aboutImg.src = b64;
+    if (statusEl) statusEl.innerHTML = `<span style="color:var(--green)"><i class="fa-solid fa-check"></i> Siap diunggah (${Math.round(b64.length / 1024)} KB setelah kompresi)</span>`;
+  } catch(e) {
+    if (statusEl) statusEl.innerHTML = '<span style="color:var(--red)">Gagal membaca gambar</span>';
+  }
+}
+
+async function hapusAboutFoto() {
+  if (!confirm('Hapus foto Tentang Kami? Tampilan akan kembali ke foto default.')) return;
+  try {
+    await _db.collection('settings').doc('main').update({ aboutFotoBase64: firebase.firestore.FieldValue.delete() });
+    _showAboutFotoPreview(null);
+    const aboutImg = document.getElementById('sitAboutImg');
+    if (aboutImg) aboutImg.src = 'https://images.unsplash.com/photo-1588072432904-843af37f03ed?q=80&w=1200&auto=format&fit=crop';
+    showToast('Foto Tentang Kami berhasil dihapus', 'success');
+  } catch(e) {
+    showToast('Gagal menghapus foto: ' + e.message, 'error');
   }
 }

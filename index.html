@@ -652,24 +652,25 @@
         <div class="about-grid">
           <div class="about-img-wrap reveal">
             <img
+              id="sitAboutImg"
               src="https://images.unsplash.com/photo-1588072432904-843af37f03ed?q=80&w=1200&auto=format&fit=crop"
               alt="Kegiatan sekolah" class="about-img">
           </div>
           <div class="reveal" style="transition-delay:0.12s">
             <div class="section-label" style="text-align:left">Tentang Kami</div>
-            <h2 class="section-title" style="text-align:left;font-size:40px">Pendidikan Berkualitas<br>Untuk Masa Depan</h2>
-            <p style="color:var(--text-muted);font-size:16px;margin-bottom:28px;line-height:1.8" id="sitProfilSejarah1About">SDN 1 Contoh berkomitmen menghadirkan pendidikan modern yang menyeimbangkan ilmu, karakter, kreativitas, dan teknologi bagi setiap siswa.</p>
+            <h2 class="section-title" id="sitAboutJudul" style="text-align:left;font-size:40px">Pendidikan Berkualitas<br>Untuk Masa Depan</h2>
+            <p style="color:var(--text-muted);font-size:16px;margin-bottom:28px;line-height:1.8" id="sitAboutDeskripsi">SDN 1 Contoh berkomitmen menghadirkan pendidikan modern yang menyeimbangkan ilmu, karakter, kreativitas, dan teknologi bagi setiap siswa.</p>
             <div class="about-check">
               <div class="about-check-icon"><i class="fa-solid fa-check"></i></div>
-              <p>Tenaga pendidik profesional & bersertifikasi</p>
+              <p id="sitAboutPoin1">Tenaga pendidik profesional & bersertifikasi</p>
             </div>
             <div class="about-check">
               <div class="about-check-icon"><i class="fa-solid fa-check"></i></div>
-              <p>Fasilitas modern & ruang belajar nyaman</p>
+              <p id="sitAboutPoin2">Fasilitas modern & ruang belajar nyaman</p>
             </div>
             <div class="about-check">
               <div class="about-check-icon"><i class="fa-solid fa-check"></i></div>
-              <p>Program unggulan berbasis karakter Pancasila</p>
+              <p id="sitAboutPoin3">Program unggulan berbasis karakter Pancasila</p>
             </div>
             <div style="margin-top:32px">
               <button class="btn-primary" onclick="showPage('profil')">
@@ -1212,6 +1213,56 @@
               <div class="form-group"><label>Angka</label><input type="text" id="setPStat3Num" placeholder="30+"></div>
               <div class="form-group"><label>Label</label><input type="text" id="setPStat3Label" placeholder="Tahun Berdiri"></div>
             </div>
+          </div>
+        </div>
+
+        <div class="admin-table-wrap" style="margin-bottom:22px">
+          <div class="admin-table-header"><span class="admin-table-title"><i class="fa-solid fa-circle-info" style="color:var(--blue);margin-right:6px"></i>Seksi "Tentang Kami" (Beranda)</span></div>
+          <div style="padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+
+            <div class="form-group" style="grid-column:1/-1">
+              <label>Judul Tentang Kami</label>
+              <input type="text" id="setPAboutJudul" placeholder="Pendidikan Berkualitas Untuk Masa Depan">
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+              <label>Deskripsi / Paragraf</label>
+              <textarea id="setPAboutDeskripsi" rows="3" placeholder="SDN 1 Contoh berkomitmen menghadirkan..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Poin Checklist 1</label>
+              <input type="text" id="setPAboutPoin1" placeholder="Tenaga pendidik profesional & bersertifikasi">
+            </div>
+            <div class="form-group">
+              <label>Poin Checklist 2</label>
+              <input type="text" id="setPAboutPoin2" placeholder="Fasilitas modern & ruang belajar nyaman">
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+              <label>Poin Checklist 3</label>
+              <input type="text" id="setPAboutPoin3" placeholder="Program unggulan berbasis karakter Pancasila">
+            </div>
+
+            <!-- FOTO TENTANG KAMI -->
+            <div class="form-group" style="grid-column:1/-1">
+              <label><i class="fa-solid fa-image" style="color:var(--blue);margin-right:6px"></i>Foto Tentang Kami (gambar kiri, rasio 4:3 disarankan)</label>
+              <div style="display:flex;gap:14px;align-items:flex-start;margin-top:8px">
+                <div style="flex:1">
+                  <input type="file" id="setPAboutFotoFile" accept="image/*" onchange="previewAboutFoto(this)">
+                  <p style="font-size:12px;color:var(--text-muted);margin-top:6px"><i class="fa-solid fa-circle-info"></i> Dikompres otomatis maks 1200px WebP. Kosongkan jika tidak ingin mengubah.</p>
+                  <div id="setPAboutFotoStatus" style="margin-top:8px;font-size:13px;color:var(--text-muted)"></div>
+                </div>
+                <div style="flex-shrink:0;text-align:center">
+                  <img id="setPAboutFotoPreview" src="" alt="Preview foto tentang kami" style="width:200px;height:150px;object-fit:cover;border-radius:12px;border:2px solid var(--border);display:none">
+                  <div id="setPAboutFotoEmpty" style="width:200px;height:150px;background:var(--bg);border-radius:12px;border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:13px;flex-direction:column;gap:6px">
+                    <i class="fa-solid fa-image fa-2x" style="opacity:0.3"></i>
+                    <span>Belum ada foto</span>
+                  </div>
+                  <button id="btnHapusAboutFoto" class="btn-outline btn-sm" style="margin-top:8px;display:none;color:var(--red);border-color:var(--red)" onclick="hapusAboutFoto()">
+                    <i class="fa-solid fa-trash"></i> Hapus Foto
+                  </button>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 
