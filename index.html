@@ -405,44 +405,45 @@
        RESPONSIVE
     ═══════════════════════════════════════════ */
     @media (max-width: 900px) {
-      .hero { min-height: auto; padding: 0; }
+      /* Hero: satu kolom, teks atas, gambar bawah dengan margin bawah */
+      .hero { min-height: auto; }
       .hero-inner {
         grid-template-columns: 1fr;
-        gap: 0;
-        padding: 0;
-        /* gambar dulu, baru teks */
-        grid-template-rows: auto auto;
+        padding: 48px 0 72px; /* beri ruang bawah untuk kartu akred yang mengambang */
+        gap: 48px;
       }
-      /* Di mobile, background hero tidak perlu gambar — gambar sudah tampil sebagai foto */
-      .hero {
-        background: white !important;
-        min-height: auto;
-      }
+
+      /* Gambar tetap tampil dengan frame rounded + shadow persis seperti desktop */
       .hero-visual {
         display: block;
-        order: -1;
-        border-radius: 0;
-        height: 280px;
-        overflow: hidden;
         position: relative;
+        max-width: 520px;
+        margin: 0 auto;
+        /* beri padding bawah & kiri supaya kartu akred tidak terpotong */
+        padding: 0 0 44px 32px;
       }
       .hero-img {
         width: 100%;
-        height: 100%;
+        border-radius: 32px;   /* sedikit lebih kecil dari 40px agar proporsional */
+        box-shadow: var(--shadow-lg);
+        aspect-ratio: 4/3;
         object-fit: cover;
-        border-radius: 0;
-        aspect-ratio: unset;
-        box-shadow: none;
       }
-      /* Sembunyikan kartu akreditasi di mobile — terlalu penuh */
-      .hero-acred-card { display: none; }
-      /* Teks hero di bawah gambar */
-      .hero-content {
-        padding: 32px 0 40px;
-        order: 1;
+
+      /* Kartu akreditasi tetap tampil, ukuran dikecilkan sedikit */
+      .hero-acred-card {
+        display: flex;
+        bottom: 0;
+        left: 0;
+        padding: 14px 18px;
+        gap: 12px;
       }
-      .hero h1 { font-size: 36px; }
-      .hero p { font-size: 16px; }
+      .hero-acred-letter { font-size: 30px; }
+      .hero-acred-text   { font-size: 13px; }
+      .hero-acred-sub    { font-size: 11px; }
+
+      .hero h1 { font-size: 40px; }
+      .hero p  { font-size: 16px; }
       .hero-badge { font-size: 13px; padding: 8px 16px; }
 
       .stats-bar .container { grid-template-columns: repeat(3,1fr); }
@@ -458,10 +459,14 @@
       .topbar-info-left { display: none; }
     }
     @media (max-width: 600px) {
-      .hero-visual { height: 230px; }
-      .hero h1 { font-size: 28px; letter-spacing: -0.5px; }
-      .hero p { font-size: 15px; }
-      .hero-btns .btn-primary, .hero-btns .btn-outline { padding: 12px 20px; font-size: 14px; }
+      .hero-inner { padding: 36px 0 64px; gap: 36px; }
+      .hero-visual { padding: 0 0 40px 24px; }
+      .hero-img { border-radius: 24px; }
+      .hero-acred-card { padding: 12px 16px; gap: 10px; }
+      .hero-acred-letter { font-size: 26px; }
+      .hero h1 { font-size: 32px; letter-spacing: -0.5px; }
+      .hero p  { font-size: 15px; }
+      .hero-btns .btn-primary, .hero-btns .btn-outline { padding: 12px 20px; font-size: 14px; border-radius: 12px; }
       .fitur-grid { grid-template-columns: 1fr; }
       #publicBeritaList { grid-template-columns: 1fr; }
       #publicGaleriGrid { column-count: 1; }
