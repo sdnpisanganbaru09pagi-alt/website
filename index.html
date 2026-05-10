@@ -145,6 +145,10 @@
         linear-gradient(to right, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.80) 55%, rgba(232,240,252,0.85) 100%),
         url('https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1800&auto=format&fit=crop') center/cover no-repeat;
     }
+    /* Di portrait: tinggi hero cukup fit konten, tidak 92vh */
+    @media (orientation: portrait) {
+      .hero { min-height: unset; }
+    }
     /* Dua kolom selalu berdampingan — gap & padding fluid */
     .hero-inner {
       display: grid;
@@ -152,6 +156,12 @@
       gap: clamp(16px, 4vw, 60px);
       align-items: center;
       padding: clamp(28px, 5vw, 80px) 0 clamp(52px, 7vw, 100px);
+    }
+    /* Di portrait: padding lebih compact */
+    @media (orientation: portrait) {
+      .hero-inner {
+        padding: clamp(24px, 4vw, 48px) 0 clamp(44px, 6vw, 72px);
+      }
     }
     .hero-badge {
       display: inline-flex; align-items: center; gap: 8px;
