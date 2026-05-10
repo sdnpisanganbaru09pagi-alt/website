@@ -58,6 +58,48 @@
     .hidden { display: none !important; }
 
     /* ═══════════════════════════════════════════
+       PAGE LOADER
+    ═══════════════════════════════════════════ */
+    #pageLoader {
+      position: fixed; inset: 0; z-index: 9000;
+      background: white;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 20px;
+      transition: opacity 0.35s ease;
+    }
+    #pageLoader.fade-out { opacity: 0; pointer-events: none; }
+    .loader-logo {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-mid));
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 28px;
+      box-shadow: 0 8px 24px rgba(26,79,160,0.25);
+      animation: loaderPulse 1.4s ease-in-out infinite;
+    }
+    @keyframes loaderPulse {
+      0%, 100% { transform: scale(1);   box-shadow: 0 8px 24px rgba(26,79,160,0.25); }
+      50%       { transform: scale(1.07); box-shadow: 0 12px 32px rgba(26,79,160,0.38); }
+    }
+    .loader-bar-wrap {
+      width: 160px; height: 4px;
+      background: var(--blue-light); border-radius: 4px; overflow: hidden;
+    }
+    .loader-bar {
+      height: 100%; width: 40%;
+      background: linear-gradient(90deg, var(--blue), var(--blue-mid));
+      border-radius: 4px;
+      animation: loaderSlide 1.2s ease-in-out infinite;
+    }
+    @keyframes loaderSlide {
+      0%   { transform: translateX(-100%); }
+      100% { transform: translateX(350%); }
+    }
+    .loader-text { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+    /* Public site tersembunyi sampai settings selesai dimuat */
+    #publicSite { opacity: 0; transition: opacity 0.4s ease; }
+    #publicSite.ready { opacity: 1; }
+    /* ═══════════════════════════════════════════
        TOAST
     ═══════════════════════════════════════════ */
     #toastContainer { position: fixed; bottom: 28px; right: 28px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
@@ -491,6 +533,13 @@
   </style>
 </head>
 <body>
+
+<!-- PAGE LOADER -->
+<div id="pageLoader">
+  <div class="loader-logo" id="loaderLogo"><i class="fa-solid fa-school"></i></div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <div class="loader-text" id="loaderText">Memuat...</div>
+</div>
 
 <!-- TOAST -->
 <div id="toastContainer"></div>
@@ -1572,8 +1621,11 @@ function setFilter(el) {
 
 // ══ INIT ══
 document.addEventListener('DOMContentLoaded', () => {
-  loadPublicBerita(6);
+  // loadAndApplySettings dipanggil dari auth.js → checkSession
+  // Tapi jika auth.js belum ready, panggil di sini sebagai fallback
   if (typeof loadAndApplySettings === 'function') loadAndApplySettings();
+  // Load berita beranda paralel — tidak perlu tunggu settings
+  loadPublicBerita(6);
   revealOnScroll();
 });
 </script>
