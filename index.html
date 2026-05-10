@@ -405,9 +405,46 @@
        RESPONSIVE
     ═══════════════════════════════════════════ */
     @media (max-width: 900px) {
-      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
-      .hero-visual { display: none; }
-      .hero h1 { font-size: 40px; }
+      .hero { min-height: auto; padding: 0; }
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding: 0;
+        /* gambar dulu, baru teks */
+        grid-template-rows: auto auto;
+      }
+      /* Di mobile, background hero tidak perlu gambar — gambar sudah tampil sebagai foto */
+      .hero {
+        background: white !important;
+        min-height: auto;
+      }
+      .hero-visual {
+        display: block;
+        order: -1;
+        border-radius: 0;
+        height: 280px;
+        overflow: hidden;
+        position: relative;
+      }
+      .hero-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 0;
+        aspect-ratio: unset;
+        box-shadow: none;
+      }
+      /* Sembunyikan kartu akreditasi di mobile — terlalu penuh */
+      .hero-acred-card { display: none; }
+      /* Teks hero di bawah gambar */
+      .hero-content {
+        padding: 32px 0 40px;
+        order: 1;
+      }
+      .hero h1 { font-size: 36px; }
+      .hero p { font-size: 16px; }
+      .hero-badge { font-size: 13px; padding: 8px 16px; }
+
       .stats-bar .container { grid-template-columns: repeat(3,1fr); }
       .fitur-grid { grid-template-columns: 1fr 1fr; }
       #publicBeritaList { grid-template-columns: 1fr 1fr; }
@@ -421,7 +458,10 @@
       .topbar-info-left { display: none; }
     }
     @media (max-width: 600px) {
-      .hero h1 { font-size: 30px; }
+      .hero-visual { height: 230px; }
+      .hero h1 { font-size: 28px; letter-spacing: -0.5px; }
+      .hero p { font-size: 15px; }
+      .hero-btns .btn-primary, .hero-btns .btn-outline { padding: 12px 20px; font-size: 14px; }
       .fitur-grid { grid-template-columns: 1fr; }
       #publicBeritaList { grid-template-columns: 1fr; }
       #publicGaleriGrid { column-count: 1; }
